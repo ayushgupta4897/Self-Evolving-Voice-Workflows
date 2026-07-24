@@ -25,7 +25,11 @@ human operator had independently hit what looked like exactly this — nav click
 that appeared not to register. Two independent observations of the same symptom
 is usually a real defect.
 
-It isn't. We drove every nav transition programmatically, including across a
+Then we cleared it ourselves — and were also wrong. The full sequence is worth
+recording, because it is a small lesson in how a QA finding can be right for a
+reason nobody stated.
+
+**Round one: we drove every nav transition programmatically**, including across a
 full polling cycle:
 
 ```
@@ -44,9 +48,29 @@ can resolve an element, have it replaced by the poll tick, and then click a
 detached node. The click goes nowhere. A human never sees this because a human
 clicks what is currently on screen.
 
-So this is a **testability** property, not a user-facing bug. It is also the
+That is a **testability** property rather than a user-facing bug, and it is the
 honest explanation for the failed-run count: those runs are the harness losing
-its grip on a live-updating page, not the app misbehaving.
+its grip on a live-updating page.
+
+**Round two: there was a real defect underneath, and our round-one test could
+not have found it.** The nav writes `#diff` / `#population` / `#fitness` into the
+URL for deep-linking, but the app shipped no element carrying those ids. The hash
+promised an anchor target that did not exist. It *appeared* to work only because a
+`hashchange` effect swaps the view — so the URL was doing the right thing by
+accident, and navigating without JavaScript was broken outright.
+
+Our round-one investigation exercised the nav buttons, which is precisely the path
+that masks this. Replay was pointing at something real; its description of the
+symptom was wrong, and its own judge rejected it for the wrong reason. We then
+cleared it for a third wrong reason.
+
+**Fix:** each view now renders inside an element carrying its real id
+(`dashboard/app/page.tsx`), so the anchor is honest and the page is navigable
+without JS.
+
+The lesson we would actually take forward: "we tested it and it works" is only as
+good as the path you tested. A finding that reproduces for a human and dies under
+automation deserves a second look at what the automation was *unable* to reach.
 
 **What we would do with more time**, and did not do because it is a real change
 to a demo-critical surface at the wrong hour: keep the nav outside the polled

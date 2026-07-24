@@ -248,7 +248,9 @@ credentials. Actian runs locally on 6573–6575.
 
 ## Replay.io QA
 
-21 journeys explored against the dashboard over an outbound-only tunnel.
+21 journeys explored against the dashboard over an outbound-only tunnel. Replay found
+a real defect — broken deep-link anchors — that both its own judge and our first
+investigation dismissed.
 **0 open bugs at submission.**
 
 The one finding worth reading is written up in [`recon/replay.md`](recon/replay.md),
