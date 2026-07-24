@@ -1,0 +1,102 @@
+{
+  "number": 10,
+  "triggering_call_id": "call_1784926796061",
+  "promoted_patch_id": null,
+  "mean_fitness_before": 0.4361979166666667,
+  "mean_fitness_after": 0.4361979166666667,
+  "candidates": [
+    {
+      "generation": 10,
+      "signature": {
+        "failure_type": "wrong_transition",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "e_start_pricing.data.condition",
+        "operation": "change_transition",
+        "diff": "The caller is asking about scheduling or location-specific availability for a service."
+      },
+      "reflection": "The original condition did not differentiate location-specific service requests from general policy inquiries, leading the agent to incorrectly imply service availability without verifying details. By specifying the need to check location-specific service availability, this change directs the agent to verify the service's location before proceeding, preventing erroneous scheduling at incorrect locations.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_e94ea2c4",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 1,
+        "regressions_introduced": 0,
+        "notes": "replayed 1 previously-passing case(s); 1 still pass, 0 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926816.943327
+    },
+    {
+      "generation": 10,
+      "signature": {
+        "failure_type": "wrong_transition",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "append_constraint",
+        "diff": "Always verify location-specific service availability in the knowledge base before confirming or implying availability at any location."
+      },
+      "reflection": "The original instruction failed because it did not explicitly require verification of location-specific service availability before proceeding. By adding this rule, the agent is compelled to check the knowledge base for service-location matches, preventing it from implying the availability of services at incorrect locations in the future.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_137ac100",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926816.943336
+    },
+    {
+      "generation": 10,
+      "signature": {
+        "failure_type": "wrong_transition",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Greet the caller and find out what they are calling about. Identify their intent, such as asking for a price, querying policy details (like warranty, hours, scheduling, or payment), or requesting to speak with a person. Before proceeding, verify service availability against the knowledge base to ensure accurate service-location matching. Redirect them to the appropriate next step based on verified availability. Keep interactions brief and focused, refraining from attempting to resolve their queries without verification."
+      },
+      "reflection": "The original instruction allowed the agent to assume service availability without verification, leading to a wrong transition. By enforcing a rule to verify service details against the knowledge base before proceeding, this change ensures that only accurate and contextually valid paths are followed. This prevents similar failures in other domains by systematically requiring validation before any commitment to service availability is made.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_de63fcc2",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926816.943342
+    }
+  ]
+}

@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   ElevenLabs design kit — dark variant.
+   Tokens taken from design-md/elevenlabs/DESIGN.md and preview-dark.html.
+   Contrast is nudged up from the kit's dark preview because this is projected,
+   never because a brighter value looked nicer. No brand colour is introduced;
+   the only chromatic values are the three status tints, which carry meaning
+   the achromatic palette cannot (added / removed / extinct).
+--------------------------------------------------------------------------- */
+
+@theme {
+  --color-canvas: #0a0a0a;
+  --color-surface: #121212;
+  --color-surface-2: #181818;
+  --color-ink: #f0f0f0;
+  --color-ink-2: #a8a8a8;
+  --color-muted: #8a8580;
+  --color-line: #2a2a2a;
+  --color-stone: rgba(245, 242, 239, 0.92);
+
+  --color-add: #8fd9a8;
+  --color-del: #e59a9a;
+  --color-extinct: #e07a7a;
+
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+}
+
+:root {
+  --line-subtle: rgba(255, 255, 255, 0.08);
+  --stone-dim: rgba(245, 242, 239, 0.08);
+
+  /* Multi-layer, sub-0.1 opacity. Inverted for dark: the outline component
+     becomes a light hairline because a black ring is invisible on black. */
+  --shadow-card: rgba(255, 255, 255, 0.06) 0 0 0 1px, rgba(0, 0, 0, 0.4) 0 1px 2px,
+    rgba(0, 0, 0, 0.3) 0 2px 4px;
+  --shadow-inset: rgba(255, 255, 255, 0.075) 0 0 0 0.5px inset;
+  --shadow-btn: rgba(255, 255, 255, 0.14) 0 0 0 1px, rgba(0, 0, 0, 0.5) 0 4px 4px;
+  --shadow-warm: rgba(78, 50, 23, 0.24) 0 6px 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(245, 242, 239, 0.18);
+}
+
+/* -- type ---------------------------------------------------------------- */
+
+.display {
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.96px;
+}
+
+.heading {
+  font-weight: 300;
+  line-height: 1.17;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* -- surfaces ------------------------------------------------------------ */
+
+.card {
+  background: var(--color-surface);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.card-inset {
+  background: var(--color-surface-2);
+  border-radius: 16px;
+  box-shadow: var(--shadow-inset);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-line);
+}
+
+/* -- pills --------------------------------------------------------------- */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.14px;
+  padding: 6px 14px;
+  white-space: nowrap;
+}
+
+.pill-stone {
+  background: var(--color-stone);
+  color: var(--color-canvas);
+  box-shadow: var(--shadow-warm);
+}
+
+.pill-ghost {
+  background: transparent;
+  color: var(--color-ink-2);
+  box-shadow: var(--shadow-inset);
+}
+
+.pill-ghost:hover {
+  color: var(--color-ink);
+  background: var(--stone-dim);
+}
+
+.pill-upper {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+/* -- diff ---------------------------------------------------------------- */
+
+.diff-line {
+  display: flex;
+  gap: 12px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: 0.16px;
+}
+
+.diff-marker {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  flex: none;
+  width: 14px;
+  opacity: 0.8;
+}
+
+.diff-equal {
+  color: var(--color-ink-2);
+}
+
+.diff-add {
+  background: rgba(143, 217, 168, 0.11);
+  box-shadow: inset 3px 0 0 0 var(--color-add);
+  color: #dff3e6;
+}
+
+.diff-remove {
+  background: rgba(229, 154, 154, 0.09);
+  box-shadow: inset 3px 0 0 0 var(--color-del);
+  color: #f0d4d4;
+  text-decoration: line-through;
+  text-decoration-color: rgba(229, 154, 154, 0.5);
+}
+
+/* -- extinct ------------------------------------------------------------- */
+
+.extinct-card {
+  opacity: 0.62;
+  filter: saturate(0.5);
+}
+
+.strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: rgba(224, 122, 122, 0.65);
+}
+
+/* -- react flow ---------------------------------------------------------- */
+
+.rf-shell .react-flow__renderer,
+.rf-shell .react-flow__pane {
+  cursor: default;
+}
+
+.rf-shell .react-flow__edge-path {
+  stroke: #4d4d4d;
+  stroke-width: 1.75px;
+}
+
+.rf-shell .react-flow__edge.rf-edge-changed .react-flow__edge-path {
+  stroke: var(--color-add);
+  stroke-width: 3px;
+  filter: drop-shadow(0 0 6px rgba(143, 217, 168, 0.45));
+}
+
+.rf-shell .react-flow__attribution {
+  display: none;
+}
+
+.rf-node {
+  width: 170px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  background: var(--color-surface-2);
+  box-shadow:
+    rgba(255, 255, 255, 0.1) 0 0 0 1px,
+    var(--shadow-inset);
+  color: var(--color-ink-2);
+  line-height: 1.3;
+  letter-spacing: 0.15px;
+  transition: box-shadow 0.2s ease;
+}
+
+.rf-node-name {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: 0.17px;
+}
+
+.rf-node-role {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-muted);
+  margin-top: 1px;
+}
+
+.rf-node-mutated {
+  background: rgba(143, 217, 168, 0.08);
+  box-shadow:
+    0 0 0 2px var(--color-add),
+    0 0 28px rgba(143, 217, 168, 0.18);
+}
+
+.rf-node-mutated .rf-node-name {
+  color: #dff3e6;
+}
+
+.react-flow__handle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* -- misc ---------------------------------------------------------------- */
+
+.scroll-y {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+
+.scroll-y::-webkit-scrollbar {
+  width: 8px;
+}
+.scroll-y::-webkit-scrollbar-thumb {
+  background: #303030;
+  border-radius: 9999px;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-add);
+  animation: pulse-dot 2s ease-in-out infinite;
+}

@@ -1,0 +1,102 @@
+{
+  "number": 7,
+  "triggering_call_id": "call_1784926398197",
+  "promoted_patch_id": "wp_2b8e994e",
+  "mean_fitness_before": 0.49869791666666663,
+  "mean_fitness_after": 0.49869791666666663,
+  "candidates": [
+    {
+      "generation": 7,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "append_constraint",
+        "diff": "Do not provide specific service details; instead, confirm service availability by referencing the knowledge base before responding."
+      },
+      "reflection": "The instruction allowed the agent to provisionally affirm services based on assumptions, which led to incorrect and ungrounded information being provided. By enforcing a rule to reference the knowledge base for service availability details, this change ensures that the agent first verifies information, thereby preventing the dissemination of inaccurate service information.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_2b8e994e",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 1,
+        "regressions_introduced": 0,
+        "notes": "replayed 1 previously-passing case(s); 1 still pass, 0 regressed. Triggering failure fixed.",
+        "confidence": 1.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "promoted",
+      "created_at": 1784926419.7054772
+    },
+    {
+      "generation": 7,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Greet the caller warmly and inquire about the reason for their call. Focus on identifying whether they seek information on pricing, policies such as warranties, service hours, scheduling, or require assistance from a specific department. Do not attempt to answer questions directly; instead, direct the call to the relevant team or resource. Ensure responses remain neutral and factual, avoiding assumptions or fabrications about our services."
+      },
+      "reflection": "The original instruction allowed for the possibility of providing unverified or assumptive answers, leading to the ungrounded fabrication error. By emphasizing the redirection of inquiries to the appropriate resource rather than attempting to answer them directly, the revised instruction prevents the dissemination of incorrect information and ensures that callers receive accurate and grounded responses from the appropriate department.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_ab19ebcc",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926419.705488
+    },
+    {
+      "generation": 7,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "e_start_pricing.data.condition",
+        "operation": "change_transition",
+        "diff": "The caller is asking about warranty, hours, locations, scheduling, cancellation, towing arrangements, or payment methods."
+      },
+      "reflection": "The original instruction lumped towing and roadside help into a general policy category without distinguishing the specifics of Meridian's towing arrangements. This allowed the agent to assume an incorrect level of service. By refining the condition to specify 'towing arrangements,' the new rule ensures the call is directed to someone knowledgeable about those specific service constraints, preventing assumption-based responses.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_70cc4daf",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926419.705496
+    }
+  ]
+}

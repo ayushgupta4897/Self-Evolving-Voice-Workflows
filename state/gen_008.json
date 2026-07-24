@@ -1,0 +1,102 @@
+{
+  "number": 8,
+  "triggering_call_id": "call_1784926520473",
+  "promoted_patch_id": null,
+  "mean_fitness_before": 0.47791666666666666,
+  "mean_fitness_after": 0.47791666666666666,
+  "candidates": [
+    {
+      "generation": 8,
+      "signature": {
+        "failure_type": "premature_escalation",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "append_constraint",
+        "diff": "If the question is answerable from the knowledge base, provide a direct answer before offering to connect them with a person."
+      },
+      "reflection": "The existing instruction allowed for escalation to a person without first checking if the knowledge base already contained the necessary information, potentially leading to premature escalation. By mandating that queries answerable from the knowledge base receive a direct response first, this change ensures that the caller receives an immediate answer when available, improving efficiency and compliance with escalation policies.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_8ed5b7a2",
+      "parent_id": "wp_7ffebada",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926538.610595
+    },
+    {
+      "generation": 8,
+      "signature": {
+        "failure_type": "premature_escalation",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Greet the caller warmly and determine their reason for calling. Identify if they have questions about pricing, policy (such as warranty, hours, scheduling, or payment), or need to speak with a person. If their question is directly answerable with the knowledge base, provide a concise answer immediately. Avoid escalation unless necessary and maintain the focus on delivering a prompt, informed response."
+      },
+      "reflection": "The original instruction allowed premature escalation by directing the agent to connect the caller with a person for answers about policies, even if the information was readily available in the knowledge base. The revised instruction stipulates that the agent should provide direct answers when information is available, ensuring that queries about payment methods and similar issues are resolved efficiently without unnecessary escalation.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_eac790ea",
+      "parent_id": "wp_7ffebada",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926538.6106071
+    },
+    {
+      "generation": 8,
+      "signature": {
+        "failure_type": "premature_escalation",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "e_start_pricing.data.condition",
+        "operation": "change_transition",
+        "diff": "The caller is asking about warranty, hours, locations, scheduling, cancellation, towing, payment methods, or any query that can be directly answered using our knowledge base."
+      },
+      "reflection": "The original instruction prompted the agent to escalate payment method inquiries rather than addressing them directly when the answer is in the knowledge base. This failure arose because the instruction allowed for escalation instead of leveraging available information to provide an immediate answer. By altering the transition condition to require direct responses for questions answerable from the knowledge base, we ensure that straightforward inquiries are resolved efficiently, reducing unnecessary escalations.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_fa5cd81f",
+      "parent_id": "wp_7ffebada",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 1,
+        "regressions_introduced": 0,
+        "notes": "replayed 1 previously-passing case(s); 1 still pass, 0 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926538.610614
+    }
+  ]
+}

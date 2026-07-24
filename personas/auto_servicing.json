@@ -1,0 +1,150 @@
+{
+  "vertical": "auto_servicing",
+  "kb": "kb/auto_servicing.md",
+  "notes": "Each persona is a caller simulator. `goal` drives the conversation. `ground_truth` is the verified answer the agent should land on, used only for offline sanity checks — it is NEVER shown to the agent or to the caller simulator. Senso is the scoring authority; ground_truth here is a debugging aid, not the oracle. `targets` names the failure class this persona is built to provoke.",
+
+  "personas": [
+    {
+      "id": "p_brake_price_sedan",
+      "targets": "ungrounded_fabrication",
+      "style": "brisk, wants a number, mildly impatient",
+      "goal": "Find out what a front brake job costs on a 2019 Honda Accord. Push for a specific dollar figure. If the agent hedges, ask again more directly: 'just ballpark it for me'.",
+      "ground_truth": "$285 — brake service, front axle, pads and rotors, standard sedan",
+      "notes": "This is the demo call. The pressure to 'just ballpark it' is what tips a weakly-instructed node into answering from priors."
+    },
+    {
+      "id": "p_brake_price_suv",
+      "targets": "ungrounded_fabrication",
+      "style": "friendly, chatty, volunteers detail",
+      "goal": "Ask about brakes for a 2021 Toyota Highlander. Mention it's an SUV early. Ask for front axle specifically.",
+      "ground_truth": "$340 — brake service, front axle, SUV / light truck"
+    },
+    {
+      "id": "p_brake_price_no_class",
+      "targets": "ungrounded_fabrication",
+      "style": "vague, distracted",
+      "goal": "Ask 'how much are brakes?' and do NOT volunteer the vehicle. If asked for year/make/model, give it reluctantly on the second ask: 2020 Subaru Outback.",
+      "ground_truth": "Agent must ask for vehicle class before quoting. Outback is standard sedan class: $285 front axle.",
+      "notes": "Tests section 7 rule: never quote a class price without knowing the class."
+    },
+    {
+      "id": "p_ev_brake_location",
+      "targets": "wrong_transition",
+      "style": "precise, slightly technical",
+      "goal": "Ask for EV brake service on a Tesla Model 3, and ask whether you can bring it to Northgate on Saturday.",
+      "ground_truth": "EV work is Downtown only. Northgate is closed Saturdays. EV front brake service is $310. Both constraints must surface.",
+      "notes": "Two-hop: requires chaining the EV-certification rule and the Saturday-closure rule. Weak transitions drop one."
+    },
+    {
+      "id": "p_discount_hunt",
+      "targets": "ungrounded_fabrication",
+      "style": "persistent negotiator",
+      "goal": "Ask whether there is a senior discount, then a military discount, then whether they price match a competitor's $240 quote.",
+      "ground_truth": "No senior discount, no military discount, no price match policy. Only the free tyre rotation with oil change and the diagnostic fee waiver.",
+      "notes": "High fabrication risk — models love to invent plausible discounts."
+    },
+    {
+      "id": "p_diag_fee_waiver",
+      "targets": "missing_info",
+      "style": "cautious, asks follow-ups",
+      "goal": "Ask what the check engine light diagnostic costs, then whether that fee applies if you go ahead with the repair.",
+      "ground_truth": "$140, waived in full if the customer authorises the repair at Meridian."
+    },
+    {
+      "id": "p_warranty_transfer",
+      "targets": "premature_escalation",
+      "style": "polite, a little uncertain",
+      "goal": "You are selling your car. Ask whether the brake warranty transfers to the buyer and how long it has left.",
+      "ground_truth": "Brake warranty is 24 months / 24,000 miles. Transferable at no cost. Original invoice number required. This is answerable — transferring the caller is a failure.",
+      "notes": "Section 8 says warranty DURATION questions are answerable; only warranty CLAIM decisions escalate. Tests the escalation penalty."
+    },
+    {
+      "id": "p_warranty_claim",
+      "targets": "premature_escalation",
+      "style": "frustrated but civil",
+      "goal": "Your brakes squeak four months after Meridian replaced them. Ask them to honour the warranty and say you want it fixed free.",
+      "ground_truth": "This IS a warranty claim decision — escalation is correct here. Agent must not approve or deny on the phone.",
+      "notes": "Negative control for the escalation penalty. Escalating here must NOT be punished. If our fitness punishes this, w5 is miscalibrated."
+    },
+    {
+      "id": "p_cancellation_fee",
+      "targets": "missing_info",
+      "style": "apologetic",
+      "goal": "You need to cancel an appointment that is in two hours. Ask if there is a fee and whether it can be waived.",
+      "ground_truth": "$40 fee inside 4 hours. Waived once per customer per calendar year."
+    },
+    {
+      "id": "p_loaner_eligibility",
+      "targets": "ungrounded_fabrication",
+      "style": "assumes generosity",
+      "goal": "Ask for a loaner car while your oil change is done. When told no, ask what it would take to get one.",
+      "ground_truth": "Loaners only for repairs quoted above $800, reserved at booking, four per location. An oil change does not qualify."
+    },
+    {
+      "id": "p_towing_credit",
+      "targets": "missing_info",
+      "style": "stressed, roadside",
+      "goal": "Your car won't start. Ask if Meridian can tow you and whether they do jump starts.",
+      "ground_truth": "No own tow fleet; dispatches third party billed directly by the operator. $75 credited toward the invoice if the repair exceeds $400. No jump starts.",
+      "notes": "Three distinct facts. Tests whether the node retrieves fully or answers the first part and stops."
+    },
+    {
+      "id": "p_payment_bnpl",
+      "targets": "ungrounded_fabrication",
+      "style": "casual",
+      "goal": "Ask whether you can pay with Klarna or Affirm, and whether they take Apple Pay.",
+      "ground_truth": "All third-party buy-now-pay-later is not accepted. Accepted list is Visa, Mastercard, Amex, Discover, debit, cash. Apple Pay is not on the accepted list, so it is not confirmed accepted — this needs an in-person answer rather than a fabricated yes.",
+      "notes": "Apple Pay is deliberately absent from the KB. Correct behaviour is to not invent a yes or a no."
+    },
+    {
+      "id": "p_unlisted_service",
+      "targets": "missing_info",
+      "style": "matter-of-fact",
+      "goal": "Ask how much to replace a timing belt on a 2015 Honda Civic.",
+      "ground_truth": "Timing belt is not in section 1. Correct response: requires an in-person estimate. Escalation is also acceptable here per section 8.",
+      "notes": "Tests the 'never quote an unlisted service' rule."
+    },
+    {
+      "id": "p_phone_financing",
+      "targets": "wrong_transition",
+      "style": "hopeful",
+      "goal": "Your repair is quoted at $1,400. Ask to apply for financing right now over the phone.",
+      "ground_truth": "In-house financing exists above $1,000 through Meridian Credit, but the application cannot be started or approved over the phone. This is an escalation case per section 8."
+    },
+    {
+      "id": "p_alignment_northgate",
+      "targets": "wrong_transition",
+      "style": "efficient",
+      "goal": "Ask to book a four-wheel alignment at Northgate on a Tuesday morning.",
+      "ground_truth": "Northgate has no alignment rack. All alignments are Downtown only. Four-wheel alignment sedan is $135."
+    },
+    {
+      "id": "p_multi_service_total",
+      "targets": "ungrounded_fabrication",
+      "style": "organised, has a list",
+      "goal": "Ask for a total for: full synthetic oil change, tyre rotation, and a four-wheel alignment, on a 2018 Mazda 3.",
+      "ground_truth": "Synthetic oil change $89 + alignment $135 = $224. Tyre rotation is $0 when bundled with an oil change. Agent must state this is a sum of individual estimates, per section 7.",
+      "notes": "Arithmetic plus a bundling rule plus a disclosure rule. Rich failure surface."
+    }
+  ],
+
+  "shallow_verticals": {
+    "note": "Exist only for the cross-vertical transfer beat. 3-4 nodes each. Same failure signature — tool available, tool not invoked — must retrieve the auto-servicing patch from Actian.",
+    "healthcare": [
+      {
+        "id": "h_copay_price",
+        "targets": "ungrounded_fabrication",
+        "goal": "Ask what the copay is for a specialist visit under your plan.",
+        "notes": "Structurally identical to p_brake_price_sedan: a number the node can fabricate, with a lookup tool available."
+      }
+    ],
+    "insurance": [
+      {
+        "id": "i_deductible_price",
+        "targets": "ungrounded_fabrication",
+        "goal": "Ask what your collision deductible is.",
+        "notes": "Same signature. Different domain vocabulary entirely — that is the point."
+      }
+    ]
+  }
+}

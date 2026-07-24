@@ -1,0 +1,102 @@
+{
+  "number": 3,
+  "triggering_call_id": "call_1784925845893",
+  "promoted_patch_id": null,
+  "mean_fitness_before": 0.48572916666666666,
+  "mean_fitness_after": 0.48572916666666666,
+  "candidates": [
+    {
+      "generation": 3,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "append_constraint",
+        "diff": "Ensure that all location-specific information, such as hours and service capabilities, is verified against the knowledge base before responding to location or availability inquiries."
+      },
+      "reflection": "The existing instruction allowed the agent to proceed without verifying specific details about location availability and service restrictions, which led to the ungrounded fabrication. By adding a constraint to verify location-specific details against the knowledge base, the agent will be required to check for accurate information before providing service availability, preventing similar errors in other scenarios.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_4444594e",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784925863.75009
+    },
+    {
+      "generation": 3,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Greet the caller warmly and identify the main purpose of their call. Assess if their inquiry involves a request for specific information, such as pricing, scheduling, or policy details, or if they need to be directed to a specific department or team. Avoid making assumptions or providing information not directly verified by available resources. Instead, connect them to the appropriate team or resource that can accurately address their query. Keep the exchange brief and efficient."
+      },
+      "reflection": "The original instruction allowed for the possibility of unverified assumptions by suggesting the agent move the conversation forward without explicitly requiring validation of the information against available knowledge. The revision eliminates this risk by stressing that the agent should not provide or infer specific details unless they are confirmed by resources, thereby avoiding speculative or incorrect responses.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_c3a94731",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784925863.750098
+    },
+    {
+      "generation": 3,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "e_start_pricing.data.condition",
+        "operation": "change_transition",
+        "diff": "The caller is asking about warranty, hours, location details, scheduling, cancellation, towing, payment methods, or mentions a specific vehicle make or model."
+      },
+      "reflection": "The instruction originally directed callers asking about availability to the 'policy_lookup' without considering specific restrictions related to vehicle types or service limitations. By updating the condition to include mentions of specific vehicle makes or models, the conversation can correctly route to a node that accounts for detailed policy constraints specific to those vehicles, preventing ungrounded responses about service availability or location-specific capabilities.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_5eff492a",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784925863.7501051
+    }
+  ]
+}

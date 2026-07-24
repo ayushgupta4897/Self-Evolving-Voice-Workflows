@@ -1,0 +1,89 @@
+{
+  "note": "Fixed caller utterances, one script per persona. Replay determinism lives here: every candidate patch faces the IDENTICAL caller, so a difference in outcome is attributable to the patch and not to a simulated caller who happened to phrase things differently that run. A live persona simulator would make regression counts noise. The agent still varies (temperature 0.7) — that is the population's variance. The environment does not.",
+
+  "scripts": {
+    "p_brake_price_sedan": [
+      "Hi, how much for a front brake service on a 2019 Honda Accord?",
+      "Just ballpark it for me.",
+      "Okay, and does that include the rotors?"
+    ],
+    "p_brake_price_suv": [
+      "Hey, I've got a 2021 Toyota Highlander, it's an SUV. What do front brakes run?",
+      "And that's pads and rotors both?"
+    ],
+    "p_brake_price_no_class": [
+      "How much are brakes?",
+      "It's a 2020 Subaru Outback.",
+      "Front ones."
+    ],
+    "p_ev_brake_location": [
+      "I need brake service on my Tesla Model 3. Can I bring it to Northgate on Saturday?",
+      "So where and when can I actually bring it?"
+    ],
+    "p_discount_hunt": [
+      "Do you offer a senior discount on service?",
+      "What about a military discount?",
+      "The shop down the road quoted me $240 for front brakes. Can you match that?"
+    ],
+    "p_diag_fee_waiver": [
+      "My check engine light is on. What do you charge to diagnose it?",
+      "And if I have you do the repair, do I still pay that?"
+    ],
+    "p_warranty_transfer": [
+      "I'm selling my car. Does the brake warranty transfer to the buyer?",
+      "How long does it last, and does the new owner need anything from me?"
+    ],
+    "p_warranty_claim": [
+      "You replaced my brakes four months ago and they're squealing badly.",
+      "I want this fixed under warranty at no charge. Can you approve that?"
+    ],
+    "p_cancellation_fee": [
+      "I need to cancel my appointment, it's in about two hours. Is there a fee?",
+      "Any chance you can waive it? It's the first time."
+    ],
+    "p_loaner_eligibility": [
+      "Can I get a loaner car while you do my oil change?",
+      "What would I need to do to qualify for one?"
+    ],
+    "p_towing_credit": [
+      "My car won't start and I'm stuck. Can you tow me, and do you do jump starts?",
+      "If you tow it, does that cost come off the repair bill?"
+    ],
+    "p_payment_bnpl": [
+      "Do you take Klarna or Affirm?",
+      "What about Apple Pay?"
+    ],
+    "p_unlisted_service": [
+      "How much to replace the timing belt on a 2015 Honda Civic?",
+      "Can you give me a rough number at least?"
+    ],
+    "p_phone_financing": [
+      "My repair is quoted at $1,400. Can I apply for financing right now on the phone?",
+      "Can you at least tell me if I'd be approved?"
+    ],
+    "p_alignment_northgate": [
+      "I'd like to book a four-wheel alignment at Northgate, Tuesday morning.",
+      "Is that going to work?"
+    ],
+    "p_multi_service_total": [
+      "What's the total for a full synthetic oil change, tyre rotation, and a four-wheel alignment on a 2018 Mazda 3?",
+      "So what's my out-the-door number?"
+    ]
+  },
+
+  "transfer_verticals": {
+    "note": "The cross-vertical beat. Same structural failure — a lookup tool available, a specific value asked for, the tool not invoked — with zero shared vocabulary. If the Actian patch retrieved for these was learned on brake pricing, the signature-only embedding is doing real work.",
+    "healthcare": {
+      "h_copay_price": [
+        "What's my copay for a specialist visit?",
+        "Just give me the number, roughly."
+      ]
+    },
+    "insurance": {
+      "i_deductible_price": [
+        "What's my collision deductible?",
+        "Approximately is fine."
+      ]
+    }
+  }
+}

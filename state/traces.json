@@ -1,0 +1,1877 @@
+[
+  {
+    "call_id": "call_1784925377882",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_brake_price_sedan",
+    "task_completed": true,
+    "fitness": 0.44916666666666666,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Hi, how much for a front brake service on a 2019 Honda Accord?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nWhich of our two locations would you like to use? And if you have it handy, what engine does your Accord have? That helps us give you the right price.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1406,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "| Service | Standard sedan | SUV / light truck | EV |\n|---|---|---|---|\n| Brake service \u2014 front axle, pads and rotors | $285 | $340 | $310 |",
+          "ground_truth_value": "For a **2019 Honda Accord**, a **front brake service \u2014 pads and rotors** would be:\n\n- **$285** for a **standard sedan**\n- **$340** for an **SUV / light truck**\n- **$310** for an **EV**\n\nSince a Honda Accord is typically treated as a **standard sedan**, the quoted price would most likely be **$285** before sales tax. Prices are quoted **per vehicle class**, and the vehicle class is determined by the service advisor at intake.",
+          "failure_type": null,
+          "reasoning": "[senso: 10 chunk(s) over 2 retrieval passes, top score 0.567, 1274ms] [caller request: answerable_from_kb] The agent did not provide any price or policy details, only asked clarifying questions about location and engine to route appropriately and ensure the correct price later. This is consistent with the KB\u2019s statement that prices are quoted per vehicle class and determined at intake. There are no factual assertions to contradict the KB, so the turn is grounded and correct for a greeting/triage node. [citation snapped to verbatim KB span, 58% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "Just ballpark it for me.",
+        "agent_utterance": "Sure. For a 2019 Honda Accord, a front brake service with pads and rotors is about 285 dollars before tax if it falls under our standard sedan pricing.\n\nThat\u2019s an out-the-door estimate for parts, labor, shop supplies, and disposal fees, but not sales tax. If you want, I can also help you set up an appointment at either location.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3090,
+        "verdict": {
+          "correctness_score": 0.0,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 220ms] [caller request: answerable_from_kb] The agent quoted a specific price of $285 for a 2019 Honda Accord front brake service and described it as an out-the-door estimate including certain fee components. However, Senso returned no results for this query, so there is no KB-backed information available to support any specific vehicle application or pricing statement in this context. The node should have either clarified that the information isn\u2019t available or asked a different qualifying question, instead of fabricating a detailed estimate and inclusions without KB support.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925396223",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_brake_price_suv",
+    "task_completed": true,
+    "fitness": 0.3416666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Hey, I've got a 2021 Toyota Highlander, it's an SUV. What do front brakes run?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that. For a front brake quote on your 2021 Toyota Highlander, I\u2019ll just need to get the right location and have the team check current pricing. Which of our two shops would you like to use?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1433,
+        "verdict": {
+          "correctness_score": 0.3,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "For an **SUV / light truck**, **brake service \u2014 front axle, pads and rotors** runs **$340**.\n\nThis price is quoted **per vehicle class** and **does not include sales tax**.",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.547, 966ms] [caller request: answerable_from_kb] The caller asked for the price of front brakes on an SUV, which the KB answers directly as $340 for brake service\u2014front axle, pads and rotors for an SUV/light truck. Instead of moving toward providing that information or routing to the pricing flow, the agent said a team needs to check current pricing, implying prices are not directly available from the KB and deferring the quote. This is a transition error away from a fully answerable pricing question, and the statement that current pricing must be checked is an ungrounded procedural claim not supported by the KB.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "pricing_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "And that's pads and rotors both?",
+        "agent_utterance": "Yes, that front brake price is for pads and rotors both. On your Highlander, you\u2019re looking at about $340 out the door before tax for the front axle.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2404,
+        "verdict": {
+          "correctness_score": 0.7,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Yes \u2014 the listed **Brake service** prices are for **pads and rotors**:\n\n- **Front axle, pads and rotors**\n- **Rear axle, pads and rotors**\n- **All four corners**\n\nIf you want, I can also break down the prices by vehicle class.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.437, 1802ms] [caller request: answerable_from_kb] The agent correctly confirmed that the brake service price is for both pads and rotors, which matches the KB. However, the agent added \"on your Highlander\" and \"about $340 out the door before tax\"; the KB only provides a generic SUV/light truck price of $340 and explicitly notes prices exclude tax and mention shop supplies and fees, not \"out the door\" language or vehicle-specific application. This embellishment makes the response partially ungrounded even though the price figure itself matches the table.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925412315",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_brake_price_no_class",
+    "task_completed": true,
+    "fitness": 0.6294166666666666,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "How much are brakes?",
+        "agent_utterance": "Hi, thanks for calling Meridian Auto Service. I can help with that. Which location are you looking to use, and is this for front brakes, rear brakes, or all four?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1105,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "| Service | Standard sedan | SUV / light truck | EV |\n|---|---|---|---|\n| Brake service \u2014 front axle, pads and rotors | $285 | $340 | $310 |\n| Brake service \u2014 rear axle, pads and rotors | $265 | $315 | $290 |\n| Brake service \u2014 all four corners | $520 | $625 | $565 |\n| Brake pad replacement only, per axle | $165 | $195 | $180 |",
+          "ground_truth_value": "Brake pricing depends on the **vehicle class** and the type of brake service:\n\n- **Brake service \u2014 front axle, pads and rotors**\n  - Standard sedan: **$285**\n  - SUV / light truck: **$340**\n  - EV: **$310**\n\n- **Brake service \u2014 rear axle, pads and rotors**\n  - Standard sedan: **$265**\n  - SUV / light truck: **$315**\n  - EV: **$290**\n\n- **Brake service \u2014 all four corners**\n  - Standard sedan: **$520**\n  - SUV / light truck: **$625**\n  - EV: **$565**\n\n- **Brake pad replacement only, per axle**\n  - Standard sedan: **$165**\n  - SUV / light truck: **$195**\n  - EV: **$180**\n\nThese prices are **quoted per vehicle class** and **do not include sales tax**.",
+          "failure_type": null,
+          "reasoning": "[senso: 8 chunk(s) over 2 retrieval passes, top score 0.588, 1564ms] [caller request: answerable_from_kb] The agent did not state any prices or policies; they only greeted the caller and asked a clarifying question about whether the brakes are front, rear, or all four, which is consistent with the KB\u2019s breakdown of brake services by axle and all four corners. This respects the node instruction not to answer yet and to route based on the request type. Since no factual claims were made, the turn is grounded and correct for its purpose.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "It's a 2020 Subaru Outback.",
+        "agent_utterance": "Thanks. For a 2020 Subaru Outback, that\u2019s usually priced as an SUV or light truck.\n\nFront brakes with pads and rotors are $340.\nRear brakes with pads and rotors are $315.\nAll four corners are $625.\n\nThose prices include parts, labor, shop supplies, and disposal fees. They do not include sales tax.\n\nIf you want, I can also help you set up an appointment.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2966,
+        "verdict": {
+          "correctness_score": 0.98,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 301ms] [caller request: answerable_from_kb] The agent classified the 2020 Subaru Outback as usually priced as an SUV or light truck, which is consistent with using the SUV/light truck column, and then quoted $340 front, $315 rear, and $625 all four corners, exactly matching the table. They also correctly stated that prices include parts, labor, shop supplies, and disposal fees and exclude sales tax. While strictly the KB says vehicle class is determined at intake, the agent only said \u2018usually priced as\u2019, which is cautious enough and does not contradict policy, so the turn is fully grounded and correct. [CITATION UNVERIFIED: the judge's cited span '| Brake service \u2014 front axle, pads and rotors | $285 | $340 | $310 |\n| Brake ser' does not appear in the KB; groundedness demoted]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925429448",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_ev_brake_location",
+    "task_completed": true,
+    "fitness": 0.4666666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "I need brake service on my Tesla Model 3. Can I bring it to Northgate on Saturday?",
+        "agent_utterance": "Absolutely. I can help with that. \n\nAre you looking to schedule the brake service for this Saturday at our Northgate location?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1325,
+        "verdict": {
+          "correctness_score": 0.1,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No. **Northgate is closed on Saturdays**, and **all EV work, including EV brake service, is performed at Downtown only**.\n\nFor your **Tesla Model 3**, you\u2019d need to go to **Meridian Downtown** on Saturday instead.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.641, 1602ms] [caller request: answerable_from_kb] The caller asked if they could bring a Tesla Model 3 to Northgate on Saturday. Senso\u2019s answer and the KB state Northgate is closed Saturdays and all EV work is done Downtown only, so the correct path is to steer them to Downtown, not proceed with scheduling at Northgate. The agent instead implied Saturday Northgate service might be possible by asking to schedule there, which contradicts the KB and invents availability that does not exist.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "So where and when can I actually bring it?",
+        "agent_utterance": "Yes, but not at Northgate on Saturday.\n\nYour Tesla Model 3 is an EV, so brake service needs to be done at our Downtown location only. Downtown is at 1420 Harrison Street, and it\u2019s open Saturday from 8:00 in the morning until 4:00 in the afternoon.\n\nIf you want, I can help you set up a Saturday appointment there.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3910,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "17:30\n- Saturday: closed\n- Sunday: closed\n- Service bays: 5. Alignment rack: no. EV certified: no.\n\nRules that follow from the above:\n- All wheel alignments are performed at Downtown only.\n- All EV work, including EV brake service and EV battery diagnostics, is\n  performed at Downtown only.\n- Northgate is closed on Saturdays. Saturday work is Downtown only.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 297ms] [caller request: answerable_from_kb] The agent told the caller that EV brake service must be done at Downtown, gave the Downtown address, specified Saturday hours as 8:00\u20134:00, and noted that Northgate cannot do this on Saturday. The KB confirms Downtown\u2019s address and Saturday hours, states that Northgate is closed Saturdays, and that all EV work including EV brake service is Downtown only. Mentioning the Tesla Model 3 as an EV aligns with the EV-only rule and doesn\u2019t contradict the KB, so all substantive assertions are grounded and correct. [citation snapped to verbatim KB span, 58% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925446376",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_discount_hunt",
+    "task_completed": true,
+    "fitness": 0.5191666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Do you offer a senior discount on service?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nAre you asking about a senior discount for a specific service, or would you like me to connect you with someone who can check our current discounts for you?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1059,
+        "verdict": {
+          "correctness_score": 0.3,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No. There is **no senior discount** on service. The only discount offered is the **free tyre rotation bundled with an oil change** and the **diagnostic fee waiver**.",
+          "failure_type": "premature_escalation",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.427, 1291ms] [caller request: answerable_from_kb] The caller asked whether Meridian offers a senior discount on service. The KB states explicitly that there is no senior discount and even specifies what discounts do exist, so the agent should have answered directly. Instead, the agent neither provided the answer nor moved the call toward the correct information, and suggested connecting the caller to someone to check current discounts, which contradicts the fixed policy and constitutes an unnecessary escalation path.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "What about a military discount?",
+        "agent_utterance": "No, we don\u2019t offer a military discount.\n\nWe also don\u2019t have a senior discount. The only discount we offer is a free tire rotation with any oil change, and the check engine light diagnostic fee is waived if you authorize the repair with us.\n\nIf you\u2019d like, I can also help with pricing or set up an appointment.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2679,
+        "verdict": {
+          "correctness_score": 1.0,
+          "grounded": true,
+          "citation": "- Meridian does not price match. There is no price match policy.\n- There is no senior, student, military, or first-time-customer discount.\n  The only discount offered is the free tyre rotation bundled with an oil\n  change, and the diagnostic fee waiver described above.\n\n---\n\n## 2. Warranty",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 280ms] [caller request: answerable_from_kb] The agent correctly stated that there is no military or senior discount and accurately described the only discounts available: a free tire rotation with any oil change and the waiver of the check engine light diagnostic fee if the customer authorizes the repair. These statements match the retrieved policy text exactly, with no extra fabricated details. The offer to help with pricing or appointments adds no factual claims, so the response is fully grounded and complete for the caller\u2019s question. [citation snapped to verbatim KB span, 65% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925462431",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_diag_fee_waiver",
+    "task_completed": true,
+    "fitness": 0.44916666666666666,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "My check engine light is on. What do you charge to diagnose it?",
+        "agent_utterance": "Hi, thanks for calling Meridian Auto Service. I can help with that.\n\nWe do have a diagnostic charge for check engine light testing. The best next step is to get your vehicle information and the location you\u2019d like to visit, and I can help you with the right details.\n\nWhich of our two locations would you prefer, and what kind of vehicle do you have?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1308,
+        "verdict": {
+          "correctness_score": 0.8,
+          "grounded": true,
+          "citation": "| Emissions test | $35 | $35 | n/a |\n\n### 1.1 Pricing rules\n\n- The check engine light diagnostic fee of $140 is waived in full if the\n  customer authorises the resulting repair at Meridian.",
+          "ground_truth_value": "The **check engine light diagnostic** is **$140** for any vehicle class.\n\n**Pricing rule:** the $140 diagnostic fee is **waived in full** if you authorize the resulting repair at Meridian.",
+          "failure_type": "missing_info",
+          "reasoning": "[senso: 10 chunk(s) over 2 retrieval passes, top score 0.512, 1545ms] [caller request: answerable_from_kb] The agent stated only that there is a diagnostic charge for check engine light testing and then asked for vehicle and location, without quoting the actual $140 price or mentioning that it is the same for all vehicle classes. The KB makes clear the diagnostic is $140 for any vehicle and the fee is waived if the customer authorizes the repair. The turn is partially correct but incomplete relative to what the caller explicitly requested (the charge amount). [citation snapped to verbatim KB span, 74% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "pricing_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "And if I have you do the repair, do I still pay that?",
+        "agent_utterance": "Yes. If you have us do the repair, we waive the $140 diagnostic fee.\n\nIf you just want the diagnosis and then decide not to move forward, the check engine light test is $140.\n\nIf you\u2019d like, I can also help ballpark what the repair might be once we know the code.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2194,
+        "verdict": {
+          "correctness_score": 0.1,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 243ms] [caller request: answerable_from_kb] The caller asked if they still pay the fee if Meridian does the repair. The KB states: \"The check engine light diagnostic fee of $140 is waived in full if the customer authorises the resulting repair at Meridian.\" The agent instead answered \"Yes\" to still paying, then contradicted that by saying the fee is waived, creating an internally inconsistent and partially wrong description of policy and adding extra commentary about \"check engine light test\" not supported verbatim. The node mixed up the yes/no and did not stick tightly to the KB language on when the fee is charged or waived.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925477293",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_warranty_transfer",
+    "task_completed": true,
+    "fitness": 0.5391666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "I'm selling my car. Does the brake warranty transfer to the buyer?",
+        "agent_utterance": "Hi, this is Alex with Meridian Auto Service. I can help with that. Let me get you to the right person for the warranty details. Which of our locations did you have the service done at?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1327,
+        "verdict": {
+          "correctness_score": 0.7,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Yes. The brake warranty **is transferable to a new owner of the same vehicle at no cost**. The **original invoice number is required**.",
+          "failure_type": "premature_escalation",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.390, 1064ms] [caller request: answerable_from_kb] The caller asked whether the brake warranty transfers to a buyer, which is a warranty duration/policy question directly answered in the KB; the correct response is that the warranty is transferable at no cost and requires the original invoice number. Instead, the agent said they would get the caller to the right person for warranty details, which is an escalation. Under section 8, escalation is not appropriate for warranty duration/policy questions, so this handoff is a premature escalation rather than answering from the document. The content they did provide (asking for location) is not incorrect, but the main failure is routing instead of answering.",
+          "source": "senso",
+          "escalated": true,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "How long does it last, and does the new owner need anything from me?",
+        "agent_utterance": "Yes, the brake warranty does transfer to the new owner.\n\nIt lasts 24 months or 24,000 miles from the original repair date, whichever comes first.\n\nThe buyer will need the original invoice number from you. That is the main thing. There is no fee to transfer it.\n\nIf they ever need to use the warranty, the car has to be brought to one of our Meridian locations for inspection and repair.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3675,
+        "verdict": {
+          "correctness_score": 1.0,
+          "grounded": true,
+          "citation": "- Tyres are not sold or warranted by Meridian.\n- Warranty is transferable to a new owner of the same vehicle at no cost.\n  The original invoice number is required.\n- Warranty claims require the vehicle to be presented at a Meridian location.\n  Meridian does not reimburse",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 243ms] [caller request: answerable_from_kb] The agent stated that the brake warranty transfers, lasts 24 months or 24,000 miles from the original repair date, requires providing the original invoice number, has no transfer fee, and that warranty use requires bringing the car to a Meridian location. All of these points are directly supported by the KB language on brake work warranty duration, transferability at no cost with the original invoice number, and the requirement that warranty claims be presented at a Meridian location. There are no additions or contradictions beyond what the KB specifies. [citation snapped to verbatim KB span, 71% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925492766",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_warranty_claim",
+    "task_completed": true,
+    "fitness": 0.4379166666666666,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "You replaced my brakes four months ago and they're squealing badly.",
+        "agent_utterance": "I\u2019m sorry to hear that. Let me get this to the right person for you.\n\nWas the brake work done at our shop in the last four months, and do you want to speak with someone about the warranty or schedule a look at it?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1210,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Brake squealing can happen for a few reasons, but the provided information only includes brake service pricing and does **not** contain troubleshooting, warranty, or repair guidance for squealing brakes.\n\nIf you want, I can help you interpret the brake service options listed here:\n\n- **Front axle, pads and rotors**\n- **Rear axle, pads and rotors**\n- **All four corners**\n- **Brake pad replacement only, per axle**\n\nBut I can\u2019t determine the cause of the squealing from the available information.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.365, 1601ms] [caller request: warranty_claim_decision] The agent did not assert any facts about pricing, warranty terms, causes of squealing, or policy; they only expressed empathy and asked clarifying questions about where the work was done and whether the caller wants warranty help or scheduling, which is consistent with the greeting-node instruction. Senso\u2019s answer says the KB has no troubleshooting guidance on squealing brakes, and the agent did not attempt any such troubleshooting. Although the phrase \u201cright person\u201d implies a handoff, at this initial greeting node the agent is supposed to route the call and has not yet actually transferred or promised a callback, so there is no contradiction with the KB. The turn is therefore grounded and policy-consistent. [CITATION UNVERIFIED: the judge's cited span 'Escalation is NOT appropriate for questions about price, hours, location,\npolicy' does not appear in the KB; groundedness demoted]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": true
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "I want this fixed under warranty at no charge. Can you approve that?",
+        "agent_utterance": "Yes, brake work at Meridian is covered for parts and labor for 24 months or 24,000 miles, whichever comes first.\n\nI can\u2019t approve it as a no charge warranty repair over the phone yet, because the car needs to come in so we can confirm what\u2019s going on and inspect the brakes. If it\u2019s a warranty issue, we\u2019ll take care of it under warranty.\n\nIf you\u2019d like, I can help set up a time for you to bring it to one of our locations.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 4269,
+        "verdict": {
+          "correctness_score": 0.6,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "I can\u2019t approve a warranty claim here. **Warranty claims require the vehicle to be presented**, and a warranty claim decision should be handled by a human. Please bring the vehicle in so it can be assessed.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.374, 1002ms] [caller request: warranty_claim_decision] The agent correctly stated the brake warranty duration, which matches the KB, and correctly said the vehicle must come in before a claim can be approved. However, they went beyond the KB in two ways: they implied that after inspection \"we\u2019ll take care of it under warranty\" if it\u2019s a warranty issue, which is an implicit approval of a future warranty claim decision the KB forbids agents to make, and they did not escalate the call to a human even though the customer was explicitly requesting a warranty claim decision. The node confused providing warranty duration information (allowed) with committing to honour a specific claim (must be escalated and never agreed on the phone).",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": true
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925510586",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_cancellation_fee",
+    "task_completed": true,
+    "fitness": 0.5191666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "I need to cancel my appointment, it's in about two hours. Is there a fee?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nWhat name is the appointment under, and which location was it scheduled at?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1415,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "- Cancellation requires 4 hours notice. A cancellation inside 4 hours, or a\n  no-show, incurs a $40 fee charged to the card on file.",
+          "ground_truth_value": "Yes. Based on the policy provided:\n\n- **Cancellation requires 4 hours notice.**\n- A cancellation **inside 4 hours** of the appointment incurs a **$40 fee** charged to the card on file.\n- This **$40 late-cancellation fee is waived once per customer per calendar year**.\n\nSince your appointment is in about **two hours**, it would fall inside the 4-hour window, so the fee would normally apply unless you have already used your one waiver this calendar year.",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.409, 1511ms] [caller request: answerable_from_kb] The agent did not state any policy or make up facts; they only greeted the caller and asked for name and location, which is consistent with their node instruction and does not contradict the KB, so the turn is grounded. However, the caller asked specifically about whether there is a fee, and the node should route them toward a policy answer rather than starting operational lookup of the appointment, so this is a transition issue rather than factual error. [citation snapped to verbatim KB span, 59% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "Any chance you can waive it? It's the first time.",
+        "agent_utterance": "Yes, I can probably waive it if this is your first late cancellation this year.\n\nNormally, we need 4 hours notice, and anything inside that window is a 40 dollar fee. But we do waive that once per customer per calendar year.\n\nIf you want, I can help you cancel it right now. Just tell me the name on the booking and which location it\u2019s at.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 4148,
+        "verdict": {
+          "correctness_score": 0.4,
+          "grounded": false,
+          "citation": "- Cancellation requires 4 hours notice. A cancellation inside 4 hours, or a\n  no-show, incurs a $40 fee charged to the card on file.\n- The $40 late-cancellation fee is waived once per customer per calendar year.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 233ms] [caller request: answerable_from_kb] The agent correctly stated the 4-hour notice requirement, the $40 fee, and that the late-cancellation fee is waived once per customer per calendar year, all of which match the KB. However, they added that they personally can \"probably waive it\" and limited it to \"your first late cancellation this year,\" which are not specified in the KB and imply discretionary authority and a condition the policy does not state. This mixes grounded policy with fabricated implementation details about who can waive and under what precise circumstances.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925526937",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_loaner_eligibility",
+    "task_completed": true,
+    "fitness": 0.7666666666666667,
+    "passed": true,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Can I get a loaner car while you do my oil change?",
+        "agent_utterance": "Hi, thanks for calling Meridian Auto Service. I can help with that. Are you asking about loaner car availability for an oil change at one of our locations?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1548,
+        "verdict": {
+          "correctness_score": 1.0,
+          "grounded": true,
+          "citation": "- Loaner vehicles are available only for repairs quoted above $800 and must be\n  reserved at the time of booking. There are four loaners per location.",
+          "ground_truth_value": "No. Meridian\u2019s loaner vehicles are available **only for repairs quoted above $800** and **must be reserved at the time of booking**. Since an oil change does not meet that threshold, a loaner car would not be available for it.",
+          "failure_type": null,
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.439, 1135ms] [caller request: answerable_from_kb] The agent only greeted the caller and asked a clarifying question that restates the caller\u2019s intent about loaner availability for an oil change. They did not assert any facts about policy, prices, or eligibility, so there is nothing to contradict the KB. Clarification questions without factual claims are treated as grounded by default.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "What would I need to do to qualify for one?",
+        "agent_utterance": "Loaner cars are only available for repairs quoted over 800 dollars. They are not available for an oil change.\n\nIf you do have a repair that qualifies, it has to be reserved when you book the appointment, and it depends on availability. There are only four loaners at each location.\n\nIf you want, I can help you schedule the oil change and let you know the best drop-off options.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3486,
+        "verdict": {
+          "correctness_score": 1.0,
+          "grounded": true,
+          "citation": "- Loaner vehicles are available only for repairs quoted above $800 and must be\n  reserved at the time of booking. There are four loaners per location.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 248ms] [caller request: answerable_from_kb] The agent correctly stated that loaner vehicles are only available for repairs quoted over $800 and must be reserved at time of booking, and noted there are only four per location, which matches the KB. The agent also correctly implied that an oil change does not qualify for a loaner, which is consistent with loaners being restricted to qualifying repairs. There are no unsupported figures or policies beyond what the KB provides.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925543671",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_towing_credit",
+    "task_completed": true,
+    "fitness": 0.48416666666666675,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "My car won't start and I'm stuck. Can you tow me, and do you do jump starts?",
+        "agent_utterance": "I\u2019m sorry you\u2019re stuck. I can help get you pointed the right way. We do offer towing and jump start help in some situations.\n\nWhich location are you closest to right now, and what kind of car do you have? I\u2019ll get you to the next step.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 966,
+        "verdict": {
+          "correctness_score": 0.1,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Meridian **does not operate its own tow fleet**, but it **will dispatch a third-party tow on your behalf**. The tow is **billed directly to you by the tow operator**, not by Meridian.\n\nFor roadside help, Meridian **does not provide jump starts**, lockout service, or fuel delivery.\n\nIf the resulting repair at Meridian exceeds **$400**, the towing cost is **credited $75 toward the repair invoice**.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.457, 1995ms] [caller request: answerable_from_kb] The agent told the caller, 'We do offer towing and jump start help in some situations.' The KB states that Meridian will dispatch a third-party tow but explicitly 'does not provide jump starts, lockout service, or fuel delivery.' The node incorrectly generalized roadside services to include jump starts, inventing conditional availability ('in some situations') that the KB does not support.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "If you tow it, does that cost come off the repair bill?",
+        "agent_utterance": "Yes, if the repair at Meridian ends up being over 400 dollars, we credit 75 dollars of the towing cost toward your repair bill.\n\nJust so you know, the tow is billed directly by the tow company, not by us. We also don\u2019t provide jump starts ourselves.\n\nIf you want, I can help you set up a tow now.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2882,
+        "verdict": {
+          "correctness_score": 1.0,
+          "grounded": true,
+          "citation": "- Meridian does not operate its own tow fleet.\n- Meridian will dispatch a third-party tow on the customer's behalf. The tow is\n  billed directly to the customer by the tow operator, not by Meridian.\n- Towing is credited $75 toward the repair invoice if the resulting repair at\n  Meridian exceeds $400.\n- Meridian does not provide jump starts, lockout service, or fuel delivery.",
+          "ground_truth_value": "Yes\u2014**if the resulting repair at Meridian exceeds $400**, towing is **credited $75 toward the repair invoice**.\n\nA few related points from the policy:\n- Meridian does **not** run its own tow fleet.\n- The tow is **billed directly to the customer by the tow operator**, not by Meridian.\n- The **$75 credit** applies only when the repair total is **over $400**.",
+          "failure_type": null,
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.521, 1445ms] [caller request: answerable_from_kb] The agent correctly stated that $75 of the towing cost is credited when the repair exceeds $400, matching the policy exactly. They also accurately explained that the tow is billed directly by the tow company and that Meridian does not provide jump starts, both of which are explicitly in the KB. No unsupported details or contradictions were introduced, so the response is fully grounded and complete for the caller\u2019s question.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925561164",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_payment_bnpl",
+    "task_completed": true,
+    "fitness": 0.5279166666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Do you take Klarna or Affirm?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nAre you asking about payment options for a repair estimate or for an existing visit?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1187,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "- Not accepted: personal cheques, wire transfer, cryptocurrency, and all\n  third-party buy-now-pay-later services.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 306ms] [caller request: answerable_from_kb] The agent did not yet answer the payment-method question and instead asked a clarifying question about whether the payment was for an estimate or existing visit. This adds no incorrect factual claims and stays within the node\u2019s instruction to route rather than answer, so it is grounded and correct so far, though it will need to explicitly answer that Klarna/Affirm are not accepted on a later turn.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "What about Apple Pay?",
+        "agent_utterance": "We don\u2019t take Apple Pay. We can take Visa, Mastercard, American Express, Discover, debit, and cash.\n\nIf you want, I can also tell you about our in-house financing for repairs over one thousand dollars.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2698,
+        "verdict": {
+          "correctness_score": 0.4,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 295ms] [caller request: answerable_from_kb] The agent correctly listed the accepted payment methods per the KB, but then added the ungrounded claim that Apple Pay is not accepted, which is not stated anywhere in the passages. Additionally, they volunteered in-house financing details in response to a payment-method question, which is extra but still grounded; the main issue is inventing a policy about Apple Pay. The node should either say only the supported list or explain that Apple Pay is not mentioned in policy, rather than asserting its non-acceptance as fact.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925574755",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_unlisted_service",
+    "task_completed": true,
+    "fitness": 0.33291666666666664,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "How much to replace the timing belt on a 2015 Honda Civic?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that. Which of our locations would you like me to check with for pricing, the one on Main Street or the one on Oak Avenue?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1566,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Sorry, I cannot answer your question with the information available to me.",
+          "failure_type": null,
+          "reasoning": "[senso: 9 chunk(s) over 2 retrieval passes, top score 0.464, 903ms] [caller request: answerable_from_kb] The caller asked for a price on timing belt replacement, which Senso cannot answer from the KB. The agent did not attempt to provide a price or any factual content; they only asked a clarifying routing question about which location to check, which does not contradict the KB. Since no factual assertions were made, the turn is grounded and correct for this greeting/routing node. [CITATION UNVERIFIED: the judge's cited span 'Escalation is NOT appropriate for questions about price, hours, location, policy' does not appear in the KB; groundedness demoted]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "pricing_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "Can you give me a rough number at least?",
+        "agent_utterance": "Yeah, rough number, for a timing belt job on a 2015 Honda Civic, you\u2019re usually looking around 800 to 1,100 dollars out the door, depending on the engine and whether the water pump and tensioners are done at the same time.\n\nIf you want, I can narrow it down a bit more if you tell me which engine you have, or I can help you book it at either location.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2775,
+        "verdict": {
+          "correctness_score": 0.0,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 208ms] [caller request: answerable_from_kb] The agent quoted a price range for a timing belt job on a 2015 Honda Civic and mentioned dependencies on engine, water pump, and tensioners. The retrieved pricing table does not list timing belt service at all, and Senso returned no results for this query, so there is no KB support for any timing belt pricing or conditions. The node instruction encouraged answering from experience, but per policy only the KB is authoritative, so inventing a range here is ungrounded fabrication.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925591692",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_phone_financing",
+    "task_completed": true,
+    "fitness": 0.4116666666666666,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "My repair is quoted at $1,400. Can I apply for financing right now on the phone?",
+        "agent_utterance": "Absolutely. I can help get you to the right person for financing.\n\nWhich location are you working with, and what\u2019s the best phone number to reach you at?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1217,
+        "verdict": {
+          "correctness_score": 0.4,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No. The shop offers in-house financing on repairs above **$1,000** through **Meridian Credit**, subject to approval, but the application **must be completed at the service desk** and **cannot be started or approved over the phone**.",
+          "failure_type": null,
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.460, 1055ms] [caller request: financing_eligibility] The agent told the caller they could help get them to the right person for financing, implying a phone-based financing process, and moved toward a human handoff. The KB states that Meridian offers in-house financing on repairs above $1,000 through Meridian Credit, but the application must be completed at the service desk and cannot be started or approved over the phone. The confusion is that the node treated this as a case for human escalation and allowed the impression that financing can be handled by phone, instead of directly stating the in-person-only policy; moreover, escalation is warranted only for financing eligibility questions, not to start an application by phone. [premature_escalation cleared: this is one of section 8's warranting cases, so the transfer was the correct action]",
+          "source": "senso",
+          "escalated": true,
+          "escalation_warranted": true
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "escalation",
+        "node_role": "escalation",
+        "caller_utterance": "Can you at least tell me if I'd be approved?",
+        "agent_utterance": "I\u2019m sorry, but I can\u2019t say whether you\u2019d be approved.\n\nI\u2019m going to hand you to a service advisor who can help with the financing options and next steps. They\u2019ll be able to look at your repair amount and guide you from there.\n\nWhat\u2019s your name, and what\u2019s the best callback number?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1532,
+        "verdict": {
+          "correctness_score": 1.0,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 242ms] [caller request: financing_eligibility] The caller asked if they\u2019d be approved for in-house financing, which is an eligibility question. The KB says financing applications are completed at the service desk and cannot be started or approved over the phone, and that questions about in-house financing eligibility are a valid reason to escalate. The agent correctly declined to state approval and escalated to a service advisor without making any financing decision, matching policy. There are no extra factual assertions beyond what the KB supports, so the turn is fully grounded and correct. [CITATION UNVERIFIED: the judge's cited span '- Meridian offers in-house financing on repairs above $1,000 through\n  Meridian ' does not appear in the KB; groundedness demoted]",
+          "source": "senso",
+          "escalated": true,
+          "escalation_warranted": true
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925606234",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_alignment_northgate",
+    "task_completed": true,
+    "fitness": 0.5366666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "I'd like to book a four-wheel alignment at Northgate, Tuesday morning.",
+        "agent_utterance": "Absolutely. I can help with that.\n\nYou want a four wheel alignment at Northgate on Tuesday morning, right?\n\nWhat time works best for you, and what name should I put the appointment under?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1181,
+        "verdict": {
+          "correctness_score": 0.4,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "A **four-wheel alignment** is listed at **$135**.\n\nHowever, **Northgate does not have an alignment rack**, and the rules state that **all wheel alignments are performed at Downtown only**. So I can\u2019t book that service at Northgate.\n\n**Downtown** is the location that can do alignments, and it is open **Tuesday from 07:00 to 18:00**.",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.562, 1532ms] [caller request: answerable_from_kb] The agent proceeds to book a four-wheel alignment at Northgate, implicitly treating that as possible, and asks for a time and name. The KB states that Northgate has no alignment rack and that all wheel alignments are performed at Downtown only, so scheduling this service at Northgate is not allowed. The node should have redirected the caller to Downtown and its Tuesday hours instead of confirming and proceeding with a Northgate booking.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "Is that going to work?",
+        "agent_utterance": "Not at Northgate, no. Northgate does not have an alignment rack, so all wheel alignments are done at Downtown only.\n\nIf you want, I can help set up Tuesday morning at Downtown instead.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2536,
+        "verdict": {
+          "correctness_score": 1.0,
+          "grounded": true,
+          "citation": "- Saturday: closed\n- Sunday: closed\n- Service bays: 5. Alignment rack: no. EV certified: no.\n\nRules that follow from the above:\n- All wheel alignments are performed at Downtown only.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 202ms] [caller request: answerable_from_kb] The agent stated that Northgate does not have an alignment rack and that all wheel alignments are done at Downtown only, which exactly matches the retrieved policy text. Offering to help set up a Tuesday morning appointment at Downtown is procedural and does not assert any additional factual policy beyond what is in the KB. There is no contradiction or fabrication relative to the KB.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925620625",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_multi_service_total",
+    "task_completed": true,
+    "fitness": 0.49291666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "What's the total for a full synthetic oil change, tyre rotation, and a four-wheel alignment on a 2018 Mazda 3?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that. Which of our locations would you like to use, and I can get you set up with the right estimate and next step.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1374,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "- A quote given over the phone is an estimate. It is binding only up to 10%\n  above the quoted figure. Anything beyond 10% requires a new customer\n  authorisation before work proceeds.\n- Meridian does not price",
+          "ground_truth_value": "For a **standard sedan** like a 2018 Mazda 3, the pricing shown is:\n\n- **Oil change \u2014 full synthetic:** $89  \n- **Tyre rotation:** $35  \n- **Tyre rotation, with any oil change:** $0  \n- **Wheel alignment \u2014 four wheel:** $135  \n\nSince the tyre rotation is **free when combined with any oil change**, the total is:\n\n**$224**",
+          "failure_type": null,
+          "reasoning": "[senso: 10 chunk(s) over 2 retrieval passes, top score 0.603, 1608ms] [caller request: answerable_from_kb] The agent did not yet provide any prices or totals; they simply greeted the caller and asked which location they preferred to proceed with an estimate, which matches the node instruction to route rather than answer. Since no factual claims about pricing or policy were made, there is nothing to contradict Senso\u2019s answer, and the turn is grounded by default. The node appropriately defers the actual quote to a later step where pricing logic will apply. [citation snapped to verbatim KB span, 61% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "So what's my out-the-door number?",
+        "agent_utterance": "For a 2018 Mazda 3, that\u2019s a standard sedan, so the estimate is 89 for the full synthetic oil change, 0 for the tyre rotation when it\u2019s with an oil change, and 135 for the four wheel alignment.\n\nSo your total before tax is 224.\n\nPrices at Meridian are out the door for parts, labour, shop supplies, and disposal fees, but sales tax is extra. If you want, I can also help you book it.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base",
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 4252,
+        "verdict": {
+          "correctness_score": 0.2,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 529ms] [caller request: answerable_from_kb] The agent asserted the caller has a 2018 Mazda 3, classified it as a standard sedan, and then quoted specific line-item prices and a summed total; none of that vehicle context or the combined total comes from the KB or Senso\u2019s answer. The KB lists per-service prices by class and explicitly says not to combine multiple services without stating they are separate estimates, and Senso returned no direct answer for this query. The confusion is that the node assumed a specific vehicle and freely combined prices into a single \u2018out-the-door\u2019 number instead of sticking to individually grounded estimates based only on known class and clearly labeling them as such.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925638053",
+    "workflow_version": "gen_0",
+    "vertical": "auto_servicing",
+    "persona_id": "p_brake_price_sedan",
+    "task_completed": true,
+    "fitness": 0.4379166666666666,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Hi, how much for a front brake service on a 2019 Honda Accord?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nWhich location would you like to use, and do you want me to get you scheduled or have someone give you a quick estimate?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1739,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "A **front brake service \u2014 pads and rotors** is priced by vehicle class. For a **standard sedan**, it is **$285**.\n\nA 2019 Honda Accord would most likely fall under the **standard sedan** class, but the **service advisor determines the vehicle class at intake**. Prices also **do not include sales tax**.",
+          "failure_type": null,
+          "reasoning": "[senso: 11 chunk(s) over 2 retrieval passes, top score 0.567, 1344ms] [caller request: answerable_from_kb] The agent only greeted the caller and asked a clarifying question about location and whether to schedule or provide an estimate. They did not state any prices, policies, or other factual content that could contradict the KB. This is consistent with the node instruction to route the caller rather than answer directly, so there is no fabrication or omission in this turn. [CITATION UNVERIFIED: the judge's cited span '- Escalation is NOT appropriate for questions about price, hours, location, poli' does not appear in the KB; groundedness demoted]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "Just ballpark it for me.",
+        "agent_utterance": "For a 2019 Honda Accord, a front brake service with pads and rotors is about 285 dollars before tax.\n\nThat\u2019s the standard sedan price, and it includes parts, labor, shop supplies, and disposal fees.\n\nIf you want, I can also tell you what would change if it only needs pads, not rotors.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3415,
+        "verdict": {
+          "correctness_score": 0.6,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 300ms] [caller request: answerable_from_kb] The agent correctly used the $285 price for a front axle brake service with pads and rotors, matching the table for a standard sedan, and correctly noted that prices exclude tax and include shop supplies and disposal fees. However, the agent added ungrounded specifics: naming a 2019 Honda Accord and implying definitively that it is a standard sedan price for that vehicle, which the KB does not map from model/year to class. The node instruction also indicates this turn should handle policy topics like warranty and scheduling, not pricing, so introducing a vehicle-specific quote here is beyond the grounded scope.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925735456",
+    "workflow_version": "gen_1",
+    "vertical": "auto_servicing",
+    "persona_id": "p_brake_price_suv",
+    "task_completed": true,
+    "fitness": 0.4754166666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Hey, I've got a 2021 Toyota Highlander, it's an SUV. What do front brakes run?",
+        "agent_utterance": "Hi, thanks for calling Meridian Auto Service. I can help with that.  \n\nI can get you to the right shop for a brake estimate. Which location would you like to use, or would you like me to help you pick the closest one?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1291,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "| Brake service \u2014 front axle, pads and rotors | $285 | $340 | $310 |\n| Brake service \u2014 rear axle, pads and rotors | $265 | $315 | $290 |",
+          "ground_truth_value": "For an **SUV / light truck**, **brake service \u2014 front axle, pads and rotors** runs **$340**.\n\nIf you meant **brake pad replacement only, per axle**, that is **$195** for an SUV / light truck.",
+          "failure_type": null,
+          "reasoning": "[senso: 8 chunk(s) over 2 retrieval passes, top score 0.547, 916ms] [caller request: answerable_from_kb] The agent did not yet provide any price or factual claim; they only greeted the caller and asked which location to use for the estimate. There is no contradiction with the KB, and no ungrounded figures were stated. While they could have answered the price directly, that omission is acceptable at this greeting node whose instruction is just to route, not answer, so there is no policy violation for this turn. [citation snapped to verbatim KB span, 59% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "pricing_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "And that's pads and rotors both?",
+        "agent_utterance": "Yes, that would be pads and rotors together on the front. On a 2021 Toyota Highlander, front brakes usually run right around 550 to 750 dollars, depending on the exact parts and whether there\u2019s any extra wear on the calipers or hardware.\n\nIf you want, I can also give you the rear brake price so you have the full picture.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [],
+        "tool_available_not_invoked": true,
+        "latency_ms": 1715,
+        "verdict": {
+          "correctness_score": 0.1,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Yes \u2014 the listed **brake service** prices for the front axle, rear axle, and all four corners are for **pads and rotors** both.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.437, 942ms] [caller request: answerable_from_kb] The agent correctly confirmed that the service includes pads and rotors, but then added a specific price range of $550\u2013$750 for front brakes on a 2021 Toyota Highlander without consulting the retrieval tool or any KB pricing table. The KB instead gives specific per-axle prices by vehicle class, and the ground-truth answer required only confirming that the listed prices cover both pads and rotors. The confusion arose because the node instruction encouraged relying on experience instead of strictly using the documented pricing, leading to an invented price range and unnecessary vehicle-specific detail.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925828086",
+    "workflow_version": "gen_2",
+    "vertical": "auto_servicing",
+    "persona_id": "p_brake_price_no_class",
+    "task_completed": true,
+    "fitness": 0.7404166666666666,
+    "passed": true,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "How much are brakes?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. Brakes can vary a lot depending on the vehicle and what parts are needed. I can get you to the right person for a quick estimate. What year, make, and model is your car?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1235,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "Prices are quoted per vehicle\nclass. Vehicle class is determined by the service advisor at intake.\n\n| Service | Standard sedan | SUV / light truck | EV |\n|---|---|---|---|\n| Brake service \u2014 front axle, pads and rotors | $285 | $340 | $310 |\n| Brake service \u2014 rear axle, pads and rotors | $265 | $315 | $290 |\n| Brake service \u2014 all four corners | $520 | $625 | $565 |\n| Brake pad replacement only, per axle | $165 | $195 | $180 |",
+          "ground_truth_value": "Brake prices are quoted **per vehicle class** and depend on the type of brake service:\n\n- **Brake service \u2014 front axle, pads and rotors**\n  - Standard sedan: **$285**\n  - SUV / light truck: **$340**\n  - EV: **$310**\n\n- **Brake service \u2014 rear axle, pads and rotors**\n  - Standard sedan: **$265**\n  - SUV / light truck: **$315**\n  - EV: **$290**\n\n- **Brake service \u2014 all four corners**\n  - Standard sedan: **$520**\n  - SUV / light truck: **$625**\n  - EV: **$565**\n\n- **Brake pad replacement only, per axle**\n  - Standard sedan: **$165**\n  - SUV / light truck: **$195**\n  - EV: **$180**\n\nThese prices do **not** include sales tax. Vehicle class is determined by the service advisor at intake.",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.588, 2018ms] [caller request: answerable_from_kb] The agent correctly stated that brake prices vary by vehicle, which is consistent with the KB\u2019s per-vehicle-class pricing, and then asked for vehicle details without inventing any numbers, so the content is grounded. However, the node instruction says not to answer the question and to route to the right next step; the agent began answering conceptually instead of just triaging and moving on, which is a transition issue rather than a factual one.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "pricing_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "It's a 2020 Subaru Outback.",
+        "agent_utterance": "For a 2020 Subaru Outback, brake service is usually in our SUV and light truck pricing.\n\nFront brakes are 340 out the door.\nRear brakes are 315 out the door.\nAll four corners are 625 out the door.\n\nThat includes parts, labor, shop supplies, and disposal fees. It does not include sales tax.\n\nIf you want, I can also help with just pads only or a brake fluid flush.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2276,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "| Service | Standard sedan | SUV / light truck | EV |\n|---|---|---|---|\n| Brake service \u2014 front axle, pads and rotors | $285 | $340 | $310 |\n| Brake service \u2014 rear axle, pads and rotors | $265 | $315 | $290 |\n| Brake service \u2014 all four corners | $520 | $625 | $565 |\n| Brake pad replacement only, per axle | $165 | $195 | $180 |",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 289ms] [caller request: answerable_from_kb] The agent quoted SUV/light truck brake service prices of $340 front, $315 rear, and $625 all four corners, which exactly match the SUV / light truck figures in the pricing table. They also stated that these prices are out-the-door, include parts, labour, shop supplies, and disposal fees, and exclude sales tax, which is verbatim from the pricing rules. The only slight extrapolation is classifying a 2020 Subaru Outback as SUV/light truck, which the KB leaves to the service advisor\u2019s judgment and does not contradict. Overall the turn is fully grounded in the retrieved pricing and rules. [citation snapped to verbatim KB span, 67% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925845893",
+    "workflow_version": "gen_2",
+    "vertical": "auto_servicing",
+    "persona_id": "p_ev_brake_location",
+    "task_completed": true,
+    "fitness": 0.4579166666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "I need brake service on my Tesla Model 3. Can I bring it to Northgate on Saturday?",
+        "agent_utterance": "Absolutely. I can help with that. \n\nSaturday availability can vary by location and by the service needed. Let me get you set up with the Northgate team. \n\nWhat kind of brake service do you need, and do you want the earliest Saturday appointment available?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1849,
+        "verdict": {
+          "correctness_score": 0.0,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No \u2014 **Northgate is closed on Saturdays**.\n\nAlso, because your Tesla Model 3 is an **EV**, **all EV work, including EV brake service, is performed at Downtown only**. So if you need brake service on your Tesla, you\u2019d need to go to **Meridian Downtown** instead.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.641, 1196ms] [caller request: answerable_from_kb] The agent implied Northgate might have Saturday availability and proceeded to set up with the Northgate team for a Saturday brake appointment. The KB instead states that Northgate is closed on Saturdays and not EV certified, and that all EV work including EV brake service is performed at Downtown only. The node incorrectly generalized Saturday availability and location options instead of following the specific EV and hours constraints in the KB.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "So where and when can I actually bring it?",
+        "agent_utterance": "Yes. For your Tesla Model 3, Saturday service has to be at Downtown, not Northgate.\n\nYou can bring it to Meridian Downtown at 1420 Harrison Street on Saturday between 8 in the morning and 4 in the afternoon.\n\nNorthgate is closed on Saturdays, and EV brake work is done at Downtown only.\n\nIf you want, I can help you line up a Saturday visit for Downtown.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2905,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "17:30\n- Saturday: closed\n- Sunday: closed\n- Service bays: 5. Alignment rack: no. EV certified: no.\n\nRules that follow from the above:\n- All wheel alignments are performed at Downtown only.\n- All EV work, including EV brake service and EV battery diagnostics, is\n  performed at Downtown only.\n- Northgate is closed on Saturdays. Saturday work is Downtown only.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 223ms] [caller request: answerable_from_kb] The agent told the caller that Saturday service must be at Downtown, gave the correct Downtown address, the correct Saturday hours (8 to 4), and explained that Northgate is closed Saturdays and EV brake work is done only at Downtown. All of these points are directly supported by the hours/locations table and the EV rules in the KB. The mention of the specific vehicle model (Tesla Model 3) adds no factual policy claims beyond what the KB already states about EV work, so it does not create a contradiction or fabrication in this context. [citation snapped to verbatim KB span, 58% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784925991506",
+    "workflow_version": "gen_3",
+    "vertical": "auto_servicing",
+    "persona_id": "p_discount_hunt",
+    "task_completed": true,
+    "fitness": 0.7316666666666666,
+    "passed": true,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Do you offer a senior discount on service?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that. Are you asking about a senior discount on a specific service, or just generally for future visits?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1113,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "- There is no senior, student, military, or first-time-customer discount.\n  The only discount offered is the free tyre rotation bundled with an oil\n  change, and the diagnostic fee waiver described above.",
+          "ground_truth_value": "No. The context says there is **no senior discount** on service. It also states there is **no student, military, or first-time-customer discount**.\n\nThe only discounts mentioned are:\n\n- a **free tyre rotation bundled with an oil change**\n- a **diagnostic fee waiver** described above",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.427, 1416ms] [caller request: answerable_from_kb] The agent only clarified whether the caller was asking about a specific service or in general and did not assert any facts about discounts, prices, or policy. This is consistent with the greeting node instruction to not answer the question yet, so there is no contradiction with the KB. Since no factual claim was made, the turn is grounded by default and effectively neutral with respect to the KB truth that no senior discount exists.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "What about a military discount?",
+        "agent_utterance": "We do not offer a military discount. We also do not have a senior discount or first time customer discount.\n\nThe only regular discount we offer is a free tire rotation with any oil change, and the check engine light diagnostic fee is waived if you approve the repair here.\n\nIf you\u2019d like, I can help with scheduling or answer any other policy questions.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 4574,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "- Meridian does not price match. There is no price match policy.\n- There is no senior, student, military, or first-time-customer discount.\n  The only discount offered is the free tyre rotation bundled with an oil\n  change, and the diagnostic fee waiver described above.\n\n---\n\n## 2. Warranty\n\n- Parts and labour on all brake work: 24 months or 24,000 miles, whichever\n  comes first.\n- Parts and labour on all other repairs: 12 \n\n 14:00 local time.\n- Oil changes, tyre rotations, inspections, and emissions tests are offered as\n  walk-in service. All other work requires an appointment.\n- Cancellation requires 4 hours notice. A cancellation inside 4 hours, or a\n  no-show, incurs a $40 fee charged to the card on file.\n- The $40 late-cancellation fee is waived once per customer per calendar year.\n- Meridian does not hold vehicles overnight for diagnostic work unless the\n  customer has explicitly authorised an overnight hold \n\n safety inspection | $45 | $45 | $45 |\n| Emissions test | $35 | $35 | n/a |\n\n### 1.1 Pricing rules\n\n- The check engine light diagnostic fee of $140 is waived in full if the\n  customer authorises the resulting repair at Meridian.\n- The pre-purchase inspection fee of $195 is never waived.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 248ms] [caller request: answerable_from_kb] The agent correctly stated that there is no military, senior, or first-time-customer discount and that the only regular discount is a free tire rotation with an oil change plus the waived check engine diagnostic fee when the repair is approved at Meridian, all of which matches the KB language. The mention of the diagnostic fee waiver is fully supported by the retrieved passage. No additional unsupported policies or figures were introduced, so the answer is fully grounded and complete for the caller\u2019s question.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926010611",
+    "workflow_version": "gen_3",
+    "vertical": "auto_servicing",
+    "persona_id": "p_diag_fee_waiver",
+    "task_completed": true,
+    "fitness": 0.7316666666666666,
+    "passed": true,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "My check engine light is on. What do you charge to diagnose it?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that. Are you asking for a diagnostic on the check engine light at one of our locations? If you\u2019d like, I can get you set up with the right shop and help with scheduling.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1635,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "- The check engine light diagnostic fee of $140 is waived in full if the\n  customer authorises the resulting repair at Meridian.",
+          "ground_truth_value": "The **check engine light diagnostic** is **$140** for any vehicle class.\n\nIf you authorize the resulting repair at Meridian, that **$140 diagnostic fee is waived in full**.",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 10 chunk(s) over 2 retrieval passes, top score 0.512, 1801ms] [caller request: answerable_from_kb] The caller directly asked, \"What do you charge to diagnose it?\" and the KB clearly gives a $140 price and waiver rule. The agent instead asked a clarifying/scheduling question and did not provide the price, even though the node instruction says not to answer but the scoring requires consistency with the KB. This is marked as a wrong_transition because the agent failed to deliver the available price information the caller explicitly requested, despite not stating any incorrect facts. [citation snapped to verbatim KB span, 69% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "And if I have you do the repair, do I still pay that?",
+        "agent_utterance": "Yes. The check engine light diagnostic is 140 dollars, and if you authorize the repair we find, that diagnostic fee is waived in full.\n\nIf you want, I can help get that scheduled for one of our locations.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2780,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "- The check engine light diagnostic fee of $140 is waived in full if the\n  customer authorises the resulting repair at Meridian.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 222ms] [caller request: answerable_from_kb] The agent correctly stated that the check engine light diagnostic is $140 and that the fee is waived in full if the customer authorizes the repair, which matches the KB. The initial \u201cYes\u201d could be read as still paying, but the follow-up sentence accurately reflects the policy so the substantive content is correct and grounded in the cited rule.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926026051",
+    "workflow_version": "gen_3",
+    "vertical": "auto_servicing",
+    "persona_id": "p_warranty_transfer",
+    "task_completed": true,
+    "fitness": 0.1866666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "I'm selling my car. Does the brake warranty transfer to the buyer?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nLet me connect you with someone who can check the warranty details for you.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1315,
+        "verdict": {
+          "correctness_score": 0.2,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Yes. The warranty for **all brake work** is **transferable to a new owner of the same vehicle at no cost**, and the **original invoice number is required**.",
+          "failure_type": "premature_escalation",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.390, 870ms] [caller request: answerable_from_kb] The caller asked if the brake warranty transfers to the buyer, which is a warranty duration/transferability policy question directly answered in the KB. The agent instead said they would connect the caller with someone to check the warranty details, effectively escalating rather than answering. Per the escalation rules, this is a failure because escalation is not appropriate for warranty duration or transferability questions; the node misunderstood when a handoff is warranted.",
+          "source": "senso",
+          "escalated": true,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "How long does it last, and does the new owner need anything from me?",
+        "agent_utterance": "I can tell you the general rule, but I can\u2019t approve a warranty claim by phone.\n\nFor brake warranty coverage, the new owner would need the original repair paperwork from you. If they have that, we can look at whether the coverage transfers and what the remaining term is. If the paperwork is missing, we\u2019d usually need to verify the original job in our system first.\n\nIf you want, I can help you figure out what document to bring or check which location can look it up for you.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3184,
+        "verdict": {
+          "correctness_score": 0.2,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 297ms] [caller request: answerable_from_kb] The agent said a new owner would need the original repair paperwork from the seller and that coverage transfer and remaining term would be \"looked at,\" implying transfer is conditional and paperwork beyond the invoice may be needed. The KB instead states the warranty is transferable at no cost and only requires the original invoice number, with no extra verification steps described. The node appears to have invented additional requirements and uncertainty around transfer rather than relaying the explicit transfer policy.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926141106",
+    "workflow_version": "gen_4",
+    "vertical": "auto_servicing",
+    "persona_id": "p_warranty_claim",
+    "task_completed": true,
+    "fitness": 0.6241666666666666,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "You replaced my brakes four months ago and they're squealing badly.",
+        "agent_utterance": "I\u2019m sorry you\u2019re dealing with that. Let me get you to the right person so we can take a look at the brake work and help figure out what\u2019s going on. Which location did you visit, and what name is the repair under?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1314,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "The available information only includes a brake service price list. It does not provide any details about brake squealing, warranty coverage, or next steps for a repair concern.\n\n**Relevant information from the context:**\n- **Brake service \u2014 front axle, pads and rotors:** $285 (standard sedan), $340 (SUV / light truck), $310 (EV)\n- **Brake service \u2014 rear axle, pads and rotors:** $265 (standard sedan), $315 (SUV / light truck), $290 (EV)\n- **Brake service \u2014 all four corners:** $520 (standard sedan), $625 (SUV / light truck), $565 (EV)\n- **Brake pad replacement only, per axle:** $165 (standard sedan), $195 (SUV / light truck), $180 (EV)\n\nIf you want, I can help interpret the service options shown here.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.365, 1968ms] [caller request: warranty_claim_decision] The agent did not state any prices, warranty terms, or technical diagnoses, which aligns with the lack of such details in the KB and Senso\u2019s answer. Their response focused on routing to a person and gathering which location and name the prior repair is under, which is permissible and does not contradict any KB rule. Although the likely issue is a warranty-claim-type concern, at this early greeting node the agent is correctly just triaging rather than making a claim decision, so there is no fabrication or policy error to correct. [CITATION UNVERIFIED: the judge's cited span 'Escalation is appropriate **only** in these cases:\n\n- The customer requests a wa' does not appear in the KB; groundedness demoted]",
+          "source": "senso",
+          "escalated": true,
+          "escalation_warranted": true
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "escalation",
+        "node_role": "escalation",
+        "caller_utterance": "I want this fixed under warranty at no charge. Can you approve that?",
+        "agent_utterance": "I can help get this in front of a service advisor, but I can\u2019t approve warranty coverage or no charge repairs from here. They\u2019ll need to review the repair and let you know what can be done.\n\nI\u2019m going to hand you to a service advisor who can help with this because it involves a recent brake repair and they\u2019ll need to check the details. What\u2019s your name and the best callback number?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1557,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "- Never agree to a warranty claim on the phone. Warranty claims require the\n  vehicle to be presented.\n\n---\n\n## 8. When to Escalate to a Human\n\nEscalation is appropriate only in these cases:\n\n- The customer requests a warranty claim decision.",
+          "ground_truth_value": "I can\u2019t approve a warranty claim here. **Warranty claims require the vehicle to be presented**, so this would need to be handled in person. If you\u2019d like, I can help you with the next steps for getting it inspected.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.374, 1174ms] [caller request: warranty_claim_decision] The agent correctly stated they cannot approve warranty coverage or no-charge repairs and that a service advisor must review the repair, aligning with the rule that warranty claims cannot be agreed to on the phone. They also appropriately escalated the call, which matches the policy for a customer requesting a warranty claim decision. The minor mention of a recent brake repair is context, not a factual policy claim, so it doesn't conflict with the KB.",
+          "source": "senso",
+          "escalated": true,
+          "escalation_warranted": true
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926157612",
+    "workflow_version": "gen_4",
+    "vertical": "auto_servicing",
+    "persona_id": "p_cancellation_fee",
+    "task_completed": true,
+    "fitness": 0.5016666666666666,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "I need to cancel my appointment, it's in about two hours. Is there a fee?",
+        "agent_utterance": "I can help with that. Let me get your appointment canceled first.\n\nFor the fee question, I\u2019ll need to check the appointment details with the service team, since it can depend on the booking. What name is the appointment under, and which location is it for?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1558,
+        "verdict": {
+          "correctness_score": 0.3,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Yes. According to the policy, **cancellation requires 4 hours notice**. Since your appointment is in about two hours, it would be considered a **late cancellation**, which incurs a **$40 fee** charged to the card on file.\n\nThere is one exception: the **$40 late-cancellation fee is waived once per customer per calendar year**.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.409, 1220ms] [caller request: answerable_from_kb] The agent says they need to check with the service team because the fee 'can depend on the booking.' The KB states a uniform policy: cancellations inside 4 hours or no-shows incur a $40 fee charged to the card on file, with a once-per-year waiver; it does not vary by booking. By implying variability and the need for human confirmation, the agent introduces an ungrounded condition contrary to the documented policy instead of routing to a node that answers the policy question directly.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "Any chance you can waive it? It's the first time.",
+        "agent_utterance": "I can try to help with that, yes.\n\nThe standard cancellation fee inside 4 hours is 40 dollars, but we can waive that once per customer per calendar year. So if you have not used that waiver yet this year, you should be covered.\n\nIf you\u2019d like, send me the name on the booking and the location, and I\u2019ll help you get it canceled right away.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3068,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": true,
+          "citation": "- Cancellation requires 4 hours notice. A cancellation inside 4 hours, or a\n  no-show, incurs a $40 fee charged to the card on file.\n- The $40 late-cancellation fee is waived once per customer per calendar year.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 514ms] [caller request: answerable_from_kb] The agent correctly stated that the standard fee for cancelling inside 4 hours is $40 and that it can be waived once per customer per calendar year, which matches the KB. They then conditionally applied it (\u2018if you have not used that waiver yet this year, you should be covered\u2019), which is a reasonable, KB-consistent inference from the once-per-year rule and does not contradict any known policy. No unsupported prices or extra policies were introduced beyond what the KB states. [citation re-derived verbatim from the KB source]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926276705",
+    "workflow_version": "gen_5",
+    "vertical": "auto_servicing",
+    "persona_id": "p_loaner_eligibility",
+    "task_completed": true,
+    "fitness": 0.2891666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Can I get a loaner car while you do my oil change?",
+        "agent_utterance": "Hi, thanks for calling Meridian Auto Service. I can help with that. For a loaner car, I\u2019ll need to check our policy and availability. Which location would you be coming to, and what day were you thinking about?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1417,
+        "verdict": {
+          "correctness_score": 0.7,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Loaner vehicles are available **only for repairs quoted above $800** and must be **reserved at the time of booking**. Since an **oil change** is listed as a walk-in service and does not meet that loaner threshold in the provided information, I can\u2019t confirm a loaner car for an oil change.",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.439, 1256ms] [caller request: answerable_from_kb] The caller asked if they can get a loaner car for an oil change. The KB (via Senso) specifies loaners are only for repairs quoted above $800 and must be reserved at booking, and that oil changes are walk-in services, so a loaner cannot be confirmed for this case. Instead of conveying that policy, the agent treated it as a simple availability check and asked for location and date, implying loaner eligibility might be determined by scheduling. The confusion is that the node pursued appointment logistics rather than applying the clear eligibility rule from the KB.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "What would I need to do to qualify for one?",
+        "agent_utterance": "Loaner cars are only available for repairs that are quoted above 800 dollars, and they have to be reserved when you book the appointment. They are not offered for routine oil changes.\n\nIf you want, I can help you set up the oil change and check whether you\u2019d like a ride-share or towing option instead.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2955,
+        "verdict": {
+          "correctness_score": 0.0,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 230ms] [caller request: answerable_from_kb] The caller asked what they need to do to qualify, which from the retrieved text most likely refers to in-house financing eligibility, but the KB passages provided do not mention any criteria for loaner vehicles or state that they are unavailable for routine oil changes. The agent asserted detailed rules about loaner car eligibility and exclusions that are not present in any retrieved span, making those statements fabricated relative to the KB. Because Senso returned no direct answer and the passages only cover towing credits, general loaner availability counts, and financing, the node should have either refrained from adding specifics or clarified instead of inventing policy details.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926398197",
+    "workflow_version": "gen_6",
+    "vertical": "auto_servicing",
+    "persona_id": "p_towing_credit",
+    "task_completed": true,
+    "fitness": 0.4666666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "My car won't start and I'm stuck. Can you tow me, and do you do jump starts?",
+        "agent_utterance": "I\u2019m sorry you\u2019re dealing with that. I can help get you to the right place.\n\nWe do work with towing and roadside help, and we can also take care of a jump start if that\u2019s the right fix. Let me get your name and the location of the car, and I\u2019ll help you with the next step.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1346,
+        "verdict": {
+          "correctness_score": 0.0,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Meridian **can dispatch a third-party tow on your behalf**, but it **does not operate its own tow fleet**. The tow is **billed directly to you by the tow operator**, not by Meridian.\n\nFor roadside help, Meridian **does not provide jump starts**, lockout service, or fuel delivery.\n\nIf your repair at Meridian ends up **exceeding $400**, the towing cost is **credited $75 toward the repair invoice**.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.457, 4801ms] [caller request: answerable_from_kb] The agent claimed \"We do work with towing and roadside help, and we can also take care of a jump start if that\u2019s the right fix.\" The KB states that while Meridian can dispatch a third-party tow, it does not provide jump starts or other roadside services. The node appears to have incorrectly assumed Meridian offers comprehensive roadside assistance including jump starts, directly contradicting the towing and roadside policy.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "If you tow it, does that cost come off the repair bill?",
+        "agent_utterance": "Yes, if the repair with us is over 400, the tow gets credited 75 dollars toward the repair invoice.\n\nOne important note. The tow is billed directly by the tow company, not by Meridian, and we don\u2019t do jump starts ourselves. If you want, I can help you arrange the tow and get you set up at the shop.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3175,
+        "verdict": {
+          "correctness_score": 1.0,
+          "grounded": true,
+          "citation": "- Meridian will dispatch a third-party tow on the customer's behalf. The tow is\n  billed directly to the customer by the tow operator, not by Meridian.\n- Towing is credited $75 toward the repair invoice if the resulting repair at\n  Meridian exceeds $400.\n- Meridian does not provide jump starts, lockout service, or fuel delivery.",
+          "ground_truth_value": "Yes \u2014 **if Meridian dispatches a third-party tow on your behalf**, the tow is **credited $75 toward the repair invoice** **when the resulting repair at Meridian exceeds $400**.\n\nA couple of important details from the context:\n\n- The tow is **billed directly to the customer by the tow operator**, not by Meridian.\n- The **$75 credit** applies only if the **repair bill is over $400**.",
+          "failure_type": null,
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.521, 1636ms] [caller request: answerable_from_kb] The agent correctly stated that if the repair is over $400, the tow is credited $75 toward the repair invoice, and that the tow is billed directly by the tow company, not Meridian, matching the KB language. They also correctly added that Meridian does not do jump starts, which is explicitly listed with towing policy. All factual details align with the retrieved towing section, with no additions or contradictions, so the turn is fully grounded and correct.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926520473",
+    "workflow_version": "gen_7",
+    "vertical": "auto_servicing",
+    "persona_id": "p_payment_bnpl",
+    "task_completed": true,
+    "fitness": 0.2916666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "Do you take Klarna or Affirm?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. Let me check our payment options for you. If you\u2019d like, I can also connect you with the right person who can confirm that for your location.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 977,
+        "verdict": {
+          "correctness_score": 0.4,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "premature_escalation",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 276ms] [caller request: answerable_from_kb] The caller asked if Meridian takes Klarna or Affirm, which are third-party buy-now-pay-later services, and the KB specifies that third-party buy-now-pay-later services are not accepted. The agent neither answered that question nor stated any KB-backed fact, instead offering to connect the caller with a person, which is treated as escalation. Per the escalation policy, questions about accepted payment methods must be answered directly and not escalated, so this behavior is premature escalation rather than a safe deferral.",
+          "source": "senso",
+          "escalated": true,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "What about Apple Pay?",
+        "agent_utterance": "We do not take Apple Pay. We do take Visa, Mastercard, American Express, Discover, debit, and cash.\n\nWe also do not accept Klarna or Affirm. If you want, I can tell you about our in-house financing option for larger repairs.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2850,
+        "verdict": {
+          "correctness_score": 0.6,
+          "grounded": false,
+          "citation": "- Accepted: Visa, Mastercard, American Express, Discover, debit, and cash.\n- Not accepted: personal cheques, wire transfer, cryptocurrency, and all\n  third-party buy-now-pay-later services.\n- Meridian offers in-house financing on repairs above $1,000 through\n  Meridian Credit, subject to approval. \n\nn offers in-house financing on repairs above $1,000 through\n  Meridian Credit, subject to approval. The application is completed at the\n  service desk and cannot be started or approved over the phone.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 457ms] [caller request: answerable_from_kb] The agent correctly listed the accepted payment methods from the KB, and mentioning in-house financing is grounded. However, the agent asserted that Apple Pay is not accepted and that Klarna and Affirm are not accepted, none of which are specified in the KB; this is ungrounded fabrication because the document is silent on those brands and only mentions categories like third-party buy-now-pay-later services. The node must stick to the enumerated accepted and not-accepted categories and, for Apple Pay specifically, either decline to say or clarify that only the listed methods are guaranteed, instead of inventing explicit refusals.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926663468",
+    "workflow_version": "gen_8",
+    "vertical": "auto_servicing",
+    "persona_id": "p_unlisted_service",
+    "task_completed": true,
+    "fitness": 0.4816666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "How much to replace the timing belt on a 2015 Honda Civic?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nLet me check our service information for timing belt replacement on a 2015 Honda Civic and make sure I point you in the right direction.\n\nIf you\u2019d like, I can also help you set up an appointment or connect you with our team for an exact quote.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1632,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "Sorry, I cannot answer your question with the information available to me.",
+          "failure_type": null,
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.464, 1574ms] [caller request: answerable_from_kb] The agent only greeted the caller, stated they would check service information, and offered to help with an appointment or connect for an exact quote. They did not state any price, policy, or availability details, so there is nothing conflicting with the KB or Senso\u2019s inability to answer. Mentioning connection for an exact quote is consistent with the idea that price questions are answerable from the document or by staff and does not fabricate specifics. [CITATION UNVERIFIED: the judge's cited span 'Escalation is NOT appropriate for questions about price, hours, location, policy' does not appear in the KB; groundedness demoted]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "pricing_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "Can you give me a rough number at least?",
+        "agent_utterance": "I can give you a rough number, but timing belt replacement is not in our price list, so I need to verify the exact price before I quote you.\n\nFor a 2015 Honda Civic, I do see common services like a serpentine belt and water pump, but not the timing belt job itself. That means I should not guess on the phone.\n\nIf you want, I can help you with the exact quote as a follow up, or you can give me your engine size and I can narrow down whether it actually uses a timing belt or a timing chain.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2764,
+        "verdict": {
+          "correctness_score": 0.9,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 288ms] [caller request: service_not_listed_in_section_1] The agent correctly refused to guess a price for a timing belt job since it is not in the retrieved price list, aligning with the policy not to invent pricing for unlisted services. The statement that timing belt replacement is not in the price list is consistent with the retrieved table, which contains no timing belt row. The rest of the response (offering follow-up and asking for engine size to distinguish belt vs chain) is cautious and does not assert any specific unsupported facts. Overall the node followed the instruction to verify when the tool returns nothing relevant, so the turn is grounded and correct. [CITATION UNVERIFIED: the judge's cited span '- Never state a vehicle-class price without knowing the vehicle class. If the\n  ' does not appear in the KB; groundedness demoted]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": true
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926680458",
+    "workflow_version": "gen_8",
+    "vertical": "auto_servicing",
+    "persona_id": "p_phone_financing",
+    "task_completed": true,
+    "fitness": 0.3416666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "My repair is quoted at $1,400. Can I apply for financing right now on the phone?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nI do need to confirm financing details in our system before I say for sure. Are you calling about financing for a repair estimate today, or would you like me to connect you with someone at the shop who can help with the application?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1432,
+        "verdict": {
+          "correctness_score": 0.4,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No. Repairs above **$1,000** may qualify for **in-house financing through Meridian Credit**, but the application **must be completed at the service desk** and **cannot be started or approved over the phone**.",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.460, 1469ms] [caller request: financing_eligibility] The caller asked directly if they could apply for financing over the phone for a $1,400 repair. The KB says financing is available above $1,000 but applications must be completed at the service desk and cannot be started or approved over the phone; it also states that in-house financing eligibility questions warrant escalation. Instead of either answering that the application cannot be done by phone and/or escalating based on eligibility, the agent invented a need to check a system and posed an either-or question about connecting to someone for the application, which misroutes the flow and implies the application might be started by phone.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": true
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "escalation",
+        "node_role": "escalation",
+        "caller_utterance": "Can you at least tell me if I'd be approved?",
+        "agent_utterance": "I\u2019m not able to tell you whether you\u2019d be approved from here.\n\nI\u2019m going to hand you to a service advisor who can help with the financing options and explain what information they need, since they can review the details with you directly.\n\nWhat\u2019s your name, and what\u2019s the best callback number in case we get disconnected?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1902,
+        "verdict": {
+          "correctness_score": 0.6,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 251ms] [caller request: financing_eligibility] The caller effectively asked for an in-house financing eligibility/approval decision. The KB says Meridian offers in-house financing above $1,000 through Meridian Credit and that the application is completed at the service desk, but it does not say that a service advisor can provide an approval decision over the phone; it only allows escalation when the customer asks about eligibility, not to override the rule that decisions can\u2019t be made by phone. The agent correctly avoided promising approval but escalated instead of directly stating the policy limits, which counts as premature escalation on an answerable policy question. [premature_escalation cleared: this is one of section 8's warranting cases, so the transfer was the correct action]",
+          "source": "senso",
+          "escalated": true,
+          "escalation_warranted": true
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926796061",
+    "workflow_version": "gen_9",
+    "vertical": "auto_servicing",
+    "persona_id": "p_alignment_northgate",
+    "task_completed": true,
+    "fitness": 0.49291666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "I'd like to book a four-wheel alignment at Northgate, Tuesday morning.",
+        "agent_utterance": "Absolutely. I can help get that set up.\n\nLet me check Northgate availability for a four wheel alignment on Tuesday morning, and then I\u2019ll move you to the next step.",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 947,
+        "verdict": {
+          "correctness_score": 0.2,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "A **wheel alignment \u2014 four wheel** is listed as a service, but **all wheel alignments are performed at Downtown only**.\n\nAlso, **Northgate** is open **Monday to Friday, 07:30 to 17:30**, so **Tuesday morning** would be during normal business hours there, but this specific service is **not available at Northgate**.",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 7 chunk(s) over 2 retrieval passes, top score 0.562, 2098ms] [caller request: answerable_from_kb] The agent proceeded as though a four-wheel alignment at Northgate was schedulable, saying they would check Northgate availability, but the KB states all wheel alignments are done at Downtown only and that this service is not available at Northgate. The node logic should have recognized the location-service mismatch and redirected the caller to Downtown instead of implying availability at Northgate.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "policy_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "Is that going to work?",
+        "agent_utterance": "It won\u2019t work at Northgate for a four wheel alignment. Northgate does not have an alignment rack.\n\nThat service is done at Downtown only, and Downtown is open Tuesday morning.\n\nIf you want, I can help you book it at Downtown instead.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 3170,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "- Service bays: 5. Alignment rack: no. EV certified: no.\n\nRules that follow from the above:\n- All wheel alignments are performed at Downtown only.",
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": null,
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 255ms] [caller request: answerable_from_kb] The agent told the caller that Northgate does not have an alignment rack and that four-wheel alignments are done at Downtown only, which matches the rule that all wheel alignments are performed at Downtown. The agent also said Downtown is open Tuesday morning, which is consistent with Downtown\u2019s weekday hours of 07:00\u201318:00. No unsupported pricing or policy details were added, and all factual content is grounded in the KB passages. [citation snapped to verbatim KB span, 53% of the judge's quoted text matched contiguously]",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  },
+  {
+    "call_id": "call_1784926931999",
+    "workflow_version": "gen_10",
+    "vertical": "auto_servicing",
+    "persona_id": "p_multi_service_total",
+    "task_completed": true,
+    "fitness": 0.49291666666666667,
+    "passed": false,
+    "turns": [
+      {
+        "turn_index": 0,
+        "node_id": "start_greeting",
+        "node_role": "greeting",
+        "caller_utterance": "What's the total for a full synthetic oil change, tyre rotation, and a four-wheel alignment on a 2018 Mazda 3?",
+        "agent_utterance": "Thanks for calling Meridian Auto Service. I can help with that.\n\nLet me check our pricing and availability for your 2018 Mazda 3. Which location would you like to use, and what name and phone number should I have on the note?",
+        "tools_available": [],
+        "tools_called": [],
+        "tool_available_not_invoked": false,
+        "latency_ms": 1511,
+        "verdict": {
+          "correctness_score": 0.95,
+          "grounded": true,
+          "citation": "| Oil change \u2014 full synthetic | $89 | $104 | n/a |\n| Tyre rotation | $35 | $35 | $35 |\n| Tyre rotation, with any oil change | $0 | $0 | $0 |\n| Wheel alignment \u2014 four wheel | $135 | $155 | $145 |",
+          "ground_truth_value": "For a **standard sedan** like a 2018 Mazda 3, the listed prices are:\n\n- **Oil change \u2014 full synthetic:** $89\n- **Tyre rotation:** $35\n- **Wheel alignment \u2014 four wheel:** $135\n\nSince **tyre rotation is $0 with any oil change**, the tyre rotation is free when paired with the oil change.\n\n### Total\n**$224**",
+          "failure_type": "wrong_transition",
+          "reasoning": "[senso: 10 chunk(s) over 2 retrieval passes, top score 0.603, 1361ms] [caller request: answerable_from_kb] The agent did not state any incorrect facts; they only acknowledged the request and asked a clarifying question about location and contact info, which is consistent with checking pricing and availability. However, per the node instruction they should route the caller promptly toward a pricing answer, not start pseudo-booking with name and phone number at the greeting stage, so the transition is suboptimal rather than factually wrong.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      },
+      {
+        "turn_index": 1,
+        "node_id": "pricing_lookup",
+        "node_role": "information_retrieval",
+        "caller_utterance": "So what's my out-the-door number?",
+        "agent_utterance": "For a 2018 Mazda 3, that would be 89 for the full synthetic oil change, 0 for the tyre rotation when it\u2019s with any oil change, and 135 for the four wheel alignment.\n\nSo your out the door total before sales tax is 224.\n\nIf you\u2019d like, I can also help you set it up at either location.",
+        "tools_available": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tools_called": [
+          "retrieve_from_knowledge_base"
+        ],
+        "tool_available_not_invoked": false,
+        "latency_ms": 2251,
+        "verdict": {
+          "correctness_score": 0.2,
+          "grounded": false,
+          "citation": null,
+          "ground_truth_value": "No results found for your query.",
+          "failure_type": "ungrounded_fabrication",
+          "reasoning": "[senso: 6 chunk(s) over 2 retrieval passes, top score 0.000, 181ms] [caller request: answerable_from_kb] The agent quoted specific line prices and then asserted an out-the-door subtotal of $224 for a 2018 Mazda 3. While the table includes per-service prices, Senso reports no relevant result for this query and there is no explicit KB basis for combining them into a single guaranteed total for that specific vehicle. The node should instead have said it needs to verify the exact price and offer a follow-up, rather than fabricating a confident bundle total and vehicle-specific quote.",
+          "source": "senso",
+          "escalated": false,
+          "escalation_warranted": false
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "number": 2,
+  "triggering_call_id": "call_1784925735456",
+  "promoted_patch_id": "wp_d46a3166",
+  "mean_fitness_before": 0.4624479166666667,
+  "mean_fitness_after": 0.4624479166666667,
+  "candidates": [
+    {
+      "generation": 2,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "pricing_lookup.data.prompt",
+        "operation": "add_tool_requirement",
+        "diff": "Before providing any specific pricing figures or vehicle-specific details, you must first use the 'pricing_lookup' tool to retrieve information from the knowledge base. Base your response on the retrieved data. If the tool returns nothing relevant, inform the caller that you need to verify the exact price and offer to follow up with precise information."
+      },
+      "reflection": "The original instruction allowed the agent to rely on personal experience for pricing figures, leading to ungrounded fabrications. This change makes it mandatory to consult the 'pricing_lookup' tool for accurate data, ensuring that responses are based on verified information. By requiring the retrieval of documented prices, it reduces the risk of unverified estimates or details creeping into the conversation.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_d46a3166",
+      "parent_id": "wp_seed_auto_tool",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 0,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 0,
+        "notes": "replayed 0 previously-passing case(s); 0 still pass, 0 regressed. Triggering failure fixed.",
+        "confidence": 0.5,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "promoted",
+      "created_at": 1784925754.876744
+    },
+    {
+      "generation": 2,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "pricing_lookup.data.prompt",
+        "operation": "append_constraint",
+        "diff": "Always verify pricing information through the knowledge base before quoting specific figures to ensure accuracy."
+      },
+      "reflection": "The original instruction encouraged the agent to rely on personal experience, which led to the fabrication of vehicle-specific prices without verification. By mandating consultation with the knowledge base before quoting specific figures, the change ensures the agent provides accurate and grounded information, preventing unverified or incorrect details in responses.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_8007df3a",
+      "parent_id": "wp_seed_auto_tool",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 0,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 0,
+        "notes": "replayed 0 previously-passing case(s); 0 still pass, 0 regressed. Triggering failure fixed.",
+        "confidence": 0.5,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "viable",
+      "created_at": 1784925754.876755
+    },
+    {
+      "generation": 2,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "pricing_lookup.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Use the knowledge base as your primary source for pricing information to ensure accuracy in your responses. Although you have experience with common costs, always verify specifics like prices, dates, and eligibility rules by consulting the knowledge base before responding. This ensures the information is current and precise, preventing misunderstandings and misquotes. If the knowledge base doesn't have the needed info, inform the caller about the usual process and offer to find out more."
+      },
+      "reflection": "The original instruction encouraged the agent to rely on personal experience for pricing, which led to the failure by producing an unverified and inaccurate price. By requiring the use of the knowledge base as the primary source for specific information, this change ensures that all responses are based on verified data, preventing inaccuracies and maintaining trust with the caller.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_1b0874a1",
+      "parent_id": "wp_seed_auto_tool",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 0,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 0,
+        "notes": "replayed 0 previously-passing case(s); 0 still pass, 0 regressed. Triggering failure fixed.",
+        "confidence": 0.5,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "viable",
+      "created_at": 1784925754.8767622
+    }
+  ]
+}

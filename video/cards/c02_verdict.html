@@ -1,0 +1,58 @@
+<!doctype html><meta charset=utf-8><style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;background:#08080a;overflow:hidden}
+body{font-family:'Inter','Helvetica Neue',Arial,sans-serif;color:#e8e6e3;
+ -webkit-font-smoothing:antialiased}
+.wrap{width:1920px;height:1080px;padding:74px 100px;display:flex;flex-direction:column}
+.kicker{font-family:'SFMono-Regular',Menlo,monospace;font-size:19px;letter-spacing:3.2px;
+ text-transform:uppercase;color:#6f6f78}
+h1{font-weight:300;font-size:66px;line-height:1.08;letter-spacing:-1.4px;margin-top:16px}
+h1 em{font-style:normal;color:#7fd6a2}
+h1 .bad{color:#e08a7a}
+.sub{font-size:26px;color:#9a9aa4;margin-top:20px;font-weight:300;letter-spacing:.2px}
+.term{margin-top:38px;flex:1;background:#0d0d11;border:1px solid #1e1e25;border-radius:16px;
+ padding:34px 40px;font-family:'SFMono-Regular',Menlo,monospace;font-size:21px;line-height:1.62;
+ color:#c8c8d0;white-space:pre-wrap;overflow:hidden}
+.term .g{color:#7fd6a2}.term .r{color:#e08a7a}.term .d{color:#6f6f78}
+.term .w{color:#ffffff}.term .y{color:#e5c07b}
+.src{margin-top:22px;font-family:'SFMono-Regular',Menlo,monospace;font-size:17px;color:#55555e}
+.rows{margin-top:40px;display:flex;gap:26px;flex:1}
+.col{flex:1;background:#0d0d11;border:1px solid #1e1e25;border-radius:16px;padding:32px 36px;
+ display:flex;flex-direction:column}
+.col.bad{border-color:#402a26}.col.good{border-color:#23402f}
+.tag{display:inline-block;font-family:'SFMono-Regular',Menlo,monospace;font-size:16px;
+ letter-spacing:2.2px;padding:7px 16px;border-radius:999px;align-self:flex-start}
+.tag.bad{background:#2a1a17;color:#e08a7a}.tag.good{background:#15291e;color:#7fd6a2}
+.q{margin-top:26px;font-size:27px;line-height:1.5;font-weight:300;color:#e8e6e3}
+.q .hl{color:#e08a7a;font-weight:500}.q .hlg{color:#7fd6a2;font-weight:500}
+.kv{margin-top:auto;padding-top:26px;font-family:'SFMono-Regular',Menlo,monospace;font-size:20px;
+ line-height:1.9;color:#8b8b95}
+.kv b{color:#e8e6e3;font-weight:400}
+.kv .r{color:#e08a7a}.kv .g{color:#7fd6a2}
+.big{display:flex;gap:60px;margin-top:54px}
+.stat{flex:1}
+.stat .n{font-weight:300;font-size:110px;line-height:1;letter-spacing:-3px}
+.stat .n.r{color:#e08a7a}.stat .n.g{color:#7fd6a2}
+.stat .l{margin-top:14px;font-family:'SFMono-Regular',Menlo,monospace;font-size:18px;
+ letter-spacing:2px;text-transform:uppercase;color:#6f6f78;line-height:1.6}
+.center{height:1080px;display:flex;flex-direction:column;align-items:center;
+ justify-content:center;text-align:center}
+.center h1{font-size:82px}
+.center .sub{font-size:28px;margin-top:26px;font-family:'SFMono-Regular',Menlo,monospace;
+ letter-spacing:1px;color:#8b8b95}
+.rule{width:130px;height:1px;background:#2a2a33;margin:44px 0}
+</style>
+<div class="wrap">
+  <div class="kicker">senso &middot; verified knowledge + citation</div>
+  <h1>Scored against ground truth, <em>not vibes</em>.</h1>
+  <div class="big">
+    <div class="stat"><div class="n r">0.10</div><div class="l">correctness</div></div>
+    <div class="stat"><div class="n r">false</div><div class="l">grounded</div></div>
+    <div class="stat"><div class="n r" style="font-size:56px;line-height:1.25">ungrounded<br>fabrication</div>
+      <div class="l" style="margin-top:20px">failure type</div></div>
+    <div class="stat"><div class="n r" style="font-size:56px;line-height:1.25">available<br>not invoked</div>
+      <div class="l" style="margin-top:20px">retrieval tool</div></div>
+  </div>
+  <div class="term" style="flex:0;margin-top:46px;font-size:20px">The agent correctly confirmed that the service includes pads and rotors, but then added a specific price range of $550–$750 for front brakes on a 2021 Toyota Highlander without consulting the retrieval tool or any KB pricing table. The KB instead gives specific per-axle prices by vehicle class, and the ground-truth answer required only confirming that the listed prices cover both pads and rotors. The confusion arose because th&hellip;</div>
+  <div class="src">source: state/traces.json &middot; verdict.source = senso &middot; 6 chunks over 2 retrieval passes</div>
+</div>

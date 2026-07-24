@@ -1,0 +1,101 @@
+<!doctype html><meta charset=utf-8><style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;background:#08080a;overflow:hidden}
+body{font-family:'Inter','Helvetica Neue',Arial,sans-serif;color:#e8e6e3;
+ -webkit-font-smoothing:antialiased}
+.wrap{width:1920px;height:1080px;padding:44px 92px 30px;display:flex;flex-direction:column}
+.kicker{font-family:'SFMono-Regular',Menlo,monospace;font-size:18px;letter-spacing:3.2px;
+ text-transform:uppercase;color:#6f6f78}
+h1{font-weight:300;font-size:52px;line-height:1.1;letter-spacing:-1.1px;margin-top:12px}
+h1 em{font-style:normal;color:#7fd6a2}
+.flow{margin-top:26px;flex:1;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:stretch;gap:16px;justify-content:center}
+.box{background:#0e0e12;border:1px solid #23232b;border-radius:14px;padding:13px 22px;
+ min-width:210px;transition:none}
+.box .t{font-family:'SFMono-Regular',Menlo,monospace;font-size:15px;letter-spacing:2px;
+ text-transform:uppercase;color:#6f6f78}
+.box .m{font-size:23px;font-weight:300;margin-top:7px;line-height:1.3}
+.box .s{font-family:'SFMono-Regular',Menlo,monospace;font-size:15px;color:#8b8b95;margin-top:7px}
+.box.acc{border-color:#2c4c3b}
+.box.acc .m{color:#7fd6a2}
+.box.bad{border-color:#4a2f2a}
+.box.bad .m{color:#e08a7a}
+.arrow{align-self:center;color:#4a4a55;font-size:30px;padding:0 2px}
+.down{text-align:center;color:#4a4a55;font-size:26px;line-height:1}
+.chip{display:inline-block;font-family:'SFMono-Regular',Menlo,monospace;font-size:16px;
+ padding:6px 14px;border-radius:999px;margin-right:9px}
+.chip.k{background:#2a1a17;color:#e08a7a}
+.chip.p{background:#15291e;color:#7fd6a2}
+.loop{text-align:center;font-family:'SFMono-Regular',Menlo,monospace;font-size:17px;
+ color:#6f6f78;letter-spacing:1.6px}
+.src{margin-top:14px;font-family:'SFMono-Regular',Menlo,monospace;font-size:16px;color:#4c4c55}
+
+.st1{opacity:1}
+.st2{opacity:1}
+.st3{opacity:1}
+.st4{opacity:1}
+.st5{opacity:1}
+.st6{opacity:1}</style>
+<div class="wrap">
+  <div class="kicker">the loop &middot; zero human clicks</div>
+  <h1>Every part of this exists because <em>something needed it</em>.</h1>
+  <div class="flow">
+
+    <div class="row">
+      <div class="box st1"><div class="t">caller</div><div class="m">a live call</div>
+        <div class="s">webrtc / text persona</div></div>
+      <div class="arrow st1">&rarr;</div>
+      <div class="box st1 acc"><div class="t">dograh</div><div class="m">voice runtime + workflow graph</div>
+        <div class="s">read &middot; write &middot; publish &middot; version</div></div>
+      <div class="arrow st1">&rarr;</div>
+      <div class="box st1"><div class="t">pioneer</div><div class="m">serves the inference</div>
+        <div class="s">the failures are genuinely its own</div></div>
+      <div class="arrow st2">&rarr;</div>
+      <div class="box st2 acc"><div class="t">senso</div><div class="m">verified knowledge + citation</div>
+        <div class="s">the correctness oracle</div></div>
+    </div>
+
+    <div class="down st2">&darr;</div>
+    <div class="row">
+      <div class="box st2 bad" style="min-width:640px"><div class="t">verdict</div>
+        <div class="m">correctness 0.10 &middot; grounded false &middot; ungrounded_fabrication</div>
+        <div class="s">retrieval tool available &middot; retrieval tool not invoked</div></div>
+      <div class="arrow st3">&rarr;</div>
+      <div class="box st3"><div class="t">attribution</div><div class="m">node: pricing_lookup</div>
+        <div class="s">the root node, not the loud one</div></div>
+    </div>
+
+    <div class="down st4">&darr;</div>
+    <div class="row">
+      <div class="box st4"><div class="t">candidate 1</div><div class="m">append_constraint</div></div>
+      <div class="box st4"><div class="t">candidate 2</div><div class="m">add_tool_requirement</div></div>
+      <div class="box st4"><div class="t">candidate 3</div><div class="m">rewrite_instruction</div></div>
+    </div>
+
+    <div class="down st5">&darr;</div>
+    <div class="row">
+      <div class="box st5" style="min-width:520px"><div class="t">validator</div>
+        <div class="m">replay history against each</div>
+        <div class="s">promote iff fixes-new AND zero-regression</div></div>
+      <div class="arrow st5">+</div>
+      <div class="box st5" style="min-width:520px"><div class="t">guild</div>
+        <div class="m">hosted, versioned second opinion</div>
+        <div class="s">different model family &middot; pullable trace</div></div>
+    </div>
+    <div class="row st5" style="margin-top:2px">
+      <div><span class="chip k">27 of 33 killed</span><span class="chip p">3 promoted</span></div>
+    </div>
+
+    <div class="down st6">&darr;</div>
+    <div class="row">
+      <div class="box st6 acc"><div class="t">actian vectorai</div>
+        <div class="m">survivor stored on a structural key</div>
+        <div class="s">no product, no vertical, no domain word</div></div>
+      <div class="arrow st6">&rarr;</div>
+      <div class="box st6 acc"><div class="t">dograh</div><div class="m">applied and published &middot; v4</div>
+        <div class="s">the graph we mutate is the graph that runs</div></div>
+    </div>
+    <div class="loop st6" style="margin-top:8px">&#8593; &nbsp; the next call runs the evolved workflow</div>
+  </div>
+  <div class="src">every box is a running component &middot; verdict and counts read from state/ and logs_evolution.txt</div>
+</div>

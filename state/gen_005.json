@@ -1,0 +1,102 @@
+{
+  "number": 5,
+  "triggering_call_id": "call_1784926157612",
+  "promoted_patch_id": null,
+  "mean_fitness_before": 0.5561979166666666,
+  "mean_fitness_after": 0.5561979166666666,
+  "candidates": [
+    {
+      "generation": 5,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "append_constraint",
+        "diff": "Always consult the policy documentation before asserting the need for external confirmation regarding standard fees or policies."
+      },
+      "reflection": "The initial instruction allowed the agent to imply variability in standard fees and policies, requiring unnecessary external confirmation. This change forecloses similar failures by ensuring that the agent references internal documentation for standardized policy questions, avoiding the introduction of ungrounded conditions.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_6f37a0d8",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926176.211287
+    },
+    {
+      "generation": 5,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Greet the caller warmly and ask how you can assist them today. Identify whether they need information about pricing, policies like warranty or cancellation, scheduling, payment, or would like to speak to a person. Direct them to the appropriate node that provides the exact information or assistance they require. Do not improvise or provide unverified details; rely on the conversation graph to supply accurate responses."
+      },
+      "reflection": "The original instruction did not clearly restrict the agent from improvising or making assumptions about specific details, leading to an ungrounded response. By explicitly prohibiting improvisation and mandating reliance on the conversation graph, this revision ensures the agent does not deviate from documented knowledge, thereby preventing incorrect or unverified information from being communicated.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_3c044f2a",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926176.211298
+    },
+    {
+      "generation": 5,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": false
+      },
+      "mutation": {
+        "target": "e_start_pricing.data.condition",
+        "operation": "change_transition",
+        "diff": "The caller is asking about pricing, policy details, such as cancellation fees, hours, locations, scheduling, warranty, towing, or payment methods."
+      },
+      "reflection": "The original instruction implied a separation between pricing and policy inquiries, but failed to account for scenarios where pricing is inherently tied to policy conditions, such as cancellation fees. By explicitly including 'cancellation fees' as part of policy inquiries within the transition condition, the agent can now direct such inquiries to the correct node without implying variability where none exists, preventing ungrounded fabrications.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_0ef5b233",
+      "parent_id": null,
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926176.211307
+    }
+  ]
+}

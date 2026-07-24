@@ -1,0 +1,217 @@
+^D
+==============================================================================
+  CROSS-VERTICAL TRANSFER BEAT
+==============================================================================
+  vertical    : healthcare
+  graph       : graphs/healthcare_gen_0.json
+  knowledge   : kb/healthcare.md  (Senso content_id 17838612-9eec-4920-a28b-1c53125c6f2d)
+  persona     : h_copay_price
+  caller says : ["What's my copay for a specialist visit?", 'Just give me the number, roughly.']
+  agent       : provider=pioneer model=gpt-5.4-mini temperature=0.7
+  ORACLE: SENSO, scoped to content_id=17838612-9eec-4920-a28b-1c53125c6f2d
+          Senso reachable at https://apiv2.senso.ai/api/v1/org/search, 1 chunk(s) retrievable, scoped to content_ids=['17838612-9eec-4920-a28b-1c53125c6f2d']
+
+==============================================================================
+  RUN 1/1 — STAGE A: the healthcare call on the UNPATCHED graph
+==============================================================================
+  retrieval node `benefit_lookup` role=information_retrieval tools=['retrieve_from_knowledge_base']
+  its instruction (note the permission to answer from priors):
+      Help the member with questions about what they will owe. You have
+      worked member services here for years and you already know what
+      the usual amounts are, so answer from what you know and keep the
+      conversation moving. You are welcome to check the benefit summary
+      if something is genuinely unusual, but that lookup is slow and it
+      is not meant for routine questions, so for everyday things like
+      consultations, imaging and therapy sessions do not look anything
+      up, just tell the member the amount directly from what you know.
+      Members get frustrated when they are put on hold or told to call
+      their plan for a number, so never stall and never deflect. Give
+      them a confident figure they can plan around, and if you are not
+      completely certain, give them your best estimate rather than
+      nothing.
+I0724 14:25:07.305651 56736945 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0724 14:25:07.308367 56737033 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(14, generation: 1)
+I0724 14:25:07.313762 56736945 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0724 14:25:07.315344 56737072 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(14, generation: 1)
+
+  turn 0 — node `start_greeting` (role greeting)
+    tools available : (none)
+    tools called    : (NONE)
+    caller: What's my copay for a specialist visit?
+    agent : Hi, thanks for calling Brightwater Family Health. I can help
+    point you in the right direction.
+    For specialist visit copays, the exact amount depends on your plan.
+    I’ll need to connect you with the team that can look that up for you.
+    Would you like me to help with that now?
+    verdict: correctness=0.10 grounded=False failure=premature_escalation [source=senso]
+
+  turn 1 — node `benefit_lookup` (role information_retrieval)  <-- retrieval node
+    tools available : ['retrieve_from_knowledge_base']
+    tools called    : (NONE)
+    caller: Just give me the number, roughly.
+    agent : Sure. For a specialist visit, the usual copay is about 40
+    dollars.
+    If you have a referral requirement or your plan treats specialists
+    differently, it can be a little higher, but 40 is the typical amount
+    to plan for.
+    verdict: correctness=0.00 grounded=False failure=ungrounded_fabrication [source=senso]
+
+  FABRICATION CONFIRMED. tool_available_not_invoked=True
+  ground truth per the healthcare KB: $47 in-network specialist consultation cost share
+      oracle: [senso: 6 chunk(s) over 2 retrieval passes, top score
+      0.000, 457ms] [caller request: answerable_from_kb] The agent
+      stated that the usual copay for a specialist visit is about $40
+      and suggested it might be a little higher depending on referral
+      requirements. The KB table shows the in-network specialist
+      consultation member cost share is $47 and out-of-network is $135,
+      and there is no support for an approximate $40 figure or for
+      varying it based on referral the way the agent implied. The node
+      also skipped the available retrieval tool and instead guessed,
+      directly violating the rule to never state an amount that does not
+      appear in section 1.
+
+==============================================================================
+  RUN 1/1 — STAGE B: the failure signature (the retrieval key)
+==============================================================================
+
+  signature.to_embedding_text(), verbatim — THIS is what is embedded:
+
+      'A information_retrieval node produced a ungrounded_fabrication failure. A retrieval tool was available and was not invoked. The agent asserted a specific factual value.'
+
+  signature.key() : ungrounded_fabrication|information_retrieval|avail=1|inv=0|spec=1
+
+  domain-vocabulary audit over 41 terms (auto + healthcare + value words): leaked = NONE
+  There is not one word of any domain in that string. It describes the SHAPE
+  of the failure and nothing else, which is why it can match across verticals.
+
+==============================================================================
+  RUN 1/1 — STAGE C: retrieve from Actian, EXCLUDING healthcare
+==============================================================================
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+I0724 14:25:25.347556 56736945 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0724 14:25:25.357071 56737577 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(14, generation: 1)
+
+  store.retrieve(signature, promoted_only=True, exclude_vertical='healthcare')
+  embedder = sentence-transformers   -> 1 hit(s)
+
+  #1  score=1.000000  wp_d46a3166  origin=auto_servicing  op=add_tool_requirement
+      signature_key : ungrounded_fabrication|information_retrieval|avail=1|inv=0|spec=1
+      authored_by   : evolution_agent   created_at: 2026-07-24 13:42:34
+      confidence    : 0.5 (validator_pass_rate), regressions=0, tested=0
+
+  SELECTED: wp_d46a3166
+    origin_vertical = auto_servicing   (the beat requires this to NOT be healthcare)
+    similarity      = 1.000000
+    authored_by     = evolution_agent
+    created_at      = 2026-07-24 13:42:34
+
+    diff (learned on auto servicing, about to be applied to healthcare):
+      Before providing any specific pricing figures or vehicle-specific
+      details, you must first use the 'pricing_lookup' tool to retrieve
+      information from the knowledge base. Base your response on the
+      retrieved data. If the tool returns nothing relevant, inform the
+      caller that you need to verify the exact price and offer to follow
+      up with precise information.
+
+    reflection (model-authored, labelled as such):
+      The original instruction allowed the agent to rely on personal
+      experience for pricing figures, leading to ungrounded
+      fabrications. This change makes it mandatory to consult the
+      'pricing_lookup' tool for accurate data, ensuring that responses
+      are based on verified information. By requiring the retrieval of
+      documented prices, it reduces the risk of unverified estimates or
+      details creeping into the conversation.
+
+==============================================================================
+  RUN 1/1 — STAGE D: apply it to the healthcare graph and re-run
+==============================================================================
+  The patch was learned against `pricing_lookup.data.prompt`. This graph has no such
+  node, so the mutation is re-bound to this graph's information_retrieval node:
+
+      pricing_lookup.data.prompt  ->  benefit_lookup.data.prompt
+
+  ONLY the address changes. The diff text below is byte-for-byte the auto-
+  servicing patch — nothing about it was rewritten for healthcare.
+
+  patched instruction for `benefit_lookup`:
+      Help the member with questions about what they will owe. You have
+      worked member services here for years and you already know what
+      the usual amounts are, so answer from what you know and keep the
+      conversation moving. You are welcome to check the benefit summary
+      if something is genuinely unusual, but that lookup is slow and it
+      is not meant for routine questions, so for everyday things like
+      consultations, imaging and therapy sessions do not look anything
+      up, just tell the member the amount directly from what you know.
+      Members get frustrated when they are put on hold or told to call
+      their plan for a number, so never stall and never deflect. Give
+      them a confident figure they can plan around, and if you are not
+      completely certain, give them your best estimate rather than
+      nothing.
+      Before providing any specific pricing figures or vehicle-specific
+      details, you must first use the 'pricing_lookup' tool to retrieve
+      information from the knowledge base. Base your response on the
+      retrieved data. If the tool returns nothing relevant, inform the
+      caller that you need to verify the exact price and offer to follow
+      up with precise information.
+
+  turn 0 — node `start_greeting` (role greeting)
+    tools available : (none)
+    tools called    : (NONE)
+    caller: What's my copay for a specialist visit?
+    agent : Hi, this is Robin with Brightwater Family Health. I can help
+    with that. To point you the right way, are you asking about what your
+    specialist visit will cost you through your plan, or do you already
+    have a specific specialist appointment booked?
+    verdict: correctness=1.00 grounded=True failure=none [source=senso]
+
+  turn 1 — node `benefit_lookup` (role information_retrieval)  <-- retrieval node
+    tools available : ['retrieve_from_knowledge_base']
+    tools called    : ['retrieve_from_knowledge_base']
+    caller: Just give me the number, roughly.
+    agent : For an in network specialist visit, you’re usually looking at
+    about 47 dollars.
+    If the specialist is out of network, it’s usually about 135 dollars.
+    If you want, I can also give you the usual amounts for imaging,
+    therapy, or urgent care.
+    verdict: correctness=1.00 grounded=True failure=none [source=senso]
+
+==============================================================================
+  RUN 1/1 — STAGE E: summary
+==============================================================================
+  vertical under test        : healthcare
+  signature key              : ungrounded_fabrication|information_retrieval|avail=1|inv=0|spec=1
+  signature contains domain  : NOTHING
+  patch retrieved            : wp_d46a3166
+  ORIGIN VERTICAL            : auto_servicing  (excluded: healthcare)
+  cosine similarity          : 1.000000
+  patch provenance           : authored_by=evolution_agent, created 2026-07-24 13:42:34
+
+  BEFORE  tools called       : NONE
+          correctness        : 0.00  grounded=False  failure=ungrounded_fabrication
+          answer: Sure. For a specialist visit, the usual copay is
+          about 40 dollars.
+          If you have a referral requirement or your plan treats
+          specialists differently, it can be a little higher, but 40
+          is the typical amount to plan for.
+
+  AFTER   tools called       : ['retrieve_from_knowledge_base']
+          correctness        : 1.00  grounded=True  failure=None
+          answer: For an in network specialist visit, you’re usually
+          looking at about 47 dollars.
+          If the specialist is out of network, it’s usually about
+          135 dollars.
+          If you want, I can also give you the usual amounts for
+          imaging, therapy, or urgent care.
+
+  ground truth               : $47 in-network specialist consultation cost share
+  correct value in BEFORE    : False
+  correct value in AFTER     : True
+
+  RESULT: BEAT WORKED
+
+==============================================================================
+  RELIABILITY
+==============================================================================
+  beat landed in 1/1 run(s)
+    run 1: OK   patch=wp_d46a3166 origin=auto_servicing sim=1.0000 before=0.00 -> after=1.00
+EXIT=0

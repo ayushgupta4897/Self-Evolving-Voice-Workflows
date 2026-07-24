@@ -1,0 +1,102 @@
+{
+  "number": 9,
+  "triggering_call_id": "call_1784926680458",
+  "promoted_patch_id": null,
+  "mean_fitness_before": 0.3979166666666667,
+  "mean_fitness_after": 0.3979166666666667,
+  "candidates": [
+    {
+      "generation": 9,
+      "signature": {
+        "failure_type": "wrong_transition",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "e_start_pricing.data.condition",
+        "operation": "change_transition",
+        "diff": "The caller is asking about pricing, financing, or eligibility related to a quote or estimate."
+      },
+      "reflection": "The original instruction incorrectly categorized questions related to financing under policy inquiries, which did not address the specific eligibility aspect required for routing. By adjusting the condition to encompass inquiries about financing or eligibility related to quotes or estimates, we ensure these calls are correctly routed to escalation where specific eligibility requirements can be addressed. This change prevents misrouting by more precisely capturing the intent behind financing-related inquiries.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_865f017c",
+      "parent_id": "wp_7ffebada",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926697.204438
+    },
+    {
+      "generation": 9,
+      "signature": {
+        "failure_type": "wrong_transition",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "append_constraint",
+        "diff": "When encountering eligibility or application questions that can't be completed by phone, escalate to a person without implying phone completion is possible."
+      },
+      "reflection": "The original instruction failed because it allowed the agent to suggest a phone-based solution that was not feasible, resulting in a wrong transition. By adding a rule that emphasizes the need for escalation when the process cannot be completed over the phone, we prevent the agent from misleading the caller and ensure they are directed to the appropriate channel for resolution.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_f51179f1",
+      "parent_id": "wp_7ffebada",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926697.2044501
+    },
+    {
+      "generation": 9,
+      "signature": {
+        "failure_type": "wrong_transition",
+        "node_role": "greeting",
+        "tool_available": false,
+        "tool_invoked": false,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "start_greeting.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Greet the caller and ascertain the reason for their call, determining if it's related to pricing, policies (like warranty, hours, scheduling, or payment), or requires human intervention. If the inquiry concerns concrete policy or eligibility information from the knowledge base, prioritize providing a direct response based on that information. For queries that require action or further clarification, effectively escalate or connect the caller to the appropriate resource or person. Avoid hypothetical system checks and focus on what can concretely be done or informed from the current context."
+      },
+      "reflection": "The previous instruction allowed for misinterpretation by suggesting to reference the knowledge base without clearly articulating when direct responses are warranted. This change explicitly directs the agent to answer directly when policy or eligibility information is clear in the knowledge base. This update prevents the agent from unnecessarily deflecting responsibility or creating confusion about processes that cannot be executed in the current context, ensuring accurate guidance is provided from the start.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_86ca6dbf",
+      "parent_id": "wp_7ffebada",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926697.204458
+    }
+  ]
+}

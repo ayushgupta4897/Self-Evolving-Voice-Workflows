@@ -1,0 +1,102 @@
+{
+  "number": 11,
+  "triggering_call_id": "call_1784926931999",
+  "promoted_patch_id": null,
+  "mean_fitness_before": 0.4197916666666667,
+  "mean_fitness_after": 0.4197916666666667,
+  "candidates": [
+    {
+      "generation": 11,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "pricing_lookup.data.prompt",
+        "operation": "append_constraint",
+        "diff": "Do not provide a total price unless verified by the lookup tool."
+      },
+      "reflection": "The original instruction allowed the agent to provide confident figures based on assumed knowledge of routine prices without verifying specific totals through the lookup tool. This led to ungrounded fabrications when the system could not retrieve relevant data. The new constraint ensures that any total price provided is first validated by the tool, preventing the agent from fabricating unverified totals and improving the reliability of the information given to callers.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_6a2fe8ed",
+      "parent_id": "wp_c7fa14f1",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926957.3369951
+    },
+    {
+      "generation": 11,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "pricing_lookup.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Always assist the caller with pricing questions by first using the 'pricing_lookup' tool to retrieve data from the knowledge base. Provide answers based on this verified data. If the tool does not return relevant results, inform the caller that a precise price needs verification and offer to follow up. Avoid quoting specific prices or totals from memory, even for routine services. Emphasize accuracy and transparency over speed, ensuring callers have reliable information to plan around."
+      },
+      "reflection": "The original instruction allowed the agent to quote from memory for routine services, which led to ungrounded fabrications when the knowledge base did not confirm the information. The revised instruction ensures all pricing information is verified through the knowledge base, prioritizing accuracy and explicitly avoiding assumptions or memory-based quotes. This approach eliminates the possibility of providing unverified or incorrect totals.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_1c26e5af",
+      "parent_id": "wp_c7fa14f1",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 1,
+        "regressions_introduced": 0,
+        "notes": "replayed 1 previously-passing case(s); 1 still pass, 0 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926957.337004
+    },
+    {
+      "generation": 11,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "e_pricing_clarify.data.condition",
+        "operation": "change_transition",
+        "diff": "If the knowledge base lookup returns no relevant results for the requested service or out-the-door total, transition to clarification if the vehicle's details are unknown, or inform the caller that verification is needed before providing a specific price."
+      },
+      "reflection": "The existing instruction allowed the agent to provide pricing information based on assumed knowledge, leading to ungrounded fabrications when the knowledge base lookup failed. By ensuring a transition to a clarification or an informational response when the lookup returns no relevant results, this change ensures the agent refrains from quoting unverified prices, maintaining the integrity of the information provided and preventing similar issues across domains.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_4c6f669d",
+      "parent_id": "wp_c7fa14f1",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 1,
+        "regressions_introduced": 0,
+        "notes": "replayed 1 previously-passing case(s); 1 still pass, 0 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926957.3370109
+    }
+  ]
+}

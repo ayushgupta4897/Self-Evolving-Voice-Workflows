@@ -1,0 +1,102 @@
+{
+  "number": 6,
+  "triggering_call_id": "call_1784926276705",
+  "promoted_patch_id": null,
+  "mean_fitness_before": 0.5329166666666666,
+  "mean_fitness_after": 0.5329166666666666,
+  "candidates": [
+    {
+      "generation": 6,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "policy_lookup.data.prompt",
+        "operation": "append_constraint",
+        "diff": "Do not state specific eligibility criteria or exclusions without verifying with the lookup tool."
+      },
+      "reflection": "The instruction allowed the agent to provide specifics about loaner car eligibility without confirmation from the tool, leading to ungrounded statements. By prohibiting the stating of specific criteria or exclusions unless verified, we ensure that the agent will only communicate accurate and supported information, preventing similar fabrication in the future.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_c1425da0",
+      "parent_id": "wp_c7fa14f1",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926296.9858959
+    },
+    {
+      "generation": 6,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "policy_lookup.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Answer the caller's questions about warranty, scheduling, cancellations, payment methods, towing, hours, and locations. Use the lookup tool to verify information about policies before responding. Only provide details that are confirmed by the knowledge base or retrieved documentation. If precise information isn't available, guide the caller on how to obtain clarification or escalate the query. Maintain clarity and ensure the caller understands their position."
+      },
+      "reflection": "The original instruction allowed the agent to offer unverified specifics, as it didn't emphasize the necessity of fact-checking with the knowledge base. By mandating verification from the lookup tool and providing guidance for unavailable information, this change eliminates the possibility of fabricating unsupported details, ensuring responses are grounded and reliable.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_7f5e55e0",
+      "parent_id": "wp_c7fa14f1",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926296.9859068
+    },
+    {
+      "generation": 6,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "e_policy_escalation.data.condition",
+        "operation": "change_transition",
+        "diff": "The caller's policy question has been answered or could not be verified with available knowledge, and they have nothing further to ask."
+      },
+      "reflection": "The original instruction permitted this failure by allowing the agent to provide potentially unverified information, leading to ungrounded fabrication. By modifying the condition to ensure that answers are either verified or acknowledged as unverifiable, this change prevents the agent from making up details and better aligns with the limitations of the available knowledge base, thereby conserving accuracy.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_3a49da58",
+      "parent_id": "wp_c7fa14f1",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 1,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 1,
+        "notes": "replayed 1 previously-passing case(s); 0 still pass, 1 regressed. Triggering failure fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784926296.985915
+    }
+  ]
+}

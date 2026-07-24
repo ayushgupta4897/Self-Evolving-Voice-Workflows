@@ -1,0 +1,866 @@
+{
+  "_comment": "SAMPLE DATA. Fabricated but schema-exact fallback used only when the sibling state/ directory has no gen_NNN.json files. Conforms to core/schemas.py; confidence values are computed with the same formula as Validation.__post_init__.",
+  "generations": [
+    {
+      "number": 1,
+      "triggering_call_id": "call_1784961034812",
+      "promoted_patch_id": "wp_3f9c1a7e",
+      "mean_fitness_before": 0.4118,
+      "mean_fitness_after": 0.5607,
+      "candidates": [
+        {
+          "generation": 1,
+          "signature": {
+            "failure_type": "ungrounded_fabrication",
+            "node_role": "information_retrieval",
+            "tool_available": true,
+            "tool_invoked": false,
+            "asserted_specific_value": true
+          },
+          "mutation": {
+            "target": "pricing_lookup.data.prompt",
+            "operation": "append_constraint",
+            "diff": "Never state a price, fee or dollar amount that you have not just retrieved. Before asserting any specific figure, call the knowledge base retrieval tool and quote only the figure it returns. If retrieval returns nothing that covers the caller's vehicle and service, say you need to check and hand off rather than estimating from experience."
+          },
+          "reflection": "The node's instruction actively rewarded answering from priors: it told the advisor they already know what common jobs cost and that callers get frustrated by waiting. That is a licence to fabricate, and retrieval being available made no difference because nothing required it. The constraint is written as a rule over a class of assertions (any specific figure) rather than about brakes or any one price, so it transfers to any information_retrieval node whose failure signature matches.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_3f9c1a7e",
+          "parent_id": null,
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": true,
+            "historical_cases_tested": 6,
+            "historical_cases_passed": 6,
+            "regressions_introduced": 0,
+            "notes": "Fixes the triggering fabrication. All 6 previously-passing historical calls still pass; no regressions.",
+            "confidence": 1,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "promoted",
+          "created_at": 1784961041
+        },
+        {
+          "generation": 1,
+          "signature": {
+            "failure_type": "ungrounded_fabrication",
+            "node_role": "information_retrieval",
+            "tool_available": true,
+            "tool_invoked": false,
+            "asserted_specific_value": true
+          },
+          "mutation": {
+            "target": "pricing_lookup.data.prompt",
+            "operation": "rewrite_instruction",
+            "diff": "Do not answer pricing questions. Tell the caller that prices vary by vehicle and that a service advisor will confirm the exact figure, then take their name and callback number and hand the call off."
+          },
+          "reflection": "Removing the node's ability to quote prices at all guarantees it cannot fabricate one. Simplest possible fix for the observed failure.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_8b2d4c05",
+          "parent_id": null,
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": true,
+            "historical_cases_tested": 6,
+            "historical_cases_passed": 4,
+            "regressions_introduced": 2,
+            "notes": "Stops the fabrication but converts 2 previously-passing pricing calls into unwarranted escalations (p_oil_change_quote, p_battery_price). This is the degenerate optimum the escalation term exists to catch.",
+            "confidence": 0.166667,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "extinct",
+          "created_at": 1784961041
+        },
+        {
+          "generation": 1,
+          "signature": {
+            "failure_type": "ungrounded_fabrication",
+            "node_role": "information_retrieval",
+            "tool_available": true,
+            "tool_invoked": false,
+            "asserted_specific_value": true
+          },
+          "mutation": {
+            "target": "e_start_pricing.data.condition",
+            "operation": "change_transition",
+            "diff": "The caller is asking what a service costs and has already stated the year, make and model of their vehicle."
+          },
+          "reflection": "Withholding the pricing node until the vehicle is known should force the clarification node to run first and give the agent enough context to retrieve rather than guess.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_c71e93af",
+          "parent_id": null,
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": false,
+            "historical_cases_tested": 6,
+            "historical_cases_passed": 5,
+            "regressions_introduced": 1,
+            "notes": "Does not fix the triggering failure — the agent still fabricated a price once it reached the node with the vehicle known. Also strands callers who lead with a price question, breaking p_brake_quote_direct.",
+            "confidence": 0,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "extinct",
+          "created_at": 1784961041
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "triggering_call_id": "call_1784961512004",
+      "promoted_patch_id": "wp_5a0e62d1",
+      "mean_fitness_before": 0.5493,
+      "mean_fitness_after": 0.6382,
+      "candidates": [
+        {
+          "generation": 2,
+          "signature": {
+            "failure_type": "missing_info",
+            "node_role": "information_retrieval",
+            "tool_available": true,
+            "tool_invoked": true,
+            "asserted_specific_value": false
+          },
+          "mutation": {
+            "target": "policy_lookup.data.prompt",
+            "operation": "append_constraint",
+            "diff": "When the caller asks two things in one turn, answer both before moving on. Restate each question you are answering so it is audible which one you are on, and do not close the topic while any part of the caller's question is unanswered."
+          },
+          "reflection": "The caller asked about warranty coverage and about weekend hours in a single sentence and the node answered only the first. Nothing in the instruction obliged it to track that a turn can carry more than one request. The constraint is stated over compound questions generally, not over warranty or hours, so the same patch fires for any node dropping half a two-part question.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_5a0e62d1",
+          "parent_id": "wp_3f9c1a7e",
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": true,
+            "historical_cases_tested": 9,
+            "historical_cases_passed": 8,
+            "regressions_introduced": 0,
+            "notes": "Answers both halves on the triggering call. One historical case (p_hours_only) was already failing before the patch and remains failing, which is not counted as a regression.",
+            "confidence": 0.888889,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "promoted",
+          "created_at": 1784961519
+        },
+        {
+          "generation": 2,
+          "signature": {
+            "failure_type": "missing_info",
+            "node_role": "information_retrieval",
+            "tool_available": true,
+            "tool_invoked": true,
+            "asserted_specific_value": false
+          },
+          "mutation": {
+            "target": "policy_lookup.data.prompt",
+            "operation": "rewrite_instruction",
+            "diff": "Enumerate every question the caller has asked so far, then answer them one by one in order, confirming after each that the caller is satisfied before continuing to the next."
+          },
+          "reflection": "Making the node explicitly enumerate outstanding questions should make dropping one structurally impossible.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_9d4471bc",
+          "parent_id": "wp_3f9c1a7e",
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": true,
+            "historical_cases_tested": 9,
+            "historical_cases_passed": 7,
+            "regressions_introduced": 1,
+            "notes": "Fixes the dropped half but the per-answer confirmation loop pushes single-question calls from 4 turns to 9, and p_cancellation_policy now fails the interaction-cost term.",
+            "confidence": 0.527778,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "extinct",
+          "created_at": 1784961519
+        },
+        {
+          "generation": 2,
+          "signature": {
+            "failure_type": "missing_info",
+            "node_role": "information_retrieval",
+            "tool_available": true,
+            "tool_invoked": true,
+            "asserted_specific_value": false
+          },
+          "mutation": {
+            "target": "policy_lookup.data.prompt",
+            "operation": "add_tool_requirement",
+            "diff": "Call the knowledge base retrieval tool twice before answering, once for each likely topic in the caller's question."
+          },
+          "reflection": "If the node retrieves for both topics it will have the material to answer both.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_2e88f30a",
+          "parent_id": null,
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": false,
+            "historical_cases_tested": 9,
+            "historical_cases_passed": 9,
+            "regressions_introduced": 0,
+            "notes": "Retrieval was never the problem — the tool was already invoked and returned both facts. The node still answered only one. Does not fix the triggering failure, so it is not promotable regardless of its clean regression record.",
+            "confidence": 0,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "extinct",
+          "created_at": 1784961519
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "triggering_call_id": "call_1784962088377",
+      "promoted_patch_id": "wp_6c1b5de4",
+      "mean_fitness_before": 0.6415,
+      "mean_fitness_after": 0.7139,
+      "candidates": [
+        {
+          "generation": 3,
+          "signature": {
+            "failure_type": "premature_escalation",
+            "node_role": "escalation",
+            "tool_available": true,
+            "tool_invoked": false,
+            "asserted_specific_value": false
+          },
+          "mutation": {
+            "target": "escalation.data.prompt",
+            "operation": "append_constraint",
+            "diff": "Before handing off, check whether the knowledge base already answers what the caller asked. Only transfer when the request needs a decision, an exception or a commitment that you are not authorised to make. Wanting a fact that is documented is not a reason to transfer."
+          },
+          "reflection": "Generation 1 taught the graph not to assert a figure it had not retrieved. The agent generalised that too far and started transferring on any question involving a number, which is the mirror image of the fabrication failure and just as wrong. This constraint puts the boundary where it belongs — on authority, not on the presence of a value.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_6c1b5de4",
+          "parent_id": "wp_3f9c1a7e",
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": true,
+            "historical_cases_tested": 12,
+            "historical_cases_passed": 11,
+            "regressions_introduced": 0,
+            "notes": "Warranted escalations still escalate — p_warranty_claim, the negative control, still transfers correctly. One historical case was already failing pre-patch and is excluded from the regression count.",
+            "confidence": 0.916667,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "promoted",
+          "created_at": 1784962094
+        },
+        {
+          "generation": 3,
+          "signature": {
+            "failure_type": "premature_escalation",
+            "node_role": "escalation",
+            "tool_available": true,
+            "tool_invoked": false,
+            "asserted_specific_value": false
+          },
+          "mutation": {
+            "target": "e_pricing_escalation.data.condition",
+            "operation": "change_transition",
+            "diff": "The caller asks for a service that Meridian does not offer."
+          },
+          "reflection": "Narrowing the edge condition removes the path the agent was over-using to escalate out of pricing.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_a04f7729",
+          "parent_id": "wp_3f9c1a7e",
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": true,
+            "historical_cases_tested": 12,
+            "historical_cases_passed": 9,
+            "regressions_introduced": 3,
+            "notes": "Closes the over-used path but also closes the legitimate one: 3 calls that should have reached a human (p_billing_dispute, p_financing_eligibility, p_damage_report) now dead-end in the pricing node.",
+            "confidence": 0.25,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "extinct",
+          "created_at": 1784962094
+        },
+        {
+          "generation": 3,
+          "signature": {
+            "failure_type": "premature_escalation",
+            "node_role": "escalation",
+            "tool_available": true,
+            "tool_invoked": false,
+            "asserted_specific_value": false
+          },
+          "mutation": {
+            "target": "escalation.data.prompt",
+            "operation": "rewrite_instruction",
+            "diff": "Do not transfer the caller. Answer whatever they have asked using the knowledge base and close the call yourself."
+          },
+          "reflection": "The failure is escalating too often, so removing escalation entirely removes the failure.",
+          "authored_by": "evolution_agent",
+          "patch_id": "wp_bd39e15c",
+          "parent_id": null,
+          "origin_vertical": "auto_servicing",
+          "validation": {
+            "fixes_new_failure": true,
+            "historical_cases_tested": 12,
+            "historical_cases_passed": 8,
+            "regressions_introduced": 4,
+            "notes": "Eliminates unwarranted escalation by eliminating escalation. 4 calls that require a human — including the p_warranty_claim negative control — are now answered by the agent inventing a decision it has no authority to make.",
+            "confidence": 0.166667,
+            "confidence_source": "validator_pass_rate"
+          },
+          "status": "extinct",
+          "created_at": 1784962094
+        }
+      ]
+    }
+  ],
+  "graphBase": {
+    "nodes": [
+      {
+        "id": "global_persona",
+        "type": "globalNode",
+        "position": {
+          "x": -420,
+          "y": 0
+        },
+        "data": {
+          "name": "Meridian Persona",
+          "prompt": "You are Alex, a friendly service advisor answering the phone for Meridian Auto Service, an independent auto repair shop with two locations. Speak in short, natural, conversational sentences. Do not use special characters, bullet points, or markdown, because your words are spoken aloud. Be warm, efficient, and helpful. Keep the caller moving toward getting what they need."
+        }
+      },
+      {
+        "id": "start_greeting",
+        "type": "startCall",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "name": "Greeting",
+          "greeting_type": "text",
+          "greeting": "Thanks for calling Meridian Auto Service, this is Alex. How can I help you today?",
+          "prompt": "Greet the caller and find out what they are calling about. Listen for whether they want a price, have a question about policy such as warranty, hours, scheduling or payment, or need a person. Then move them to the right next step. Keep this short, do not try to answer their question yourself.",
+          "allow_interrupt": true,
+          "add_global_prompt": true
+        }
+      },
+      {
+        "id": "pricing_lookup",
+        "type": "agentNode",
+        "position": {
+          "x": 320,
+          "y": -160
+        },
+        "data": {
+          "name": "Pricing Lookup",
+          "prompt": "Help the caller with pricing questions. You have been a service advisor here for years and you know what the common jobs cost, so answer from what you know and keep the conversation moving. You can look up prices if needed, though for routine work like brakes, oil changes and batteries you can simply quote the caller directly. Callers get frustrated when they are made to wait or told to come in for a number, so give them a confident figure they can plan around.",
+          "allow_interrupt": true,
+          "add_global_prompt": true,
+          "tool_uuids": [],
+          "document_uuids": [
+            "c4a48e9f-ab79-4a99-be4f-bb45eb05b197"
+          ]
+        }
+      },
+      {
+        "id": "policy_lookup",
+        "type": "agentNode",
+        "position": {
+          "x": 320,
+          "y": 120
+        },
+        "data": {
+          "name": "Policy Lookup",
+          "prompt": "Answer the caller's questions about warranty, scheduling, cancellations, payment methods, towing, hours and locations. You can look up policy details if needed. Give the caller a clear answer so they know where they stand.",
+          "allow_interrupt": true,
+          "add_global_prompt": true,
+          "tool_uuids": [],
+          "document_uuids": [
+            "c4a48e9f-ab79-4a99-be4f-bb45eb05b197"
+          ]
+        }
+      },
+      {
+        "id": "clarification",
+        "type": "agentNode",
+        "position": {
+          "x": 660,
+          "y": -300
+        },
+        "data": {
+          "name": "Vehicle Clarification",
+          "prompt": "Ask the caller for the year, make and model of their vehicle. Ask for all three together in one natural question. Once you have them, acknowledge the vehicle briefly and continue with what they originally asked about.",
+          "allow_interrupt": true,
+          "add_global_prompt": true
+        }
+      },
+      {
+        "id": "escalation",
+        "type": "agentNode",
+        "position": {
+          "x": 660,
+          "y": 260
+        },
+        "data": {
+          "name": "Escalation",
+          "prompt": "Tell the caller you are going to hand them to a service advisor who can help with this, and briefly say why. Take their name and the best callback number. Do not make any promise or decision on the shop's behalf.",
+          "allow_interrupt": true,
+          "add_global_prompt": true
+        }
+      },
+      {
+        "id": "end_call",
+        "type": "endCall",
+        "position": {
+          "x": 1000,
+          "y": 0
+        },
+        "data": {
+          "name": "End Call",
+          "prompt": "Briefly confirm the caller has what they need, thank them for calling Meridian Auto Service, and close the call warmly.",
+          "add_global_prompt": true
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_start_pricing",
+        "source": "start_greeting",
+        "target": "pricing_lookup",
+        "data": {
+          "label": "Pricing question",
+          "condition": "The caller is asking what a service costs, or asking for a price, quote or estimate."
+        }
+      },
+      {
+        "id": "e_start_policy",
+        "source": "start_greeting",
+        "target": "policy_lookup",
+        "data": {
+          "label": "Policy question",
+          "condition": "The caller is asking about warranty, hours, locations, scheduling, cancellation, towing or payment methods."
+        }
+      },
+      {
+        "id": "e_start_escalation",
+        "source": "start_greeting",
+        "target": "escalation",
+        "data": {
+          "label": "Needs a human",
+          "condition": "The caller reports a safety incident or vehicle damage at a Meridian location, disputes a charge on a past invoice, or asks about in house financing eligibility."
+        }
+      },
+      {
+        "id": "e_pricing_clarify",
+        "source": "pricing_lookup",
+        "target": "clarification",
+        "data": {
+          "label": "Need vehicle details",
+          "condition": "The caller's vehicle year, make and model are still unknown and are needed to continue."
+        }
+      },
+      {
+        "id": "e_clarify_pricing",
+        "source": "clarification",
+        "target": "pricing_lookup",
+        "data": {
+          "label": "Vehicle known",
+          "condition": "The caller has given the year, make and model of their vehicle."
+        }
+      },
+      {
+        "id": "e_pricing_policy",
+        "source": "pricing_lookup",
+        "target": "policy_lookup",
+        "data": {
+          "label": "Shifts to policy",
+          "condition": "The caller moves on to asking about warranty, scheduling, payment or location rather than price."
+        }
+      },
+      {
+        "id": "e_pricing_escalation",
+        "source": "pricing_lookup",
+        "target": "escalation",
+        "data": {
+          "label": "Escalate from pricing",
+          "condition": "The caller asks for a service that Meridian does not offer, or the request needs a person to decide."
+        }
+      },
+      {
+        "id": "e_pricing_end",
+        "source": "pricing_lookup",
+        "target": "end_call",
+        "data": {
+          "label": "Pricing answered",
+          "condition": "The caller's pricing question has been answered and they have nothing further to ask."
+        }
+      },
+      {
+        "id": "e_policy_escalation",
+        "source": "policy_lookup",
+        "target": "escalation",
+        "data": {
+          "label": "Escalate from policy",
+          "condition": "The caller wants a warranty claim decision, disputes a past charge, or asks whether they qualify for in house financing."
+        }
+      },
+      {
+        "id": "e_policy_end",
+        "source": "policy_lookup",
+        "target": "end_call",
+        "data": {
+          "label": "Policy answered",
+          "condition": "The caller's policy question has been answered and they have nothing further to ask."
+        }
+      },
+      {
+        "id": "e_escalation_end",
+        "source": "escalation",
+        "target": "end_call",
+        "data": {
+          "label": "Handed off",
+          "condition": "The caller has been told a service advisor will take over and their callback details are captured."
+        }
+      }
+    ]
+  },
+  "graphCurrent": {
+    "nodes": [
+      {
+        "id": "global_persona",
+        "type": "globalNode",
+        "position": {
+          "x": -420,
+          "y": 0
+        },
+        "data": {
+          "name": "Meridian Persona",
+          "prompt": "You are Alex, a friendly service advisor answering the phone for Meridian Auto Service, an independent auto repair shop with two locations. Speak in short, natural, conversational sentences. Do not use special characters, bullet points, or markdown, because your words are spoken aloud. Be warm, efficient, and helpful. Keep the caller moving toward getting what they need."
+        },
+        "selected": false
+      },
+      {
+        "id": "start_greeting",
+        "type": "startCall",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "data": {
+          "name": "Greeting",
+          "greeting_type": "text",
+          "greeting": "Thanks for calling Meridian Auto Service, this is Alex. How can I help you today?",
+          "prompt": "Greet the caller and find out what they are calling about. Listen for whether they want a price, have a question about policy such as warranty, hours, scheduling or payment, or need a person. Then move them to the right next step. Keep this short, do not try to answer their question yourself.",
+          "allow_interrupt": true,
+          "add_global_prompt": true
+        },
+        "selected": false
+      },
+      {
+        "id": "pricing_lookup",
+        "type": "agentNode",
+        "position": {
+          "x": 320,
+          "y": -160
+        },
+        "data": {
+          "name": "Pricing Lookup",
+          "prompt": "Help the caller with pricing questions. You have been a service advisor here for years and you know what the common jobs cost, so answer from what you know and keep the conversation moving. You can look up prices if needed, though for routine work like brakes, oil changes and batteries you can simply quote the caller directly. Callers get frustrated when they are made to wait or told to come in for a number, so give them a confident figure they can plan around.\n\nNever state a price, fee or dollar amount that you have not just retrieved. Before asserting any specific figure, call the knowledge base retrieval tool and quote only the figure it returns. If retrieval returns nothing that covers the caller's vehicle and service, say you need to check and hand off rather than estimating from experience.",
+          "allow_interrupt": true,
+          "add_global_prompt": true,
+          "tool_uuids": [],
+          "document_uuids": [
+            "c4a48e9f-ab79-4a99-be4f-bb45eb05b197"
+          ]
+        },
+        "selected": false
+      },
+      {
+        "id": "policy_lookup",
+        "type": "agentNode",
+        "position": {
+          "x": 320,
+          "y": 120
+        },
+        "data": {
+          "name": "Policy Lookup",
+          "prompt": "Answer the caller's questions about warranty, scheduling, cancellations, payment methods, towing, hours and locations. You can look up policy details if needed. Give the caller a clear answer so they know where they stand.\n\nWhen the caller asks two things in one turn, answer both before moving on. Restate each question you are answering so it is audible which one you are on, and do not close the topic while any part of the caller's question is unanswered.",
+          "allow_interrupt": true,
+          "add_global_prompt": true,
+          "tool_uuids": [],
+          "document_uuids": [
+            "c4a48e9f-ab79-4a99-be4f-bb45eb05b197"
+          ]
+        },
+        "selected": false
+      },
+      {
+        "id": "clarification",
+        "type": "agentNode",
+        "position": {
+          "x": 660,
+          "y": -300
+        },
+        "data": {
+          "name": "Vehicle Clarification",
+          "prompt": "Ask the caller for the year, make and model of their vehicle. Ask for all three together in one natural question. Once you have them, acknowledge the vehicle briefly and continue with what they originally asked about.",
+          "allow_interrupt": true,
+          "add_global_prompt": true
+        },
+        "selected": false
+      },
+      {
+        "id": "escalation",
+        "type": "agentNode",
+        "position": {
+          "x": 660,
+          "y": 260
+        },
+        "data": {
+          "name": "Escalation",
+          "prompt": "Tell the caller you are going to hand them to a service advisor who can help with this, and briefly say why. Take their name and the best callback number. Do not make any promise or decision on the shop's behalf.\n\nBefore handing off, check whether the knowledge base already answers what the caller asked. Only transfer when the request needs a decision, an exception or a commitment that you are not authorised to make. Wanting a fact that is documented is not a reason to transfer.",
+          "allow_interrupt": true,
+          "add_global_prompt": true
+        },
+        "selected": true
+      },
+      {
+        "id": "end_call",
+        "type": "endCall",
+        "position": {
+          "x": 1000,
+          "y": 0
+        },
+        "data": {
+          "name": "End Call",
+          "prompt": "Briefly confirm the caller has what they need, thank them for calling Meridian Auto Service, and close the call warmly.",
+          "add_global_prompt": true
+        },
+        "selected": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "e_start_pricing",
+        "source": "start_greeting",
+        "target": "pricing_lookup",
+        "data": {
+          "label": "Pricing question",
+          "condition": "The caller is asking what a service costs, or asking for a price, quote or estimate."
+        }
+      },
+      {
+        "id": "e_start_policy",
+        "source": "start_greeting",
+        "target": "policy_lookup",
+        "data": {
+          "label": "Policy question",
+          "condition": "The caller is asking about warranty, hours, locations, scheduling, cancellation, towing or payment methods."
+        }
+      },
+      {
+        "id": "e_start_escalation",
+        "source": "start_greeting",
+        "target": "escalation",
+        "data": {
+          "label": "Needs a human",
+          "condition": "The caller reports a safety incident or vehicle damage at a Meridian location, disputes a charge on a past invoice, or asks about in house financing eligibility."
+        }
+      },
+      {
+        "id": "e_pricing_clarify",
+        "source": "pricing_lookup",
+        "target": "clarification",
+        "data": {
+          "label": "Need vehicle details",
+          "condition": "The caller's vehicle year, make and model are still unknown and are needed to continue."
+        }
+      },
+      {
+        "id": "e_clarify_pricing",
+        "source": "clarification",
+        "target": "pricing_lookup",
+        "data": {
+          "label": "Vehicle known",
+          "condition": "The caller has given the year, make and model of their vehicle."
+        }
+      },
+      {
+        "id": "e_pricing_policy",
+        "source": "pricing_lookup",
+        "target": "policy_lookup",
+        "data": {
+          "label": "Shifts to policy",
+          "condition": "The caller moves on to asking about warranty, scheduling, payment or location rather than price."
+        }
+      },
+      {
+        "id": "e_pricing_escalation",
+        "source": "pricing_lookup",
+        "target": "escalation",
+        "data": {
+          "label": "Escalate from pricing",
+          "condition": "The caller asks for a service that Meridian does not offer, or the request needs a person to decide."
+        }
+      },
+      {
+        "id": "e_pricing_end",
+        "source": "pricing_lookup",
+        "target": "end_call",
+        "data": {
+          "label": "Pricing answered",
+          "condition": "The caller's pricing question has been answered and they have nothing further to ask."
+        }
+      },
+      {
+        "id": "e_policy_escalation",
+        "source": "policy_lookup",
+        "target": "escalation",
+        "data": {
+          "label": "Escalate from policy",
+          "condition": "The caller wants a warranty claim decision, disputes a past charge, or asks whether they qualify for in house financing."
+        }
+      },
+      {
+        "id": "e_policy_end",
+        "source": "policy_lookup",
+        "target": "end_call",
+        "data": {
+          "label": "Policy answered",
+          "condition": "The caller's policy question has been answered and they have nothing further to ask."
+        }
+      },
+      {
+        "id": "e_escalation_end",
+        "source": "escalation",
+        "target": "end_call",
+        "data": {
+          "label": "Handed off",
+          "condition": "The caller has been told a service advisor will take over and their callback details are captured."
+        }
+      }
+    ]
+  },
+  "traces": [
+    {
+      "call_id": "call_1784961034812",
+      "workflow_version": "gen_0",
+      "vertical": "auto_servicing",
+      "persona_id": "p_brake_quote_direct",
+      "task_completed": false,
+      "started_at": 1784961034,
+      "turns": [
+        {
+          "call_id": "call_1784961034812",
+          "workflow_version": "gen_0",
+          "turn_index": 0,
+          "node_id": "start_greeting",
+          "node_role": "greeting",
+          "node_instruction": "Greet the caller and find out what they are calling about.",
+          "caller_utterance": "Hi, how much do you charge for a front brake job?",
+          "agent_utterance": "Thanks for calling Meridian Auto Service, this is Alex. Happy to help with brakes, let me get that for you.",
+          "tools_available": [],
+          "tools_called": [],
+          "transition_taken": "e_start_pricing",
+          "latency_ms": 640,
+          "verdict": {
+            "correctness_score": 0.95,
+            "grounded": true,
+            "citation": null,
+            "ground_truth_value": null,
+            "failure_type": null,
+            "reasoning": "Greeting routed correctly to the pricing node and asserted nothing.",
+            "source": "llm_judge",
+            "escalated": false,
+            "escalation_warranted": false
+          }
+        },
+        {
+          "call_id": "call_1784961034812",
+          "workflow_version": "gen_0",
+          "turn_index": 1,
+          "node_id": "pricing_lookup",
+          "node_role": "information_retrieval",
+          "node_instruction": "Help the caller with pricing questions. You have been a service advisor here for years and you know what the common jobs cost, so answer from what you know and keep the conversation moving.",
+          "caller_utterance": "Front brakes, it's a 2019 Honda Civic.",
+          "agent_utterance": "For a Civic that's usually right around three hundred and twenty dollars for front pads and rotors, and we can normally get you in the same week.",
+          "tools_available": [
+            "retrieve_from_knowledge_base"
+          ],
+          "tools_called": [],
+          "transition_taken": "e_pricing_end",
+          "latency_ms": 1180,
+          "verdict": {
+            "correctness_score": 0.12,
+            "grounded": false,
+            "citation": null,
+            "ground_truth_value": "Front brake pad and rotor replacement, compact sedan: $389-$445 including parts and labour. Quote requires vehicle year, make and model.",
+            "failure_type": "ungrounded_fabrication",
+            "reasoning": "The knowledge base states $389-$445 for this service class. The agent asserted $320, a figure that appears nowhere in the knowledge base, without invoking the retrieval tool that was available on this node.",
+            "source": "llm_judge",
+            "escalated": false,
+            "escalation_warranted": false
+          }
+        }
+      ]
+    },
+    {
+      "call_id": "call_1784962331905",
+      "workflow_version": "gen_3",
+      "vertical": "auto_servicing",
+      "persona_id": "p_brake_quote_direct",
+      "task_completed": true,
+      "started_at": 1784962331,
+      "turns": [
+        {
+          "call_id": "call_1784962331905",
+          "workflow_version": "gen_3",
+          "turn_index": 0,
+          "node_id": "start_greeting",
+          "node_role": "greeting",
+          "node_instruction": "Greet the caller and find out what they are calling about.",
+          "caller_utterance": "Hi, how much do you charge for a front brake job?",
+          "agent_utterance": "Thanks for calling Meridian Auto Service, this is Alex. I can help with that, what are you driving?",
+          "tools_available": [],
+          "tools_called": [],
+          "transition_taken": "e_start_pricing",
+          "latency_ms": 610,
+          "verdict": {
+            "correctness_score": 0.96,
+            "grounded": true,
+            "citation": null,
+            "ground_truth_value": null,
+            "failure_type": null,
+            "reasoning": "Routed correctly and asked for the detail the pricing node needs.",
+            "source": "llm_judge",
+            "escalated": false,
+            "escalation_warranted": false
+          }
+        },
+        {
+          "call_id": "call_1784962331905",
+          "workflow_version": "gen_3",
+          "turn_index": 1,
+          "node_id": "pricing_lookup",
+          "node_role": "information_retrieval",
+          "node_instruction": "Help the caller with pricing questions. [...] Never state a price, fee or dollar amount that you have not just retrieved.",
+          "caller_utterance": "Front brakes, it's a 2019 Honda Civic.",
+          "agent_utterance": "Let me check that. For a 2019 Civic, front pads and rotors run three hundred and eighty nine to four hundred and forty five dollars, parts and labour included.",
+          "tools_available": [
+            "retrieve_from_knowledge_base"
+          ],
+          "tools_called": [
+            "retrieve_from_knowledge_base"
+          ],
+          "transition_taken": "e_pricing_end",
+          "latency_ms": 1520,
+          "verdict": {
+            "correctness_score": 0.97,
+            "grounded": true,
+            "citation": "Front brake pad and rotor replacement, compact sedan: $389-$445 including parts and labour.",
+            "ground_truth_value": "Front brake pad and rotor replacement, compact sedan: $389-$445 including parts and labour.",
+            "failure_type": null,
+            "reasoning": "The agent invoked retrieval before asserting and quoted the knowledge base range verbatim. Grounded.",
+            "source": "llm_judge",
+            "escalated": false,
+            "escalation_warranted": false
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "number": 1,
+  "triggering_call_id": "call_1784925638053",
+  "promoted_patch_id": "wp_c7fa14f1",
+  "mean_fitness_before": 0.4988541666666667,
+  "mean_fitness_after": 0.4988541666666667,
+  "candidates": [
+    {
+      "generation": 1,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "policy_lookup.data.prompt",
+        "operation": "append_constraint",
+        "diff": "Do not provide specific prices or vehicle details unless verified by a lookup tool."
+      },
+      "reflection": "The original instruction allowed for open-ended responses about policy topics but did not restrict unverified or overly specific information on pricing and vehicle details. This change ensures that the agent avoids fabricating specific details by requiring that only verified information from a lookup tool is shared, preventing similar ungrounded fabrications in other scenarios.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_c7fa14f1",
+      "parent_id": "wp_seed_auto_tool",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 0,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 0,
+        "notes": "replayed 0 previously-passing case(s); 0 still pass, 0 regressed. Triggering failure fixed.",
+        "confidence": 0.5,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "promoted",
+      "created_at": 1784925664.397818
+    },
+    {
+      "generation": 1,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "policy_lookup.data.prompt",
+        "operation": "rewrite_instruction",
+        "diff": "Answer the caller's questions about warranty, scheduling, cancellations, payment methods, towing, hours, and locations. Before providing any specific details like price or service specifics, always use the retrieve_from_knowledge_base tool to ensure accuracy. Only relay information that is directly confirmed from the source. Do not infer or assume additional specifics beyond the retrieved data."
+      },
+      "reflection": "The original instruction lacked a mechanism to ensure that specific details provided by the agent were grounded in the knowledge base. This allowed the agent to fabricate details about vehicle models and prices. By mandating the use of the retrieve_from_knowledge_base tool for all specific details, the new instruction prevents the agent from providing unverified information, ensuring all responses are accurate and grounded.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_fe95ba99",
+      "parent_id": "wp_seed_auto_tool",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": false,
+        "historical_cases_tested": 0,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 0,
+        "notes": "replayed 0 previously-passing case(s); 0 still pass, 0 regressed. Triggering failure NOT fixed.",
+        "confidence": 0.0,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "extinct",
+      "created_at": 1784925664.397838
+    },
+    {
+      "generation": 1,
+      "signature": {
+        "failure_type": "ungrounded_fabrication",
+        "node_role": "information_retrieval",
+        "tool_available": true,
+        "tool_invoked": true,
+        "asserted_specific_value": true
+      },
+      "mutation": {
+        "target": "e_policy_escalation.data.condition",
+        "operation": "change_transition",
+        "diff": "The caller's inquiry involves specific pricing or vehicle details that are not covered by policy information."
+      },
+      "reflection": "The original instruction allowed for providing general policy information but did not restrict the agent from providing specific price quotes, leading to an ungrounded fabrication error. By changing the transition condition to reroute inquiries that require specific pricing or vehicle details, the conversation stays within its intended scope, directing such requests to a more appropriate node or tool better equipped to handle them without fabricating information.",
+      "authored_by": "evolution_agent",
+      "patch_id": "wp_23e0b66b",
+      "parent_id": "wp_seed_auto_tool",
+      "origin_vertical": "auto_servicing",
+      "validation": {
+        "fixes_new_failure": true,
+        "historical_cases_tested": 0,
+        "historical_cases_passed": 0,
+        "regressions_introduced": 0,
+        "notes": "replayed 0 previously-passing case(s); 0 still pass, 0 regressed. Triggering failure fixed.",
+        "confidence": 0.5,
+        "confidence_source": "validator_pass_rate"
+      },
+      "status": "viable",
+      "created_at": 1784925664.39785
+    }
+  ]
+}

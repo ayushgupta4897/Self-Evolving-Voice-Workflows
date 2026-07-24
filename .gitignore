@@ -1,0 +1,22 @@
+# secrets — never commit
+.env
+.env.local
+*.env.local
+
+# environments / vendored
+.venv/
+vendor/
+__pycache__/
+*.pyc
+local_data/
+
+# build artefacts
+node_modules/
+.next/
+out/
+.vercel/
+
+# runtime logs
+logs_evolution.txt
+replay_proxy.log
+video/work/
