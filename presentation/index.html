@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Self-Evolving Voice Workflows</title>
+<meta name="description" content="Our voice agent rewrites its own conversation graph when customers get wrong answers." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --canvas:#0a0a0a; --surface:#121212; --surface-2:#181818;
+  --ink:#f0f0f0; --ink-2:#a8a8a8; --muted:#8a8580; --line:#2a2a2a;
+  --stone:rgba(245,242,239,0.92);
+  --add:#8fd9a8; --del:#e59a9a; --extinct:#e07a7a;
+  --line-subtle:rgba(255,255,255,0.08);
+  --stone-dim:rgba(245,242,239,0.08);
+  --shadow-card:rgba(255,255,255,.06) 0 0 0 1px, rgba(0,0,0,.4) 0 1px 2px, rgba(0,0,0,.3) 0 2px 4px;
+  --shadow-inset:rgba(255,255,255,.075) 0 0 0 .5px inset;
+  --shadow-warm:rgba(78,50,23,.24) 0 6px 16px;
+  --sans:Inter, system-ui, -apple-system, sans-serif;
+  --mono:"Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:76px}
+body{
+  margin:0; background:var(--canvas); color:var(--ink);
+  font-family:var(--sans); font-size:16px; font-weight:400;
+  line-height:1.5; letter-spacing:.16px; -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(245,242,239,.18)}
+a{color:inherit}
+img{max-width:100%; display:block}
+
+/* ---- type ---- */
+.display{font-weight:300; line-height:1.06; letter-spacing:-1.4px; font-size:clamp(38px,5.4vw,68px); margin:0}
+.heading{font-weight:300; line-height:1.14; letter-spacing:-.6px; font-size:clamp(28px,3.4vw,40px); margin:0}
+.sub{font-weight:300; line-height:1.2; letter-spacing:-.3px; font-size:clamp(21px,2.2vw,27px); margin:0}
+.label{font-family:var(--mono); font-size:13px; font-weight:500; letter-spacing:1.1px;
+  text-transform:uppercase; color:var(--muted); margin:0}
+.lede{font-size:clamp(17px,1.35vw,20px); line-height:1.6; letter-spacing:.18px; color:var(--ink-2); margin:0}
+p{margin:0}
+.mono{font-family:var(--mono)}
+.dim{color:var(--ink-2)}
+.faint{color:var(--muted)}
+strong{font-weight:600; color:var(--ink)}
+
+/* ---- shell ---- */
+.wrap{max-width:1160px; margin:0 auto; padding:0 28px}
+nav{
+  position:sticky; top:0; z-index:50; background:rgba(10,10,10,.86);
+  backdrop-filter:blur(14px); border-bottom:1px solid var(--line-subtle);
+}
+.navrow{display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px}
+.brand{display:flex; align-items:center; gap:10px; font-size:15px; font-weight:500; letter-spacing:.15px}
+.dot{width:8px;height:8px;border-radius:9999px;background:var(--add);animation:pulse 2s ease-in-out infinite; flex:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.navlinks{display:flex; gap:6px}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:9999px;font-size:14px;
+  font-weight:500;letter-spacing:.14px;padding:7px 15px;white-space:nowrap;text-decoration:none;
+  transition:background .18s ease,color .18s ease}
+.pill-ghost{background:transparent;color:var(--ink-2);box-shadow:var(--shadow-inset)}
+.pill-ghost:hover{color:var(--ink);background:var(--stone-dim)}
+.pill-stone{background:var(--stone);color:var(--canvas);box-shadow:var(--shadow-warm)}
+.pill-num{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.pill-ghost:hover .pill-num{color:var(--ink-2)}
+
+section{padding:84px 0 96px; border-top:1px solid var(--line-subtle)}
+section:first-of-type{border-top:none}
+.pagehead{display:flex; flex-direction:column; gap:22px; max-width:940px}
+.stack{display:flex; flex-direction:column}
+.g14{gap:14px}.g18{gap:18px}.g24{gap:24px}.g32{gap:32px}.g44{gap:44px}.g60{gap:60px}
+
+/* ---- surfaces ---- */
+.card{background:var(--surface); border-radius:20px; box-shadow:var(--shadow-card); padding:28px 30px}
+.card-inset{background:var(--surface-2); border-radius:16px; box-shadow:var(--shadow-inset); padding:20px 22px}
+.grid{display:grid; gap:18px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+hr.divider{border:none;border-top:1px solid var(--line);margin:0}
+
+/* ---- chips ---- */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:12.5px;letter-spacing:.3px;padding:5px 11px;border-radius:9999px;
+  background:var(--surface-2);color:var(--ink-2);box-shadow:var(--shadow-inset)}
+.chip-bad{background:rgba(224,122,122,.12);color:#f0cfcf;box-shadow:inset 0 0 0 1px rgba(224,122,122,.32)}
+.chip-good{background:rgba(143,217,168,.12);color:#dff3e6;box-shadow:inset 0 0 0 1px rgba(143,217,168,.32)}
+
+/* ---- transcript ---- */
+.turn{display:grid;grid-template-columns:104px minmax(0,1fr);gap:18px;padding:16px 0;align-items:start}
+.turn + .turn{border-top:1px solid var(--line)}
+.who{font-family:var(--mono);font-size:12.5px;letter-spacing:.9px;text-transform:uppercase;color:var(--muted);padding-top:4px}
+.said{font-size:clamp(17px,1.5vw,21px);line-height:1.5;letter-spacing:.1px}
+.said em{font-style:normal;color:var(--extinct);font-weight:500}
+.said .ok{color:var(--add);font-weight:500}
+
+/* ---- stats ---- */
+.stat{background:var(--surface);border-radius:18px;box-shadow:var(--shadow-card);padding:22px 22px 20px;
+  display:flex;flex-direction:column;gap:6px;min-height:132px;justify-content:space-between}
+.stat-n{font-weight:300;font-size:clamp(34px,4vw,48px);line-height:1;letter-spacing:-1.6px}
+.stat-l{font-size:14px;line-height:1.4;color:var(--ink-2);letter-spacing:.14px}
+.stat-hero .stat-n{color:var(--add)}
+.stat-warn .stat-n{color:var(--extinct)}
+
+/* ---- diff ---- */
+.diff{display:flex;flex-direction:column;gap:4px}
+.diff-line{display:flex;gap:12px;padding:10px 14px;border-radius:8px;font-size:16px;line-height:1.55;letter-spacing:.16px}
+.diff-marker{font-family:var(--mono);font-size:15px;font-weight:500;flex:none;width:14px;opacity:.8}
+.diff-add{background:rgba(143,217,168,.11);box-shadow:inset 3px 0 0 0 var(--add);color:#dff3e6}
+.diff-remove{background:rgba(229,154,154,.09);box-shadow:inset 3px 0 0 0 var(--del);color:#f0d4d4}
+
+/* ---- pull quote ---- */
+.pull{border-left:2px solid var(--stone);padding:6px 0 6px 26px;font-weight:300;
+  font-size:clamp(22px,2.5vw,32px);line-height:1.25;letter-spacing:-.5px}
+.pull .hi{color:var(--add)}
+
+/* ---- requirement cards ---- */
+.req{background:var(--surface);border-radius:20px;box-shadow:var(--shadow-card);padding:26px 28px;
+  display:flex;flex-direction:column;gap:16px}
+.req-q{font-weight:300;font-size:clamp(19px,1.75vw,23px);line-height:1.3;letter-spacing:-.3px;color:var(--ink)}
+.req-arrow{display:flex;align-items:center;gap:10px}
+.req-name{font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--stone)}
+.req-body{font-size:15.5px;line-height:1.6;letter-spacing:.16px;color:var(--ink-2)}
+.req-note{font-size:14px;line-height:1.55;color:var(--muted);padding-top:14px;border-top:1px solid var(--line)}
+
+/* ---- figure ---- */
+figure{margin:0}
+figure img{border-radius:14px;box-shadow:var(--shadow-card)}
+figcaption{font-family:var(--mono);font-size:12.5px;color:var(--muted);letter-spacing:.3px;padding-top:10px}
+
+/* ---- svg diagram ---- */
+.diagram{width:100%;overflow-x:auto}
+.diagram svg{min-width:900px;width:100%;height:auto;display:block}
+.js-anim .step{opacity:0;transform:translateY(10px)}
+.js-anim .link{opacity:0}
+.js-anim.in .step{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+.js-anim.in .link{opacity:1;transition:opacity .45s ease}
+@media (prefers-reduced-motion:reduce){
+  .js-anim .step,.js-anim .link{opacity:1!important;transform:none!important;transition:none!important}
+  .dot{animation:none}
+}
+
+footer{border-top:1px solid var(--line-subtle);padding:40px 0 64px;color:var(--muted);font-size:14px}
+
+@media (max-width:900px){
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3,.g2{grid-template-columns:minmax(0,1fr)}
+  section{padding:60px 0 68px}
+  .turn{grid-template-columns:minmax(0,1fr);gap:6px}
+  .navlinks .lbl{display:none}
+  .wrap{padding:0 20px}
+  .card{padding:22px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap navrow">
+    <div class="brand"><span class="dot"></span> Self-Evolving Voice Workflows</div>
+    <div class="navlinks">
+      <a class="pill pill-ghost" href="#problem"><span class="pill-num">01</span> <span class="lbl">Problem</span></a>
+      <a class="pill pill-ghost" href="#built"><span class="pill-num">02</span> <span class="lbl">What we built</span></a>
+      <a class="pill pill-ghost" href="#why"><span class="pill-num">03</span> <span class="lbl">Why these products</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================== PAGE 1 ============================== -->
+<section id="problem">
+  <div class="wrap stack g60">
+
+    <div class="pagehead">
+      <p class="label">01 — The problem</p>
+      <h1 class="display">The organization learns.<br />The agent doesn't.</h1>
+      <p class="lede">Voice agents hallucinate prices, misstate policies, and cite outdated procedures. The fix loop today runs entirely through people. Our agent rewrites its own conversation graph instead.</p>
+    </div>
+
+    <div class="grid g4">
+      <div class="card-inset stack g14"><p class="label">Step 1</p><p class="dim">Customer complains</p></div>
+      <div class="card-inset stack g14"><p class="label">Step 2</p><p class="dim">Engineer reads the transcript</p></div>
+      <div class="card-inset stack g14"><p class="label">Step 3</p><p class="dim">Engineer patches the prompt</p></div>
+      <div class="card-inset stack g14"><p class="label">Step 4</p><p class="dim">Redeploy</p></div>
+    </div>
+
+    <div class="stack g24">
+      <h2 class="heading">The failure we fix, verbatim</h2>
+      <div class="card stack g18">
+        <div>
+          <div class="turn">
+            <div class="who">Caller</div>
+            <div class="said">What do front brakes cost on a 2021 Toyota Highlander?</div>
+          </div>
+          <div class="turn">
+            <div class="who">Gen-0 agent</div>
+            <div class="said">"On a 2021 Toyota Highlander, front brakes usually run <em>right around 550 to 750 dollars</em>, depending on…"</div>
+          </div>
+          <div class="turn">
+            <div class="who">Verified</div>
+            <div class="said"><span class="ok">$340</span> — SUV front axle, pads and rotors.</div>
+          </div>
+        </div>
+        <hr class="divider" />
+        <div class="stack g14">
+          <p class="label">Senso verdict on that turn</p>
+          <div class="chips">
+            <span class="chip chip-bad">correctness 0.10</span>
+            <span class="chip chip-bad">grounded = false</span>
+            <span class="chip chip-bad">ungrounded_fabrication</span>
+            <span class="chip">retrieval tool available</span>
+            <span class="chip chip-bad">tool never invoked</span>
+            <span class="chip">node: pricing_lookup</span>
+          </div>
+          <p class="dim" style="font-size:15.5px">The knowledge-base tool was attached to that node. It would have returned the right number. The node's instruction permitted answering without it.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="pull">RAG fixes retrieval.<br />We fix <span class="hi">the instruction that failed to invoke retrieval.</span></p>
+
+    <div class="grid g2">
+      <div class="card stack g14">
+        <p class="label">Why this is the blocker</p>
+        <p class="sub">A fluent wrong answer is undetectable by ear.</p>
+        <p class="dim">Grounding failure is what keeps voice agents out of production. Text agents get read. Voice agents get heard once, at speed, by a caller with no way to check. The wrong number sounds exactly like the right one.</p>
+      </div>
+      <div class="card stack g14">
+        <p class="label">Why voice was skipped</p>
+        <p class="sub">Self-evolving agents live in code and text.</p>
+        <p class="dim">GEPA, AlphaEvolve, Darwin Gödel Machine, EvoAgentX all optimise where fitness is cheap, parallel and deterministic. Voice was skipped because the signal is slow and noisy. A verified knowledge base with citations is what closes that gap.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== PAGE 2 ============================== -->
+<section id="built">
+  <div class="wrap stack g60">
+
+    <div class="pagehead">
+      <p class="label">02 — What we built</p>
+      <h1 class="display">A closed loop from<br />wrong answer to shipped patch.</h1>
+      <p class="lede">Every call is scored against verified ground truth. Failures are attributed to a node. Three mutations compete. One survives regression testing, or none do. The winner is written back to the live graph before the next call.</p>
+    </div>
+
+    <div class="card diagram" id="loop">
+      <svg viewBox="0 0 1200 400" role="img" aria-label="The autonomous evolution loop: call, Senso scores, failure detected, attribution, three candidates, validator replays history, promotion gate, write to Actian and publish to Dograh, then the next call runs the evolved graph.">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#5a5a5a" />
+          </marker>
+          <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#8fd9a8" />
+          </marker>
+        </defs>
+
+        <!-- connectors -->
+        <g class="link" stroke="#4d4d4d" stroke-width="1.75" fill="none">
+          <path d="M290,113 L344" marker-end="url(#ah)" />
+          <path d="M580,113 L634" marker-end="url(#ah)" />
+          <path d="M870,113 L924" marker-end="url(#ah)" />
+          <path d="M1045,156 L1045,244" marker-end="url(#ah)" />
+          <path d="M930,293 L876" marker-end="url(#ah)" />
+          <path d="M640,293 L586" marker-end="url(#ah)" />
+          <path d="M350,293 L296" marker-end="url(#ah)" />
+        </g>
+        <g class="link" stroke="#8fd9a8" stroke-width="2" fill="none" opacity=".85">
+          <path d="M60,293 L26,293 Q14,293 14,281 L14,125 Q14,113 26,113 L54,113" marker-end="url(#ahg)" />
+        </g>
+        <text class="link" x="24" y="200" fill="#8fd9a8" font-family="Geist Mono, monospace" font-size="12.5"
+              letter-spacing=".6" transform="rotate(-90 24 200)" text-anchor="middle">NEXT CALL RUNS THE EVOLVED GRAPH</text>
+
+        <!-- row 1 -->
+        <g class="step" style="transition-delay:.00s">
+          <rect x="60" y="70" width="230" height="86" rx="14" fill="#181818" stroke="rgba(255,255,255,.12)" />
+          <text x="80" y="103" fill="#f0f0f0" font-family="Inter, sans-serif" font-size="16" font-weight="500">Call runs the graph</text>
+          <text x="80" y="127" fill="#8a8580" font-family="Geist Mono, monospace" font-size="12.5">Dograh · Pioneer</text>
+        </g>
+        <g class="step" style="transition-delay:.09s">
+          <rect x="350" y="70" width="230" height="86" rx="14" fill="#181818" stroke="rgba(255,255,255,.12)" />
+          <text x="370" y="103" fill="#f0f0f0" font-family="Inter, sans-serif" font-size="16" font-weight="500">Senso scores the turn</text>
+          <text x="370" y="127" fill="#8a8580" font-family="Geist Mono, monospace" font-size="12.5">grounded answer + citation</text>
+        </g>
+        <g class="step" style="transition-delay:.18s">
+          <rect x="640" y="70" width="230" height="86" rx="14" fill="#181818" stroke="rgba(224,122,122,.45)" />
+          <text x="660" y="103" fill="#f0cfcf" font-family="Inter, sans-serif" font-size="16" font-weight="500">Failure detected</text>
+          <text x="660" y="127" fill="#8a8580" font-family="Geist Mono, monospace" font-size="12.5">automatic · zero clicks</text>
+        </g>
+        <g class="step" style="transition-delay:.27s">
+          <rect x="930" y="70" width="230" height="86" rx="14" fill="#181818" stroke="rgba(255,255,255,.12)" />
+          <text x="950" y="103" fill="#f0f0f0" font-family="Inter, sans-serif" font-size="16" font-weight="500">Attribution</text>
+          <text x="950" y="127" fill="#8a8580" font-family="Geist Mono, monospace" font-size="12.5">the root node, not the loud one</text>
+        </g>
+
+        <!-- row 2 -->
+        <g class="step" style="transition-delay:.36s">
+          <rect x="930" y="250" width="230" height="86" rx="14" fill="#181818" stroke="rgba(255,255,255,.12)" />
+          <text x="950" y="283" fill="#f0f0f0" font-family="Inter, sans-serif" font-size="16" font-weight="500">3 candidates</text>
+          <text x="950" y="307" fill="#8a8580" font-family="Geist Mono, monospace" font-size="12.5">3 different operators</text>
+        </g>
+        <g class="step" style="transition-delay:.45s">
+          <rect x="640" y="250" width="230" height="86" rx="14" fill="#181818" stroke="rgba(255,255,255,.12)" />
+          <text x="660" y="283" fill="#f0f0f0" font-family="Inter, sans-serif" font-size="16" font-weight="500">Validator replays history</text>
+          <text x="660" y="307" fill="#8a8580" font-family="Geist Mono, monospace" font-size="12.5">local gate + Guild agent</text>
+        </g>
+        <g class="step" style="transition-delay:.54s">
+          <rect x="350" y="250" width="230" height="86" rx="14" fill="rgba(143,217,168,.08)" stroke="#8fd9a8" stroke-width="1.5" />
+          <text x="370" y="283" fill="#dff3e6" font-family="Inter, sans-serif" font-size="16" font-weight="500">Promote — or die</text>
+          <text x="370" y="307" fill="#8fd9a8" font-family="Geist Mono, monospace" font-size="12.5">fixes-new AND zero-regression</text>
+        </g>
+        <g class="step" style="transition-delay:.63s">
+          <rect x="60" y="250" width="230" height="86" rx="14" fill="#181818" stroke="rgba(255,255,255,.12)" />
+          <text x="80" y="283" fill="#f0f0f0" font-family="Inter, sans-serif" font-size="16" font-weight="500">Write + publish</text>
+          <text x="80" y="307" fill="#8a8580" font-family="Geist Mono, monospace" font-size="12.5">Actian store · Dograh version</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="stack g24">
+      <h2 class="heading">One batch run. 32 calls. No human in the chain.</h2>
+      <div class="grid g4">
+        <div class="stat"><div class="stat-n">11</div><div class="stat-l">Generations, 0 errored</div></div>
+        <div class="stat"><div class="stat-n">33</div><div class="stat-l">Candidates generated</div></div>
+        <div class="stat stat-warn"><div class="stat-n">27</div><div class="stat-l">Killed by the validator</div></div>
+        <div class="stat stat-hero"><div class="stat-n">3</div><div class="stat-l">Patches promoted</div></div>
+      </div>
+      <div class="card-inset" style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap">
+        <span class="stat-n" style="font-size:34px;color:var(--add)">10 of 11</span>
+        <span class="dim" style="font-size:16px">generations where selection actually eliminated something. Candidates genuinely die — that gate is what separates selection from a patch pipeline.</span>
+      </div>
+    </div>
+
+    <div class="grid g2 stack-md">
+      <figure><img src="assets/dashboard_population.png" alt="Population board showing candidates killed by the validator across generations" loading="lazy" /><figcaption>Population board — survivors and extinctions per generation</figcaption></figure>
+      <figure><img src="assets/dashboard_diff.png" alt="Graph diff view showing the mutated node" loading="lazy" /><figcaption>Graph diff — the node the loop rewrote</figcaption></figure>
+    </div>
+
+    <div class="stack g24">
+      <h2 class="heading">The patch the demo turns on</h2>
+      <div class="card stack g18">
+        <div class="chips">
+          <span class="chip">wp_d46a3166</span>
+          <span class="chip">op: add_tool_requirement</span>
+          <span class="chip">target: pricing_lookup.data.prompt</span>
+          <span class="chip chip-good">authored_by: evolution_agent</span>
+          <span class="chip chip-good">Dograh v4 · published</span>
+        </div>
+        <div class="diff">
+          <div class="diff-line diff-add">
+            <span class="diff-marker">+</span>
+            <span>Before providing any specific pricing figures or vehicle-specific details, you must first use the lookup tool to retrieve information from the knowledge base.</span>
+          </div>
+        </div>
+        <p class="dim" style="font-size:15.5px">Written by the system, applied to the live Dograh graph, published as version 4. The live runtime now answers <strong>$285</strong> for a standard sedan and calls the tool.</p>
+      </div>
+      <figure><img src="assets/dograh_v4.png" alt="The Dograh React Flow workflow showing the evolved graph published as version 4" loading="lazy" /><figcaption>Dograh — the graph we mutate is the graph that runs</figcaption></figure>
+    </div>
+
+    <div class="stack g24">
+      <h2 class="heading">Then it transferred to a domain it had never seen</h2>
+      <div class="grid g3">
+        <div class="card stack g14">
+          <p class="label">Retrieval</p>
+          <p class="sub">cosine <span style="color:var(--add)">1.000</span></p>
+          <p class="dim">A <strong>healthcare</strong> failure signature retrieved the auto-servicing brake patch from Actian — with healthcare explicitly excluded from the search.</p>
+        </div>
+        <div class="card stack g14">
+          <p class="label">Result</p>
+          <p class="sub"><span style="color:var(--extinct)">$40</span> guessed → <span style="color:var(--add)">$47</span> grounded</p>
+          <p class="dim">A fabricated specialist copay became a tool-grounded one. Same diff text, byte for byte, in a clinic's node.</p>
+        </div>
+        <div class="card stack g14">
+          <p class="label">Shared vocabulary</p>
+          <p class="sub">Jaccard 0.176</p>
+          <p class="dim">Measured, not assumed. Every shared word is boilerplate — <span class="mono faint">section</span>, <span class="mono faint">verified</span>, <span class="mono faint">escalation</span>. Not one subject-matter noun crosses over.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card stack g14">
+      <p class="label">Honest limitation, stated before you find it</p>
+      <p class="sub">Four mutation operators. The system cannot invent a new node type.</p>
+      <p class="dim"><span class="mono">append_constraint</span> · <span class="mono">add_tool_requirement</span> · <span class="mono">rewrite_instruction</span> · <span class="mono">change_transition</span>. That is the whole hypothesis space. Within it, hypothesis generation is autonomous: we wrote the fitness function, not the rules it discovered.</p>
+    </div>
+
+    <div>
+      <a class="pill pill-stone" href="assets/demo.mp4" target="_blank" rel="noopener">Watch the 2:46 demo →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== PAGE 3 ============================== -->
+<section id="why">
+  <div class="wrap stack g60">
+
+    <div class="pagehead">
+      <p class="label">03 — Why these products</p>
+      <h1 class="display">Each one answered<br />a requirement we already had.</h1>
+      <p class="lede">The loop above needs six specific things to exist. Every sponsor below is named by the requirement it satisfied. Remove any one and something concrete stops working.</p>
+    </div>
+
+    <div class="grid g2">
+
+      <div class="req">
+        <p class="req-q">"To evolve, the agent must know when it was wrong — verifiably, against a citable source."</p>
+        <div class="req-arrow"><span class="faint mono">→</span><span class="req-name">Senso</span></div>
+        <p class="req-body">A verified knowledge base that returns a grounded answer, a verbatim citation, and a relevance score for every turn. That is the correctness oracle. Every fitness number in this project traces back to a Senso answer.</p>
+        <p class="req-note"><strong>The bonus we did not plan for:</strong> the escalation policy lives in the knowledge base too. Editing the KB changes when the agent may transfer a caller — with zero code change.</p>
+      </div>
+
+      <div class="req">
+        <p class="req-q">"Adaptive inference only means something if the failures are yours."</p>
+        <div class="req-arrow"><span class="faint mono">→</span><span class="req-name">Pioneer</span></div>
+        <p class="req-body">Pioneer serves every call the agent makes, so the traces we mine are genuinely its own production failures — not a synthetic dataset standing in for them. That claim is only true because Pioneer served the calls that failed.</p>
+        <p class="req-note"><strong>Honest:</strong> the adaptive fine-tune takes roughly 6 hours. Traces are submitted and the job is kicked. The weight layer is training, not trained.</p>
+      </div>
+
+      <div class="req">
+        <p class="req-q">"A patch is only worth keeping if it can find the next failure that looks like it — structurally, not topically."</p>
+        <div class="req-arrow"><span class="faint mono">→</span><span class="req-name">Actian VectorAI</span></div>
+        <p class="req-body">Every survivor is stored keyed on a failure-signature embedding containing failure type, node role, tool available, tool invoked, value asserted. No utterance. No product. No vertical. Signature-only embedding is exactly what makes the cross-vertical transfer work.</p>
+        <p class="req-note">If domain text leaked in, retrieval would key on topic and transfer would silently stop working while still looking fine.</p>
+      </div>
+
+      <div class="req">
+        <p class="req-q">"You cannot evolve what you cannot read, write, publish and version."</p>
+        <div class="req-arrow"><span class="faint mono">→</span><span class="req-name">Dograh</span></div>
+        <p class="req-body">A React Flow workflow graph exposed over REST, with real versioning and headless text sessions. We read the graph, mutate a node, write it back and publish. Gen-0 through gen-4 coexist as real versions — that is what the diff view is showing.</p>
+        <p class="req-note">Publishing is not optional: the text-chat runtime runs the draft while the UI shows the published version, so <span class="mono">apply_and_publish</span> does both.</p>
+      </div>
+
+      <div class="req">
+        <p class="req-q">"A gate that decides what ships must be auditable, ideally not alone."</p>
+        <div class="req-arrow"><span class="faint mono">→</span><span class="req-name">Guild</span></div>
+        <p class="req-body">The validator is published on Guild as a semver-versioned agent with a server-validated output schema, so "which validator promoted this patch" resolves to an immutable build id. Our Python pins the version rather than tracking HEAD.</p>
+        <p class="req-note"><strong>The result worth reading:</strong> on real generation-1 candidate <span class="mono">wp_b4da9382</span>, our local gate killed it on 4 regressions. Guild's hosted validator — different model family, never executing the graph, predicting from the diff alone — independently returned <span class="mono">reject</span> and named the persona that would break.</p>
+      </div>
+
+      <div class="req">
+        <p class="req-q">"A dashboard we demo live has to actually work."</p>
+        <div class="req-arrow"><span class="faint mono">→</span><span class="req-name">Replay.io</span></div>
+        <p class="req-body">21 journeys explored against the dashboard over an outbound-only tunnel. 0 open bugs at submission. One genuine fix landed: the graph-diff view defaulted to the highest generation, and since most generations correctly kill all three candidates, the load-bearing visual showed an empty state most of the time.</p>
+        <p class="req-note"><strong>Honest:</strong> 18 of 21 runs show failed, for harness reasons. The dashboard polls every 2s and replaces DOM nodes, so an automated driver can resolve an element and then click a detached one. A human never sees it. Effective coverage is 3 completed runs plus the exploration pass — not all 21.</p>
+      </div>
+
+    </div>
+
+    <div class="stack g24">
+      <h2 class="heading">What's real vs. what's warm-started</h2>
+      <p class="lede">Stated plainly, because the alternative is being caught.</p>
+      <div class="grid g2">
+
+        <div class="card stack g18">
+          <p class="label" style="color:var(--add)">Real, running, verified</p>
+          <div class="stack g14 dim" style="font-size:15.5px">
+            <p>Senso scoring against a real ingested knowledge base, with citations.</p>
+            <hr class="divider" />
+            <p>Node-level attribution from Dograh's own per-turn <span class="mono">node_transition</span> events.</p>
+            <hr class="divider" />
+            <p>3 candidates per generation, from 3 structurally different operators.</p>
+            <hr class="divider" />
+            <p>Regression-gated promotion. Candidates genuinely die.</p>
+            <hr class="divider" />
+            <p>Actian writes and semantic retrieval on failure signature.</p>
+            <hr class="divider" />
+            <p>Live graph update: <span class="mono">PUT</span> plus publish.</p>
+            <hr class="divider" />
+            <p>The full chain runs with zero human clicks.</p>
+          </div>
+        </div>
+
+        <div class="card stack g18">
+          <p class="label" style="color:var(--extinct)">Warm-started or scoped down — and why</p>
+          <div class="stack g14 dim" style="font-size:15.5px">
+            <p><strong>Generation depth</strong> is warm-started. Personas ran in batch before the demo — same code path a live call takes, not a separate offline mode.</p>
+            <hr class="divider" />
+            <p><strong>Pioneer's fine-tune</strong> takes ~6 hours and ~$35. It cannot complete inside the event.</p>
+            <hr class="divider" />
+            <p><strong>Guild</strong> hosts the validator only. A version bump is a git push plus a remote build — release cadence, not evolution cadence. Guild versions are provenance instead.</p>
+            <hr class="divider" />
+            <p><strong>Senso has no Evaluate API.</strong> The brief assumed one. It does not exist — proven by exhaustive endpoint mapping. Senso supplies verified knowledge, retrieval and citations. The correctness comparison is ours.</p>
+            <hr class="divider" />
+            <p><strong>Two shallow verticals</strong> (healthcare, insurance) exist only for the transfer beat.</p>
+            <hr class="divider" />
+            <p><strong>Voice</strong> is WebRTC / in-browser. PSTN is not wired.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="pull">We wrote the fitness function.<br /><span class="hi">We did not write the rule it discovered.</span></p>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center">
+    <span>Self-Evolving Agents Hackathon · Tokens& · San Francisco · 24 July 2026</span>
+    <span class="mono" style="font-size:13px">Senso · Pioneer · Actian · Dograh · Guild · Replay.io</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var d = document.getElementById('loop');
+  if (!d || !('IntersectionObserver' in window)) return;
+  d.classList.add('js-anim');
+  var reveal = function () { d.classList.add('in'); };
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { reveal(); io.disconnect(); } });
+  }, { threshold: 0.18 });
+  io.observe(d);
+  // Safety net: the diagram is the load-bearing visual. If the observer never
+  // fires for any reason, show it anyway rather than present an empty card.
+  setTimeout(reveal, 2500);
+})();
+</script>
+
+</body>
+</html>

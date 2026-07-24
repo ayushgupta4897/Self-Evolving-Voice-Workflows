@@ -12,6 +12,8 @@ generated, regression-tested against historical failures, and one is promoted **
 the new failure without breaking old ones.** The survivor is written back to the live Dograh
 graph. The next call runs the evolved workflow.
 
+**[Live presentation →](https://swarm-evolution.vercel.app)** · **[3-minute demo video →](video/demo.mp4)** · **[Demo runbook →](DEMO_RUNBOOK.md)**
+
 > Built at the Self-Evolving Agents Hackathon, Tokens& — San Francisco, 24 July 2026.
 
 ---
