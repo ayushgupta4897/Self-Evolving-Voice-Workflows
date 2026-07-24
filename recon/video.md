@@ -91,8 +91,11 @@ and named `p_discount_hunt` as the persona that would break. Trace:
 | `01_diff_gen2_lower.png` | the same view scrolled: `ADD TOOL REQUIREMENT · pricing_lookup.data.prompt`, 3 added lines, plus the structural retrieval key panel |
 | `02_population_top.png` | population board headline **"27 of 33 candidates were killed by the validator"**, generation 11 all-extinct |
 | `02_population_gen2.png` | generation 2 — `PROMOTED wp_d46a3166` next to its two surviving-but-unpromoted siblings |
-| `04_dograh_workflow.png` | Dograh at `localhost:3010/workflow/1`, **v4 (Published)**, `Pricing Lookup` selected |
-| `04c_dograh_node.png` | same, zoomed on the `#pricing_lookup` agent node with `auto_servicing.md` attached |
+| `sponsors/dograh_v5_published.png` | Dograh at `localhost:3010/workflow/1`, **v5 (Published)**, `Pricing Lookup` selected, real Chrome URL bar |
+| `sponsors/senso_knowledge_base.png` | Senso's own `geo.senso.ai/knowledge-base` — `insurance.md` / `healthcare.md` / `auto_servicing.md` all **Complete** |
+| `sponsors/sponsor_a.png` | Pioneer `agent.pioneer.ai/inferences` — **3,360 total**, GPT-5.4 mini, timestamps matching our run |
+| `sponsors/guild_insights.png` | Guild Insights — workspace `swarm-evolution`, 6 sessions, 13.1K tokens |
+| `rec_dashboard.mov` | **real screen recording**: a Chrome window walking the dashboard #diff → #population → #fitness, tab bar and URL bar in frame |
 
 All captured at a true 1920×1080 viewport via Playwright driving the user's installed
 Chrome. **The dashboard showed `live · 11 gens` with no SAMPLE DATA banner in every

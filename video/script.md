@@ -1,6 +1,6 @@
 # Demo video script — Self-Evolving Voice Workflows
 
-**Runtime 2:46.** Voice: ElevenLabs `8WqHCYyrnUqoK70Px5EJ` — *Nitin, Indian Accent and
+**Runtime ~2:56.** Voice: ElevenLabs `8WqHCYyrnUqoK70Px5EJ` — *Nitin, Indian Accent and
 Professional* — `eleven_multilingual_v2`, speed 0.98.
 
 Sponsors are introduced by the requirement they answer, never as an integration.
@@ -67,12 +67,14 @@ Guild: `recon/guild_impl.md` §5 — candidate `wp_b4da9382`, local kill
 > You cannot evolve what you cannot read, write, publish and version. Dograh is the
 > runtime, and the graph. Generation two promoted this. Add tool requirement, on pricing
 > lookup dot data dot prompt, authored by the evolution agent. It goes straight back into
-> the live workflow, and is published. Version four. The graph we mutate is the graph
+> the live workflow, and is published. Version five. The graph we mutate is the graph
 > that runs.
 
 `state/gen_002.json` → `wp_d46a3166`, `add_tool_requirement`,
 `target: pricing_lookup.data.prompt`, `authored_by: evolution_agent`.
-Dograh UI shows **v4 (Published)**.
+Dograh UI shows **v5 (Published)**. (An earlier push set the draft but the publish
+did not carry forward, so anything captured from the Dograh UI before ~15:52 shows the
+unevolved graph — that footage was discarded.)
 
 ## 6 — Requirement: a patch must find its next failure → **Actian** · 2:04
 
